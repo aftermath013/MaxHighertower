@@ -1,0 +1,9 @@
+{
+  "name": "cnx-brief-builder-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "@azure/data-tables": "^13.2.0",
+    "@azure/storage-blob": "^12.23.0",
+    "uuid": "^9.0.0"
+  }
+}

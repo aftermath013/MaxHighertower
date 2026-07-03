@@ -1,0 +1,25 @@
+{
+  "routes": [
+    {
+      "route": "/api/approve-request",
+      "methods": ["POST"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/get-projects",
+      "methods": ["GET"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/generate-brief",
+      "methods": ["POST"],
+      "allowedRoles": ["anonymous"]
+    }
+  ],
+  "globalHeaders": {
+    "Cache-Control": "no-store"
+  },
+  "mimeTypes": {
+    ".html": "text/html"
+  }
+}

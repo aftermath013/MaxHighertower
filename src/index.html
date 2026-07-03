@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNX Brief Builder — Request a Brief</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">CNX<span> | Brief Builder</span></div>
+  <div class="nav-tag">Concentrix · Internal Tool</div>
+</nav>
+
+<div class="container" style="padding-top: 80px;">
+  <div class="form-card">
+    <div class="form-title">Request a Client Brief</div>
+    <div class="form-subtitle">Submit a client and our team will review and generate a CNX program brief.</div>
+
+    <form id="brief-form">
+      <div class="form-group">
+        <label class="form-label" for="clientName">Client Name *</label>
+        <input class="form-input" type="text" id="clientName" placeholder="e.g. Gentle Monster" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="clientUrl">Client Website URL *</label>
+        <input class="form-input" type="url" id="clientUrl" placeholder="https://www.example.com" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="lobScope">LOB Scope *</label>
+          <select class="form-select" id="lobScope" required>
+            <option value="">Select scope...</option>
+            <option>Full-Stack CS</option>
+            <option>Full-Stack CS + Tech</option>
+            <option>Full-Stack CS + Tech + Insurance</option>
+            <option>Tech Support Only</option>
+            <option>Sales + CS</option>
+            <option>Back Office + CS</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="deliveryLocation">Delivery Location *</label>
+          <select class="form-select" id="deliveryLocation" required>
+            <option value="">Select location...</option>
+            <option>Philippines</option>
+            <option>India</option>
+            <option>Malaysia</option>
+            <option>Colombia</option>
+            <option>Egypt</option>
+            <option>Bulgaria</option>
+            <option>TBD</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="channelScope">Channel Scope</label>
+        <select class="form-select" id="channelScope">
+          <option value="TBD">TBD</option>
+          <option>Voice</option>
+          <option>Chat</option>
+          <option>Email</option>
+          <option>Voice + Chat</option>
+          <option>Voice + Chat + Email</option>
+          <option>Chat + Email</option>
+          <option>Omnichannel</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="requestedBy">Your Name *</label>
+          <input class="form-input" type="text" id="requestedBy" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="requestedByEmail">Your Email *</label>
+          <input class="form-input" type="email" id="requestedByEmail" placeholder="you@concentrix.com" required>
+        </div>
+      </div>
+
+      <button class="btn-submit" type="submit" id="submit-btn">Submit Brief Request</button>
+    </form>
+
+    <div class="status-box status-success" id="status-success"></div>
+    <div class="status-box status-error" id="status-error"></div>
+  </div>
+</div>
+
+<script src="/js/form.js"></script>
+</body>
+</html>

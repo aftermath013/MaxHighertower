@@ -1,0 +1,12 @@
+{
+  "name": "cnx-brief-builder",
+  "version": "1.0.0",
+  "engines": { "node": ">=18.0.0" },
+  "dependencies": {
+    "@azure/data-tables": "^13.2.0",
+    "@azure/storage-blob": "^12.23.0"
+  },
+  "devDependencies": {
+    "@azure/static-web-apps-cli": "^2.0.2"
+  }
+}
