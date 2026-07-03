@@ -12,6 +12,7 @@ module.exports = async function (context, req) {
       projects.push({
         projectId: entity.rowKey,
         clientName: entity.clientName,
+        briefName: entity.briefName || '',
         clientUrl: entity.clientUrl,
         lobScope: entity.lobScope,
         deliveryLocation: entity.deliveryLocation,
