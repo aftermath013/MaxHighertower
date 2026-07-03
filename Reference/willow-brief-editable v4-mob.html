@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Willow Pump — Concentrix Program Brief</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --cnx-blue: #003D5B;
+    --cnx-teal: #25E2CC;
+    --cnx-teal-60: #7CEEE0;
+    --cnx-teal-20: #D3F9F5;
+    --cnx-teal-10: #E9FCFA;
+    --cnx-jade: #007380;
+    --cnx-yellow: #FBCA18;
+    --cnx-yellow-20: #FEF4D1;
+    --cnx-orange: #FF8400;
+    --cnx-raspberry: #CC3262;
+    --cnx-charcoal: #2A2B2C;
+    --cnx-gray: #F2F2F2;
+    --cnx-white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+    color: var(--cnx-charcoal);
+  }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 2000;
+    background: rgba(0, 61, 91, 0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--cnx-teal);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--cnx-white);
+    letter-spacing: 0.5px;
+  }
+
+  .nav-logo span { color: var(--cnx-teal); }
+
+  .nav-pills {
+    display: flex;
+    gap: 6px;
+  }
+
+  .nav-pill {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-pill:hover,
+  .nav-pill.active {
+    color: var(--cnx-blue);
+    background: var(--cnx-teal);
+    border-color: var(--cnx-teal);
+  }
+
+  .nav-confidential {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  /* PAGES */
+  .page {
+    min-height: 100vh;
+    padding: 80px 0 0;
+    display: none;
+    position: relative;
+    z-index: 0;
+  }
+
+  .page.active { display: block; }
+
+  /* ===================== PAGE 1: BRIEF ===================== */
+  .p1-hero {
+    background: linear-gradient(135deg, var(--cnx-blue) 0%, #001f30 60%, #000d18 100%);
+    padding: 70px 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .p1-hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(37,226,204,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .p1-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(37,226,204,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .tag-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+  }
+
+  .tag-teal { background: var(--cnx-teal); color: var(--cnx-blue); }
+  .tag-outline { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.25); }
+  .tag-yellow { background: var(--cnx-yellow); color: var(--cnx-blue); }
+  .tag-orange { background: var(--cnx-orange); color: #fff; }
+
+  .p1-hero h1 {
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--cnx-white);
+    line-height: 1.1;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .p1-hero h1 span { color: var(--cnx-teal); }
+
+  .p1-hero .subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.3px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(37,226,204,0.2);
+    border-radius: 8px;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  .stat-card .num {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--cnx-teal);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-card .label {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  /* content sections */
+  .section {
+    background: var(--cnx-white);
+    padding: 56px 80px;
+  }
+
+  .section-alt {
+    background: var(--cnx-gray);
+    padding: 56px 80px;
+  }
+
+  .section-dark {
+    background: var(--cnx-blue);
+    padding: 56px 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .section-header .bar {
+    width: 4px;
+    height: 32px;
+    background: var(--cnx-teal);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cnx-blue);
+    letter-spacing: -0.3px;
+  }
+
+  .section-dark .section-header h2 { color: var(--cnx-white); }
+
+  .section-header .eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--cnx-jade);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .section-dark .section-header .eyebrow { color: var(--cnx-teal-60); }
+
+  /* card grids */
+  .card-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .card-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--cnx-white);
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid #e8e8e8;
+    border-top: 3px solid var(--cnx-teal);
+  }
+
+  .card-dark {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(37,226,204,0.2);
+    border-radius: 8px;
+    padding: 24px;
+    border-left: 3px solid var(--cnx-teal);
+  }
+
+  .card h3, .card-dark h3 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--cnx-blue);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .card-dark h3 { color: var(--cnx-teal); }
+
+  .card p, .card-dark p {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--cnx-charcoal);
+    line-height: 1.7;
+  }
+
+  .card-dark p { color: rgba(255,255,255,0.75); }
+
+  .card .icon-top {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  /* product table */
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  .product-table thead tr {
+    background: var(--cnx-blue);
+    color: var(--cnx-white);
+  }
+
+  .product-table thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .product-table tbody tr:nth-child(even) { background: var(--cnx-teal-10); }
+  .product-table tbody tr:hover { background: var(--cnx-teal-20); }
+
+  .product-table tbody td {
+    padding: 12px 16px;
+    color: var(--cnx-charcoal);
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .product-table td:first-child {
+    font-weight: 700;
+    color: var(--cnx-blue);
+  }
+
+  /* chips */
+  .chip {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin: 2px 2px 2px 0;
+  }
+
+  .chip-teal { background: var(--cnx-teal-20); color: var(--cnx-jade); }
+  .chip-yellow { background: var(--cnx-yellow-20); color: #8a6d00; }
+  .chip-blue { background: rgba(0,61,91,0.1); color: var(--cnx-blue); }
+  .chip-orange { background: #fff0e0; color: #a05200; }
+  .chip-red { background: #fde8e8; color: #a00; }
+
+  /* callout */
+  .callout {
+    background: var(--cnx-teal-10);
+    border-left: 4px solid var(--cnx-teal);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 24px;
+    margin-top: 24px;
+  }
+
+  .callout p {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--cnx-jade);
+    line-height: 1.6;
+  }
+
+  .callout strong { color: var(--cnx-blue); }
+
+  /* ===================== PAGE 2: PAIN POINTS ===================== */
+
+  .pain-item {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    background: var(--cnx-white);
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--cnx-raspberry);
+    align-items: flex-start;
+  }
+
+  .pain-severity {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .sev-high { background: #fde8e8; color: #a00; }
+  .sev-med { background: var(--cnx-yellow-20); color: #8a6d00; }
+  .sev-low { background: var(--cnx-teal-20); color: var(--cnx-jade); }
+
+  .pain-content h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--cnx-blue);
+    margin-bottom: 6px;
+  }
+
+  .pain-content p {
+    font-size: 12.5px;
+    color: var(--cnx-charcoal);
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+
+  .ref-link {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cnx-jade);
+    letter-spacing: 0.3px;
+    font-style: italic;
+  }
+
+  /* ===================== PAGE 3: JOURNEY MAP ===================== */
+
+  .journey-container {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .journey-stage {
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+  }
+
+  .journey-stage:not(:last-child)::after {
+    content: '›';
+    position: absolute;
+    top: 28px;
+    right: -12px;
+    font-size: 22px;
+    color: var(--cnx-teal);
+    font-weight: 700;
+    z-index: 2;
+  }
+
+  .stage-header {
+    background: var(--cnx-blue);
+    color: var(--cnx-white);
+    padding: 14px 16px;
+    margin-right: 16px;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .stage-header .stage-num {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--cnx-teal);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .stage-header h3 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--cnx-white);
+  }
+
+  .stage-body {
+    background: var(--cnx-white);
+    border: 1px solid #e8e8e8;
+    border-top: none;
+    padding: 16px;
+    margin-right: 16px;
+    border-radius: 0 0 6px 6px;
+    min-height: 220px;
+  }
+
+  .stage-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--cnx-jade);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+
+  .stage-section-label:first-child { margin-top: 0; }
+
+  .stage-item {
+    font-size: 11.5px;
+    color: var(--cnx-charcoal);
+    line-height: 1.5;
+    margin-bottom: 5px;
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .stage-item::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--cnx-teal);
+    font-weight: 700;
+  }
+
+  .emotion-bar {
+    margin-top: 20px;
+    padding: 14px 16px;
+    margin-right: 16px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  .emotion-excited { background: var(--cnx-teal-10); color: var(--cnx-jade); border: 1px solid var(--cnx-teal-60); }
+  .emotion-anxious { background: var(--cnx-yellow-20); color: #8a6d00; border: 1px solid #FDDF74; }
+  .emotion-frustrated { background: #fde8e8; color: #a00; border: 1px solid #f5c6c6; }
+  .emotion-relieved { background: var(--cnx-teal-20); color: var(--cnx-jade); border: 1px solid var(--cnx-teal); }
+  .emotion-satisfied { background: rgba(0,61,91,0.08); color: var(--cnx-blue); border: 1px solid rgba(0,61,91,0.2); }
+
+  /* ===================== PAGE 4: AGENT PROFILE ===================== */
+
+  .profile-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .profile-block {
+    background: var(--cnx-white);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+  }
+
+  .profile-block-header {
+    padding: 18px 24px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .ph-blue { background: var(--cnx-blue); color: var(--cnx-teal); }
+  .ph-teal { background: var(--cnx-teal); color: var(--cnx-blue); }
+  .ph-jade { background: var(--cnx-jade); color: var(--cnx-white); }
+
+  .profile-block-body {
+    padding: 20px 24px;
+  }
+
+  .profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 16px;
+  }
+
+  .profile-row:last-child { border-bottom: none; }
+
+  .profile-key {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--cnx-blue);
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+
+  .profile-val {
+    font-size: 11.5px;
+    color: var(--cnx-charcoal);
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .match-score {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .match-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-fill { background: var(--cnx-teal); }
+  .dot-empty { background: #ddd; }
+
+  .match-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--cnx-jade);
+    margin-top: 4px;
+  }
+
+  /* ===================== PAGE 5: OPS FRAMEWORK ===================== */
+
+  .framework-tier {
+    background: var(--cnx-white);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+  }
+
+  .tier-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .tier-badge {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .t1 { background: var(--cnx-teal); color: var(--cnx-blue); }
+  .t2 { background: var(--cnx-blue); color: var(--cnx-white); }
+  .t3 { background: var(--cnx-jade); color: var(--cnx-white); }
+  .t-sme { background: var(--cnx-yellow); color: var(--cnx-blue); }
+
+  .tier-header h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--cnx-blue);
+    margin: 0;
+  }
+
+  .tier-header .tier-sub {
+    font-size: 11px;
+    font-weight: 500;
+    color: #888;
+    margin-left: auto;
+  }
+
+  .tier-body {
+    padding: 4px 24px 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .tier-col h4 {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--cnx-jade);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .tier-col ul {
+    list-style: none;
+  }
+
+  .tier-col ul li {
+    font-size: 12px;
+    color: var(--cnx-charcoal);
+    padding: 5px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .tier-col ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--cnx-teal);
+    font-weight: 700;
+    font-size: 14px;
+    top: 3px;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .kpi-card {
+    background: var(--cnx-teal-10);
+    border: 1px solid var(--cnx-teal-60);
+    border-radius: 8px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .kpi-card .kpi-val {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--cnx-blue);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .kpi-card .kpi-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cnx-jade);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    line-height: 1.4;
+  }
+
+  .discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .discovery-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--cnx-white);
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+
+  .discovery-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .discovery-item h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cnx-blue);
+    margin-bottom: 4px;
+  }
+
+  .discovery-item p {
+    font-size: 11.5px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* footer bar */
+  .footer-bar {
+    background: var(--cnx-blue);
+    border-top: 2px solid var(--cnx-teal);
+    padding: 14px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bar .cnx-mark {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--cnx-white);
+    letter-spacing: 0.3px;
+  }
+
+  .footer-bar .cnx-mark span { color: var(--cnx-teal); }
+
+  .footer-bar .copyright {
+    font-size: 9px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.5px;
+    text-align: right;
+  }
+
+  /* two col layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .highlight-box {
+    background: var(--cnx-blue);
+    color: var(--cnx-white);
+    border-radius: 8px;
+    padding: 24px;
+  }
+
+  .highlight-box h3 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--cnx-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+  }
+
+  .highlight-box p, .highlight-box li {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+  }
+
+  .highlight-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .highlight-box ul li {
+    padding: 6px 0;
+    padding-left: 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .highlight-box ul li:last-child { border-bottom: none; }
+
+  .highlight-box ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--cnx-teal);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* ===================== VIEW MODE SYSTEM ===================== */
+
+  /* Default: body starts with no class, JS adds pdf-view immediately.
+     To prevent flash, all pages start hidden via .page default (display:none).
+     pdf-view overrides to block. */
+
+  /* PDF VIEW — all pages stacked, continuous scroll */
+  body.pdf-view .page {
+    display: block !important;
+    padding-bottom: 0;
+    padding-top: 60px; /* nav height only */
+  }
+
+  /* Only the first page gets top padding; rest follow naturally */
+  body.pdf-view .page ~ .page {
+    padding-top: 0;
+    border-top: 3px solid var(--cnx-teal);
+  }
+
+  /* WEB VIEW — single page at a time */
+  body.web-view .page { display: none !important; }
+  body.web-view .page.active { display: block !important; }
+
+  /* Nav control containers */
+  .nav-pdf-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .nav-web-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  /* View toggle button */
+  .btn-view-toggle {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-view-toggle:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
+  }
+
+  /* Print / Save PDF button */
+  .btn-print {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: var(--cnx-teal);
+    color: var(--cnx-blue);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-print:hover { background: var(--cnx-teal-60); }
+
+  /* ===================== PRINT / PDF STYLES =====================
+     All rules scoped to @media print — zero bleed into screen rendering */
+  @media print {
+    #main-nav,
+    #mobile-nav,
+    #edit-overlay,
+    #edit-toolbar { display: none !important; }
+
+    body.pdf-view .page,
+    body.web-view .page,
+    .page {
+      display: block !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    .page ~ .page {
+      page-break-before: always;
+      break-before: page;
+      border-top: none !important;
+    }
+
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: #fff !important; }
+
+    .card, .card-dark, .pain-item, .framework-tier,
+    .stat-card, .kpi-card, .discovery-item { break-inside: avoid; }
+
+    .data-table, .product-table {
+      display: table !important;
+      overflow-x: visible !important;
+      white-space: normal !important;
+    }
+
+    .journey-container { flex-direction: row !important; overflow-x: visible !important; }
+  }
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2000;
+    background: rgba(0, 61, 91, 0.98);
+    border-top: 2px solid var(--cnx-teal);
+    padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .mobile-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    background: transparent; border: none; cursor: pointer;
+    padding: 6px 12px; border-radius: 8px; transition: background 0.15s; flex: 1;
+  }
+  .mobile-tab:hover { background: rgba(37,226,204,0.1); }
+  .mobile-tab.active { background: rgba(37,226,204,0.15); }
+  .mobile-tab-num { font-size: 9px; font-weight: 800; color: var(--cnx-teal); letter-spacing: 0.5px; font-family: 'Montserrat', sans-serif; }
+  .mobile-tab-label { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.55); letter-spacing: 0.3px; font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
+  .mobile-tab.active .mobile-tab-label { color: var(--cnx-teal); }
+
+  /* ===================== RESPONSIVE ===================== */
+
+  /* --- Tablet / large phone: ≤900px --- */
+  @media (max-width: 900px) {
+    /* Show mobile bottom nav — only in web view (JS controls this) */
+    /* .mobile-nav display is managed by switchToWebView/switchToPdfView */
+    /* Page bottom padding for when mobile nav is visible */
+    body.web-view .page { padding-bottom: 72px; }
+    /* Push edit toolbar above bottom nav in web view */
+    body.web-view #edit-toolbar { bottom: 88px; }
+
+    /* NAV */
+    .nav { padding: 0 16px; gap: 8px; }
+    .nav-pills { display: none; }
+    .nav-confidential { display: none; } /* hide on tablet, show menu instead */
+
+    /* HERO */
+    .p1-hero { padding: 40px 20px 32px; }
+    .p1-hero h1 { font-size: 32px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+    /* SECTIONS */
+    .section, .section-alt, .section-dark { padding: 36px 20px; }
+
+    /* GRIDS */
+    .card-grid-3 { grid-template-columns: 1fr; }
+    .card-grid-2 { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .profile-split { grid-template-columns: 1fr; }
+    .tier-body { grid-template-columns: 1fr; gap: 12px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .discovery-grid { grid-template-columns: 1fr; }
+
+    /* JOURNEY */
+    .journey-container { flex-direction: column; }
+    .journey-stage::after { display: none; }
+    .stage-header, .stage-body, .emotion-bar { margin-right: 0; }
+
+    /* TABLES — horizontal scroll wrapper */
+    .data-table, .product-table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+    .data-table td, .product-table td,
+    .data-table th, .product-table th {
+      white-space: normal;
+      min-width: 120px;
+    }
+
+    /* FOOTER */
+    .footer-bar {
+      padding: 14px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .footer-bar .copyright { text-align: left; }
+  }
+
+  /* --- Small phone: ≤480px --- */
+  @media (max-width: 480px) {
+    /* Mobile tab bar */
+    .mobile-tab { padding: 6px 4px; }
+    .mobile-tab-label { font-size: 8px; }
+    /* Edit toolbar — full width at bottom */
+    body.web-view #edit-toolbar { bottom: 84px; width: calc(100% - 28px); border-radius: 16px; padding: 10px 14px; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .toolbar-status { width: 100%; text-align: center; }
+    .toolbar-divider { display: none; }
+    .btn-toolbar { font-size: 9px; padding: 6px 12px; flex: 1; text-align: center; }
+
+    /* NAV — stack logo and edit button, drop confidential */
+    .nav {
+      padding: 0 14px;
+      height: 56px;
+    }
+    .nav-logo { font-size: 14px; }
+    .btn-edit {
+      font-size: 9px;
+      padding: 5px 10px;
+    }
+
+    /* HERO */
+    .p1-hero { padding: 28px 16px 24px; }
+    .p1-hero h1 { font-size: 26px; line-height: 1.15; }
+    .p1-hero .subtitle { font-size: 12px; margin-bottom: 24px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card { padding: 14px 12px; }
+    .stat-card .num { font-size: 24px; }
+    .stat-card .label { font-size: 9px; }
+
+    /* SECTIONS */
+    .section, .section-alt, .section-dark { padding: 28px 16px; }
+    .section-header h2 { font-size: 18px; }
+
+    /* CARDS */
+    .card, .card-dark { padding: 18px 16px; }
+    .card h3, .card-dark h3 { font-size: 12px; }
+    .card p, .card-dark p { font-size: 12px; }
+
+    /* KPI */
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .kpi-card { padding: 14px 10px; }
+    .kpi-card .kpi-val { font-size: 18px; }
+    .kpi-card .kpi-label { font-size: 9px; }
+
+    /* PAIN POINTS */
+    .pain-item { flex-direction: column; gap: 12px; padding: 16px; }
+    .pain-severity { width: 40px; height: 40px; font-size: 9px; }
+    .pain-content h3 { font-size: 13px; }
+
+    /* PROFILE ROWS — stack key/value vertically */
+    .profile-row { flex-direction: column; gap: 4px; }
+    .profile-val { text-align: left; }
+
+    /* TIER */
+    .tier-header { flex-wrap: wrap; gap: 8px; }
+    .tier-header .tier-sub { margin-left: 0; width: 100%; }
+    .tier-body { padding: 4px 16px 16px; }
+
+    /* JOURNEY */
+    .stage-body { min-height: auto; }
+    .stage-item { font-size: 11px; }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box { padding: 18px 16px; }
+    .highlight-box ul li { font-size: 12px; }
+
+    /* DISCOVERY */
+    .discovery-item { padding: 12px 14px; }
+    .discovery-item h4 { font-size: 11px; }
+    .discovery-item p { font-size: 11px; }
+
+    /* FOOTER */
+    .footer-bar { padding: 12px 16px; }
+    .footer-bar .cnx-mark { font-size: 11px; }
+    .footer-bar .copyright { font-size: 8px; }
+
+    /* EDIT TOOLBAR — full width pill on small screens */
+    #edit-toolbar {
+      width: calc(100% - 28px);
+      border-radius: 16px;
+      padding: 10px 14px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      bottom: 16px;
+    }
+    .toolbar-status { width: 100%; text-align: center; }
+    .toolbar-divider { display: none; }
+    .btn-toolbar { font-size: 9px; padding: 6px 12px; flex: 1; text-align: center; }
+  }
+
+  /* --- Very small phone: ≤380px --- */
+  @media (max-width: 380px) {
+    .nav-logo { font-size: 12px; }
+    .p1-hero h1 { font-size: 22px; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .stat-card .num { font-size: 20px; }
+    .section-header h2 { font-size: 16px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .kpi-card .kpi-val { font-size: 16px; }
+    /* Tables: allow horizontal scroll, constrain container */
+    .section, .section-alt, .section-dark { overflow-x: hidden; }
+  }
+
+  /* ===================== EDIT MODE ===================== */
+
+  /* Full-screen dim overlay — sits BETWEEN page content and editable elements */
+  #edit-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    pointer-events: none; /* clicks pass through to elements above it */
+  }
+  body.edit-mode #edit-overlay { display: block; }
+
+  /* Editable elements sit ABOVE the overlay */
+  body.edit-mode [contenteditable="true"] {
+    position: relative;
+    z-index: 1100;
+    outline: 2px dashed var(--cnx-teal) !important;
+    outline-offset: 3px;
+    border-radius: 3px;
+    cursor: text;
+  }
+
+  body.edit-mode [contenteditable="true"]:hover {
+    background: rgba(37, 226, 204, 0.15) !important;
+  }
+
+  body.edit-mode [contenteditable="true"]:focus {
+    outline: 2px solid var(--cnx-teal) !important;
+    background: rgba(37, 226, 204, 0.2) !important;
+    box-shadow: 0 0 0 5px rgba(37, 226, 204, 0.2);
+  }
+
+  /* Nav edit button */
+  .btn-edit {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+  }
+
+  .btn-edit:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+  .btn-edit.active {
+    background: var(--cnx-teal);
+    color: var(--cnx-blue);
+  }
+
+  .btn-edit .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Export + autosave strip */
+  #edit-toolbar {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    background: var(--cnx-blue);
+    border: 1px solid var(--cnx-teal);
+    border-radius: 40px;
+    padding: 10px 20px;
+    display: none;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+  }
+
+  body.edit-mode #edit-toolbar { display: flex; }
+
+  .toolbar-status {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .toolbar-status.saved { color: var(--cnx-teal); }
+
+  .toolbar-divider {
+    width: 1px; height: 18px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .btn-toolbar {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-export {
+    background: var(--cnx-teal);
+    color: var(--cnx-blue);
+  }
+
+  .btn-export:hover { background: var(--cnx-teal-60); }
+
+  .btn-clear {
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15) !important;
+  }
+
+  .btn-clear:hover { color: #fff; border-color: rgba(255,255,255,0.4) !important; }
+
+  /* Unsaved indicator pulse */
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .btn-edit.dirty .dot { animation: pulse-dot 1.2s infinite; background: var(--cnx-yellow); }
+</style>
+</head>
+<body class="pdf-view">
+
+<!-- If JS is disabled or blocked, force all pages visible -->
+<noscript>
+  <style>
+    .page { display: block !important; }
+    #main-nav .nav-pdf-controls { display: flex !important; }
+    #main-nav .nav-web-controls { display: none !important; }
+    #mobile-nav { display: none !important; }
+  </style>
+</noscript>
+
+<!-- Dim overlay for edit mode -->
+<div id="edit-overlay"></div>
+
+<!-- Floating edit toolbar -->
+<div id="edit-toolbar">
+  <span class="toolbar-status" id="save-status">No unsaved changes</span>
+  <div class="toolbar-divider"></div>
+  <button class="btn-toolbar btn-clear" onclick="clearEdits()">Reset to Original</button>
+  <button class="btn-toolbar btn-export" onclick="exportHTML()">&#8595; Export HTML</button>
+</div>
+
+<!-- NAV — PDF view (default): minimal bar, no page pills -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo">CNX <span>×</span> Willow</div>
+
+  <!-- PDF view controls -->
+  <div class="nav-pdf-controls" id="nav-pdf-controls">
+    <span class="nav-confidential">Internal Use Only</span>
+    <button class="btn-view-toggle" onclick="switchToWebView()">&#9783; Web View</button>
+    <button class="btn-print" onclick="triggerPrint()">&#8595; Print / Save PDF</button>
+  </div>
+
+  <!-- Web view controls (hidden by default) -->
+  <div class="nav-web-controls" id="nav-web-controls" style="display:none;">
+    <div class="nav-pills">
+      <button class="nav-pill active" onclick="showPage(1, this)">01 Brief</button>
+      <button class="nav-pill" onclick="showPage(2, this)">02 Pain Points</button>
+      <button class="nav-pill" onclick="showPage(3, this)">03 Journey</button>
+      <button class="nav-pill" onclick="showPage(4, this)">04 Agent Match</button>
+      <button class="nav-pill" onclick="showPage(5, this)">05 Ops Framework</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span class="nav-confidential">Internal Use Only</span>
+      <button class="btn-view-toggle" onclick="switchToPdfView()">&#9783; Share View</button>
+      <button class="btn-edit" id="edit-btn" onclick="toggleEditMode()">
+        <span class="dot"></span> Edit
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile bottom tab bar — web view only -->
+<div class="mobile-nav" id="mobile-nav" style="display:none;">
+  <button class="mobile-tab active" onclick="showPage(1, this, true)">
+    <span class="mobile-tab-num">01</span>
+    <span class="mobile-tab-label">Brief</span>
+  </button>
+  <button class="mobile-tab" onclick="showPage(2, this, true)">
+    <span class="mobile-tab-num">02</span>
+    <span class="mobile-tab-label">Pain</span>
+  </button>
+  <button class="mobile-tab" onclick="showPage(3, this, true)">
+    <span class="mobile-tab-num">03</span>
+    <span class="mobile-tab-label">Journey</span>
+  </button>
+  <button class="mobile-tab" onclick="showPage(4, this, true)">
+    <span class="mobile-tab-num">04</span>
+    <span class="mobile-tab-label">Agents</span>
+  </button>
+  <button class="mobile-tab" onclick="showPage(5, this, true)">
+    <span class="mobile-tab-num">05</span>
+    <span class="mobile-tab-label">Ops</span>
+  </button>
+</div>
+
+<!-- ===================== PAGE 1: BRIEF ===================== -->
+<div class="page active" id="page-1">
+
+  <div class="p1-hero">
+    <div class="tag-row">
+      <span class="tag tag-teal">Program Brief</span>
+      <span class="tag tag-outline">Consumer Health Tech</span>
+      <span class="tag tag-outline">US Market</span>
+      <span class="tag tag-yellow">Internal — Not for Client Distribution</span>
+    </div>
+    <h1>Willow <span>Pump</span><br>Program Overview</h1>
+    <p class="subtitle">Wearable Breast Pump / Lactation Tech — Customer Support, Technical Assistance &amp; Insurance Navigation</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="num">$300+</div>
+        <div class="label">Flagship Pump Price (Willow Go)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">120+</div>
+        <div class="label">Patents Held</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">3.5★</div>
+        <div class="label">Trustpilot Rating (Hundreds of Reviews)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">80+</div>
+        <div class="label">BBB Complaints (3-Year Window)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">What is Willow?</span>
+        <h2>The Product Landscape</h2>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom: 32px;">
+      <div>
+        <p style="font-size:13.5px; line-height:1.75; color: var(--cnx-charcoal); margin-bottom:16px;">
+          Willow is a San Francisco-based company that invented the first fully in-bra wearable breast pump in 2017. They are the only major wearable pump brand in the US that is founded, headquartered, and built by women. Their product line spans electric wearable pumps, manual pumps, milk storage bags, and a companion app with SmartStash AI tracking.
+        </p>
+        <p style="font-size:13.5px; line-height:1.75; color: var(--cnx-charcoal);">
+          Target customer is the working, mobile, multitasking mom — primarily US-based, typically postpartum within the first 12 months. Their flagship Willow Go retails at $299–$329 and is eligible for HSA/FSA spending and partial insurance reimbursement under the Affordable Care Act.
+        </p>
+      </div>
+      <div class="highlight-box">
+        <h3>Why This Account Matters</h3>
+        <ul>
+          <li>High-emotion customer base — postpartum, sleep-deprived, time-sensitive</li>
+          <li>Premium product at $300+ means expectation of premium support</li>
+          <li>Complex contact drivers: technical, billing, insurance, and clinical-adjacent</li>
+          <li>Brand is openly struggling with customer satisfaction (3.5/5 Trustpilot, 80+ BBB complaints)</li>
+          <li>This is a white space opportunity — Willow needs better CX infrastructure</li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Key Features</th>
+          <th>Support Complexity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Willow Go® (flagship)</td>
+          <td>$299.99</td>
+          <td>ComfortFlow™ tech, 9 suction levels, app-controlled, hospital-grade, 21/24mm flanges included</td>
+          <td><span class="chip chip-orange">High</span> — fit/sizing, suction issues, app pairing, warranty</td>
+        </tr>
+        <tr>
+          <td>Willow 360™</td>
+          <td>~$350+</td>
+          <td>100% leak-proof in any position, uses disposable bags, smart volume tracking, 7 suction levels</td>
+          <td><span class="chip chip-red">Very High</span> — bag setup, seal issues, accessory cost complaints</td>
+        </tr>
+        <tr>
+          <td>Wave 2-in-1 Manual</td>
+          <td>$59.99</td>
+          <td>First double manual wearable pump, no charging, ergonomic handle, 24mm silicone flange</td>
+          <td><span class="chip chip-teal">Low-Med</span> — simpler product, fewer tech dependencies</td>
+        </tr>
+        <tr>
+          <td>SmartStash™ Milk Bags</td>
+          <td>from $10.99</td>
+          <td>AI-scannable code, auto-populates Willow app stash tracker</td>
+          <td><span class="chip chip-yellow">Med</span> — subscription billing disputes, app scan issues</td>
+        </tr>
+        <tr>
+          <td>Breast Milk Cooler</td>
+          <td>from $39.99</td>
+          <td>Cools faster, holds up to 24hr vs competitors (Eurofins 2026 testing), patent-pending design</td>
+          <td><span class="chip chip-teal">Low</span> — standard product queries</td>
+        </tr>
+        <tr>
+          <td>Accessories (Sizing Kits, Parts)</td>
+          <td>$19–$34.99</td>
+          <td>Sizing inserts, colostrum kits, breastfeeding care kits — all HSA/FSA eligible</td>
+          <td><span class="chip chip-teal">Low</span> — parts availability, sizing guidance</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-alt">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Who Contacts Us</span>
+        <h2>Customer Profiles Calling In</h2>
+      </div>
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card">
+        <div class="icon-top">🤱</div>
+        <h3>New Mom — First 12 Weeks</h3>
+        <p>Just gave birth, still in hospital or early postpartum. May be navigating the pump for the first time. High anxiety, limited sleep, emotionally raw. Contacts about setup, suction, and sizing. Needs patience and clinical-adjacent knowledge.</p>
+        <div style="margin-top:12px;">
+          <span class="chip chip-red">High Emotion</span>
+          <span class="chip chip-orange">Setup &amp; Fit</span>
+          <span class="chip chip-blue">First-Time User</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon-top">💼</div>
+        <h3>Working Mom — Return to Work</h3>
+        <p>Back at the office, pumping between meetings. Contacts about app connectivity, Bluetooth issues, discreet wear under work attire, and battery life. Time-sensitive. Does not want to stay on hold. Appreciates fast, competent resolution.</p>
+        <div style="margin-top:12px;">
+          <span class="chip chip-orange">Tech Issues</span>
+          <span class="chip chip-blue">App / Bluetooth</span>
+          <span class="chip chip-yellow">Time-Sensitive</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon-top">🏥</div>
+        <h3>Insurance / Billing Navigator</h3>
+        <p>Trying to get reimbursed through ACA-mandated insurance coverage or submit FSA/HSA. Contacts to clarify documentation, provider codes, eligibility timelines, and Affirm financing. Needs accuracy over speed. Mistakes cost money.</p>
+        <div style="margin-top:12px;">
+          <span class="chip chip-blue">Insurance Claim</span>
+          <span class="chip chip-teal">FSA / HSA</span>
+          <span class="chip chip-yellow">Billing Dispute</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon-top">🔧</div>
+        <h3>Defective / Warranty Caller</h3>
+        <p>Product stopped working — pump motor died, no suction, or parts failed within the warranty window (1–2 years). High frustration, financial stakes. Contacts expecting replacement, not consultation. Escalation risk is real and fast.</p>
+        <div style="margin-top:12px;">
+          <span class="chip chip-red">Defective Unit</span>
+          <span class="chip chip-red">Escalation Risk</span>
+          <span class="chip chip-orange">Warranty Claim</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon-top">🔄</div>
+        <h3>Return / Refund Requester</h3>
+        <p>Purchased pump, used it, and wants a refund — often within 30 days. Frustrated by exchange-only policies. BBB complaints show this is a recurring flashpoint. Requires clear policy communication and de-escalation skills.</p>
+        <div style="margin-top:12px;">
+          <span class="chip chip-red">Refund Denied</span>
+          <span class="chip chip-orange">Policy Conflict</span>
+          <span class="chip chip-blue">De-escalation</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon-top">📦</div>
+        <h3>Parts &amp; Accessories Buyer</h3>
+        <p>Looking for replacement flanges, duckbills, sizing inserts, or milk bags. Contacts when items are out of stock, shipped incorrectly, or compatibility is unclear. Generally lower emotion unless stock-out affects their pumping schedule.</p>
+        <div style="margin-top:12px;">
+          <span class="chip chip-teal">Parts Orders</span>
+          <span class="chip chip-blue">Stock / Shipping</span>
+          <span class="chip chip-yellow">Compatibility Q</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>CNX Opportunity:</strong> Willow's current support has documented gaps — agents disconnect mid-chat, hold times spike on Mondays and post-holidays, bot loops prevent human agent access, and phone is the only escalation path for billing and warranty. We can fix all of this with the right team design.</p>
+    </div>
+  </div>
+
+  <div class="section-dark">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Our Role</span>
+        <h2>Concentrix as Customer Support Partner</h2>
+      </div>
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card-dark">
+        <h3>Full-Stack CS Coverage</h3>
+        <p>We own the complete customer contact lifecycle — general inquiries, order support, sizing guidance, warranty, returns, insurance documentation, and technical troubleshooting for the Willow app and pump hardware.</p>
+      </div>
+      <div class="card-dark">
+        <h3>Empathy-First Tech Support</h3>
+        <p>Willow's customer base is not your typical tech support caller. Agents need product fluency AND emotional intelligence — postpartum moms in distress are not the audience for scripted, robotic responses.</p>
+      </div>
+      <div class="card-dark">
+        <h3>Insurance &amp; Billing SME Layer</h3>
+        <p>ACA coverage navigation, FSA/HSA eligibility, Affirm financing support, and reimbursement documentation guidance are specialty contact types that require a trained SME bench — not general agents winging it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="cnx-mark">Concentrix <span>×</span> Willow Program Brief</div>
+    <div class="copyright">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.<br>Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- ===================== PAGE 2: PAIN POINTS ===================== -->
+<div class="page" id="page-2">
+
+  <div class="p1-hero">
+    <div class="tag-row">
+      <span class="tag tag-teal">Voice of Customer</span>
+      <span class="tag tag-outline">BBB · Trustpilot · Reddit · Reviews</span>
+      <span class="tag tag-yellow">Internal — Not for Client Distribution</span>
+    </div>
+    <h1>Customer <span>Pain Points</span></h1>
+    <p class="subtitle">What Willow customers are actually experiencing — sourced from public reviews, BBB complaints, and expert lactation consultant feedback (2024–2025)</p>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="num">80+</div>
+        <div class="label">BBB Complaints (3-Year Window)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">3.5★</div>
+        <div class="label">Trustpilot Score (Hundreds of Reviews)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">#1</div>
+        <div class="label">Issue: Support Responsiveness</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">#2</div>
+        <div class="label">Issue: Defective / Suction Failure</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Documented Pain Points</span>
+        <h2>What Customers Are Saying</h2>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-high">HIGH</div>
+      <div class="pain-content">
+        <h3>Agent Abandonment Mid-Contact</h3>
+        <p>Multiple BBB complaints document agents disconnecting from live chats mid-resolution, forcing customers to restart the entire interaction from zero. Customers also report being put on hold and never reconnected. This is the single highest-damage touchpoint — it happens during an already stressful postpartum period.</p>
+        <div><span class="chip chip-red">CSAT Killer</span> <span class="chip chip-red">Escalation Driver</span> <span class="chip chip-orange">Retention Risk</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: BBB Complaint Archive — Willow Pump, Mountain View CA · bbb.org</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-high">HIGH</div>
+      <div class="pain-content">
+        <h3>Suction Failure &amp; Defective Units</h3>
+        <p>A recurring complaint across BBB, Trustpilot, and Walmart reviews: pumps fail to generate suction out of the box, or lose suction within weeks. Customers who paid $300–$500 are left without a functioning pump — which directly impacts their ability to breastfeed. One customer explicitly stated this destroyed her breastfeeding journey for her baby with severe reflux. The emotional stakes are extremely high.</p>
+        <div><span class="chip chip-red">Warranty Trigger</span> <span class="chip chip-orange">Product Failure</span> <span class="chip chip-red">Emotional Distress</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: BBB Reviews · Walmart Product Reviews (Willow 3.0 Flextubes, 2024–2025)</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-high">HIGH</div>
+      <div class="pain-content">
+        <h3>Refund Policy Friction</h3>
+        <p>Willow's default resolution for defective products is an exchange, not a refund. Many customers report being denied refunds even within 30 days of purchase with a defective unit. Agents reportedly escalate to "higher management" with no guarantee of outcome. This is a classic policy gap that creates BBB and social media blowback.</p>
+        <div><span class="chip chip-red">Policy Gap</span> <span class="chip chip-orange">Complaint Escalator</span> <span class="chip chip-blue">Needs Clear Guardrails</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: BBB Complaint Archive — Multiple verified cases, 2024–2025</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-med">MED</div>
+      <div class="pain-content">
+        <h3>Parts Availability &amp; Dry-Before-Use Requirement</h3>
+        <p>Replacement parts — duckbills, flanges, sizing inserts — are frequently out of stock on the website and in stores. Separately, the pump requires all parts to be completely dry before use, which is operationally difficult for moms pumping 6–8x daily. The "fridge hack" (refrigerating parts between sessions) causes suction loss, and there's no reliable fix communicated by support.</p>
+        <div><span class="chip chip-yellow">Parts OOS</span> <span class="chip chip-yellow">User Education Gap</span> <span class="chip chip-orange">Repeat Contact Driver</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: IBCLC Review — thebreastfeedingmama.com · bemybreastfriend.com (2024)</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-med">MED</div>
+      <div class="pain-content">
+        <h3>App Connectivity &amp; Bluetooth Glitches</h3>
+        <p>The Willow app randomly disconnects from the pump, disrupting session tracking and suction control. This is especially frustrating for working moms who rely on the app during office hours. The bot-first support model loops users through FAQs before reaching a human, adding friction when the issue needs live troubleshooting.</p>
+        <div><span class="chip chip-yellow">Tech Support</span> <span class="chip chip-yellow">App Issue</span> <span class="chip chip-blue">Bluetooth / Pairing</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: IBCLC Review · pine.ai contact analysis (2026) · r/breastfeeding threads</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-med">MED</div>
+      <div class="pain-content">
+        <h3>Flange Sizing &amp; Fit Issues</h3>
+        <p>Willow Go ships with only 21mm and 24mm flanges. Most women fall outside these sizes and need to purchase inserts separately — but this isn't always clearly communicated pre-purchase. Lactation consultants note that incorrect flange sizing causes pain, reduced milk output, and nipple damage. Customers contact support thinking the pump is broken when the actual issue is fit.</p>
+        <div><span class="chip chip-yellow">Sizing Education</span> <span class="chip chip-orange">Repeat Contact</span> <span class="chip chip-blue">Clinical Knowledge Needed</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: IBCLC Review — thebreastfeedingmama.com (Nov 2025)</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-med">MED</div>
+      <div class="pain-content">
+        <h3>Insurance Reimbursement Confusion</h3>
+        <p>ACA requires insurance to cover breast pumps, but Willow is not always in-network. Customers get stuck between Willow's insurance claim process and their insurer's documentation requirements. Willow explicitly warns customers not to submit claims through both channels simultaneously — but the instructions are complex, and errors result in claim denial. This is a high-stakes, low-tolerance contact type.</p>
+        <div><span class="chip chip-blue">Insurance Navigation</span> <span class="chip chip-yellow">Documentation Errors</span> <span class="chip chip-orange">High Stakes</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: onewillow.com/pages/insurance · pine.ai contact analysis (2026)</div>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-severity sev-low">LOW</div>
+      <div class="pain-content">
+        <h3>Price-to-Value Perception</h3>
+        <p>Multiple reviewers and lactation consultants flag that Willow's pricing is harder to justify given increasing competition from Momcozy, Elvie, and others at lower price points. Customers feel they're paying a brand premium but getting inconsistent quality. Not a direct support contact driver, but it shapes incoming sentiment and willingness to accept resolutions short of a refund.</p>
+        <div><span class="chip chip-teal">Sentiment</span> <span class="chip chip-blue">Brand Risk</span> <span class="chip chip-yellow">Competitive Pressure</span></div>
+        <div class="ref-link" style="margin-top:8px;">Source: bemybreastfriend.com (Dec 2024) · newlittlelife.com (Jan 2025)</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>CNX Pitch Angle:</strong> The pain points above are not random — they cluster around three fixable problems: <strong>agent quality, knowledge depth, and policy clarity.</strong> We're not being asked to make a bad product look good. We're being asked to provide the support infrastructure Willow's current setup clearly can't deliver.</p>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="cnx-mark">Concentrix <span>×</span> Willow — Pain Point Analysis</div>
+    <div class="copyright">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.<br>Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- ===================== PAGE 3: JOURNEY MAP ===================== -->
+<div class="page" id="page-3">
+
+  <div class="p1-hero">
+    <div class="tag-row">
+      <span class="tag tag-teal">Customer Journey Mapping</span>
+      <span class="tag tag-outline">Full Lifecycle</span>
+      <span class="tag tag-yellow">Internal — Not for Client Distribution</span>
+    </div>
+    <h1>Customer <span>Journey</span></h1>
+    <p class="subtitle">End-to-end experience from pre-purchase through long-term use — mapping moments of truth and CNX contact opportunities</p>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">End-to-End Lifecycle</span>
+        <h2>The Willow Customer Journey</h2>
+      </div>
+    </div>
+
+    <div class="journey-container">
+
+      <div class="journey-stage">
+        <div class="stage-header">
+          <div class="stage-num">Stage 01</div>
+          <h3>Research &amp; Purchase</h3>
+        </div>
+        <div class="stage-body">
+          <div class="stage-section-label">What They're Doing</div>
+          <div class="stage-item">Googling wearable pumps, comparing Willow vs Elvie vs Momcozy</div>
+          <div class="stage-item">Checking insurance coverage eligibility</div>
+          <div class="stage-item">Taking Willow's Pump Quiz on the site</div>
+          <div class="stage-item">Purchasing via site or Amazon, potentially using Affirm financing</div>
+          <div class="stage-section-label">Contact Triggers</div>
+          <div class="stage-item">Pre-purchase sizing questions</div>
+          <div class="stage-item">Insurance eligibility inquiry</div>
+          <div class="stage-item">Financing / Affirm questions</div>
+        </div>
+        <div class="emotion-bar emotion-excited">😊 Excited but overwhelmed. High information load.</div>
+      </div>
+
+      <div class="journey-stage">
+        <div class="stage-header">
+          <div class="stage-num">Stage 02</div>
+          <h3>Unboxing &amp; Setup</h3>
+        </div>
+        <div class="stage-body">
+          <div class="stage-section-label">What They're Doing</div>
+          <div class="stage-item">Assembling pump parts for the first time</div>
+          <div class="stage-item">Pairing pump to Willow app via Bluetooth</div>
+          <div class="stage-item">Watching Pumping 101 videos from Willow</div>
+          <div class="stage-item">Testing sizing — often wrong on first try</div>
+          <div class="stage-section-label">Contact Triggers</div>
+          <div class="stage-item">Pump not turning on / pairing failure</div>
+          <div class="stage-item">Parts assembly confusion</div>
+          <div class="stage-item">Flange doesn't fit — need sizing help</div>
+        </div>
+        <div class="emotion-bar emotion-anxious">😰 Anxious. Sleep-deprived. Needs quick wins.</div>
+      </div>
+
+      <div class="journey-stage">
+        <div class="stage-header">
+          <div class="stage-num">Stage 03</div>
+          <h3>First Active Use</h3>
+        </div>
+        <div class="stage-body">
+          <div class="stage-section-label">What They're Doing</div>
+          <div class="stage-item">Pumping for the first time in bra — figuring out fit and positioning</div>
+          <div class="stage-item">Tracking sessions in Willow app</div>
+          <div class="stage-item">Adjusting suction levels, dealing with let-down mode</div>
+          <div class="stage-item">Managing parts cleaning between sessions</div>
+          <div class="stage-section-label">Contact Triggers</div>
+          <div class="stage-item">Suction feels weak or inconsistent</div>
+          <div class="stage-item">Parts not completely dry → suction lost</div>
+          <div class="stage-item">App disconnects mid-session</div>
+          <div class="stage-item">Discomfort during pumping</div>
+        </div>
+        <div class="emotion-bar emotion-frustrated">😤 Frustrated if anything goes wrong. High DSAT risk.</div>
+      </div>
+
+      <div class="journey-stage">
+        <div class="stage-header">
+          <div class="stage-num">Stage 04</div>
+          <h3>Ongoing Daily Use</h3>
+        </div>
+        <div class="stage-body">
+          <div class="stage-section-label">What They're Doing</div>
+          <div class="stage-item">Pumping 4–8x per day, including at work</div>
+          <div class="stage-item">Managing milk storage with bags or containers</div>
+          <div class="stage-item">Reordering replacement parts and accessories</div>
+          <div class="stage-item">Using fridge hack between sessions</div>
+          <div class="stage-section-label">Contact Triggers</div>
+          <div class="stage-item">Parts wear out — duckbills need replacing at 3 months</div>
+          <div class="stage-item">Parts out of stock on site</div>
+          <div class="stage-item">App bugs during work hours</div>
+          <div class="stage-item">Motor failure — warranty claim</div>
+        </div>
+        <div class="emotion-bar emotion-anxious">⚡ Routine + stress. Any interruption is a crisis.</div>
+      </div>
+
+      <div class="journey-stage">
+        <div class="stage-header">
+          <div class="stage-num">Stage 05</div>
+          <h3>Issue / Escalation</h3>
+        </div>
+        <div class="stage-body">
+          <div class="stage-section-label">What They're Doing</div>
+          <div class="stage-item">Contacting support via chat, email, or phone</div>
+          <div class="stage-item">Filing warranty replacement request</div>
+          <div class="stage-item">Disputing a charge or requesting a refund</div>
+          <div class="stage-item">Filing BBB complaint or Trustpilot review</div>
+          <div class="stage-section-label">Contact Triggers</div>
+          <div class="stage-item">Defective pump — demands replacement or refund</div>
+          <div class="stage-item">Agent disconnect / chat abandonment</div>
+          <div class="stage-item">Insurance claim denied or errored</div>
+          <div class="stage-item">Subscription charge dispute</div>
+        </div>
+        <div class="emotion-bar emotion-frustrated">🔥 Peak frustration. DSAT and churn risk highest here.</div>
+      </div>
+
+      <div class="journey-stage">
+        <div class="stage-header">
+          <div class="stage-num">Stage 06</div>
+          <h3>Resolution &amp; Loyalty</h3>
+        </div>
+        <div class="stage-body">
+          <div class="stage-section-label">What They're Doing</div>
+          <div class="stage-item">Receiving replacement pump or refund</div>
+          <div class="stage-item">Getting back to normal pumping routine</div>
+          <div class="stage-item">Leaving a review (positive or negative)</div>
+          <div class="stage-item">Potentially recommending to other moms</div>
+          <div class="stage-section-label">Contact Triggers</div>
+          <div class="stage-item">Follow-up on replacement ETA</div>
+          <div class="stage-item">Confirm warranty re-registration</div>
+          <div class="stage-item">Accessory reorder after good experience</div>
+        </div>
+        <div class="emotion-bar emotion-relieved">✅ Relieved if resolved well. Loyal if we exceeded expectations.</div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="section-header">
+        <div class="bar"></div>
+        <div>
+          <span class="eyebrow">CNX Priority Zones</span>
+          <h2>Where We Create the Most Impact</h2>
+        </div>
+      </div>
+
+      <div class="card-grid-3">
+        <div class="card">
+          <h3>🔴 Stage 03 — First Use</h3>
+          <p>Highest DSAT risk. Product problems feel personal when the customer is postpartum. First contact resolution here is everything — a bad experience at first use often converts into a BBB complaint within 30 days.</p>
+        </div>
+        <div class="card">
+          <h3>🔴 Stage 05 — Escalation</h3>
+          <p>The stage where Willow's current support fails hardest. Agent abandonment, policy friction, and lack of empowerment define the current experience. CNX owns this and flips it. Our escalation protocols and empowerment framework need to shine here.</p>
+        </div>
+        <div class="card">
+          <h3>🟡 Stage 02 — Setup</h3>
+          <p>High contact volume, largely preventable with good self-service and proactive outreach. Opportunity to deploy guided setup flows, deflect simple tickets, and reserve human agents for complex sizing and clinical-adjacent questions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="cnx-mark">Concentrix <span>×</span> Willow — Customer Journey Map</div>
+    <div class="copyright">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.<br>Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- ===================== PAGE 4: AGENT PROFILE ===================== -->
+<div class="page" id="page-4">
+
+  <div class="p1-hero">
+    <div class="tag-row">
+      <span class="tag tag-teal">Agent Profile &amp; Matching</span>
+      <span class="tag tag-outline">Philippines Delivery</span>
+      <span class="tag tag-yellow">Internal — Not for Client Distribution</span>
+    </div>
+    <h1>Customer vs <span>Agent</span> Profile</h1>
+    <p class="subtitle">Who is calling, what they need, and why our Philippine-based delivery model is the right fit for Willow</p>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Side-by-Side Alignment</span>
+        <h2>Customer Profile → Agent Match</h2>
+      </div>
+    </div>
+
+    <div class="profile-split" style="margin-bottom:32px;">
+
+      <div class="profile-block">
+        <div class="profile-block-header ph-blue">Willow Customer Profile</div>
+        <div class="profile-block-body">
+          <div class="profile-row">
+            <span class="profile-key">Primary Market</span>
+            <span class="profile-val">United States — primarily English-speaking, North America focus</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Demographics</span>
+            <span class="profile-val">Mothers aged 25–40, mostly urban/suburban, working professionals</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Emotional State</span>
+            <span class="profile-val">Postpartum (physically and emotionally taxed), sleep-deprived, anxious about baby's nutrition</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Communication Style</span>
+            <span class="profile-val">Conversational, wants to be heard before being given solutions; low tolerance for scripts</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Tech Comfort</span>
+            <span class="profile-val">Moderate-high; uses apps daily but frustrated when tech fails at critical moments</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Knowledge Expected</span>
+            <span class="profile-val">Agents should understand breastfeeding physiology at a basic level, pump mechanics, and insurance processes</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Contact Preference</span>
+            <span class="profile-val">Live chat (fast), phone for escalations; low tolerance for bots and email-only support</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Pain Tolerance</span>
+            <span class="profile-val">Low. A pump failure isn't inconvenient — it's a feeding crisis for a newborn.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-block">
+        <div class="profile-block-header ph-teal">CNX Philippine Agent Profile</div>
+        <div class="profile-block-body">
+          <div class="profile-row">
+            <span class="profile-key">English Fluency</span>
+            <span class="profile-val">High neutral-accent English proficiency; cultural familiarity with US norms, TV culture, and empathy communication styles</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Empathy Orientation</span>
+            <span class="profile-val">Filipino culture is family-first, highly maternal — natural alignment with a mom-focused customer base</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Health Literacy</span>
+            <span class="profile-val">Trainable in clinical-adjacent knowledge (breastfeeding basics, pump mechanics, ACA insurance framework)</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Tech Aptitude</span>
+            <span class="profile-val">Strong — can be trained on Willow app diagnostics, Bluetooth troubleshooting, and Shopify order management</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">De-escalation</span>
+            <span class="profile-val">Highly trained in emotionally charged contact management (existing CNX healthcare and consumer tech programs)</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Compliance Capable</span>
+            <span class="profile-val">Proven track record handling sensitive consumer data under US frameworks (HIPAA-adjacent, PCI DSS)</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Cost Efficiency</span>
+            <span class="profile-val">Philippine delivery provides US-quality support at BPO cost structure — critical for a DTC brand watching margins</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Schedule Flexibility</span>
+            <span class="profile-val">24/7 coverage feasible; shift capacity to cover US time zones including West Coast peak hours</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-header" style="margin-top:0; margin-bottom:24px;">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Match Analysis</span>
+        <h2>Competency Fit by Contact Type</h2>
+      </div>
+    </div>
+
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Contact Type</th>
+          <th>Customer Needs</th>
+          <th>CNX Agent Capability</th>
+          <th>Fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>General CS — Order, Shipping, Returns</td>
+          <td>Fast resolution, clear policy communication</td>
+          <td>Core competency across all CNX programs</td>
+          <td><span class="chip chip-teal">Strong Match</span></td>
+        </tr>
+        <tr>
+          <td>Setup &amp; First Use</td>
+          <td>Patient guidance, step-by-step, clinical empathy</td>
+          <td>Trainable; natural empathy culture; guided KB delivery</td>
+          <td><span class="chip chip-teal">Strong Match</span></td>
+        </tr>
+        <tr>
+          <td>App / Tech Troubleshooting</td>
+          <td>Accurate Bluetooth / software diagnosis</td>
+          <td>Tech-trained agents; need Willow-specific runbooks</td>
+          <td><span class="chip chip-yellow">Match with Training</span></td>
+        </tr>
+        <tr>
+          <td>Flange Sizing Guidance</td>
+          <td>Knowledge of anatomy basics, insert sizing chart</td>
+          <td>Trainable via Willow knowledge base + IBCLC-lite scripts</td>
+          <td><span class="chip chip-yellow">Match with Training</span></td>
+        </tr>
+        <tr>
+          <td>Insurance / FSA / HSA Navigation</td>
+          <td>Accuracy, documentation support, ACA familiarity</td>
+          <td>Requires dedicated SME track; can't be general-queue</td>
+          <td><span class="chip chip-orange">SME Tier Required</span></td>
+        </tr>
+        <tr>
+          <td>Warranty &amp; Defective Unit</td>
+          <td>Empathy first, clear process, speed to resolution</td>
+          <td>Strong — existing DNO/warranty programs across CNX accounts</td>
+          <td><span class="chip chip-teal">Strong Match</span></td>
+        </tr>
+        <tr>
+          <td>Escalations / BBB-Risk Contacts</td>
+          <td>Experienced de-escalation, authority to resolve</td>
+          <td>Dedicated senior agent + TL empowerment protocol needed</td>
+          <td><span class="chip chip-orange">Needs Empowerment Policy</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="margin-top:28px;">
+      <p><strong>Key Hiring Differentiator for Willow:</strong> Beyond standard CS aptitude, agents should be screened for <strong>maternal empathy fluency</strong> — ability to de-escalate an emotionally distressed new mom while delivering technically accurate product information. This is not a standard filter for most CS programs. We propose adding a scenario-based screener specific to postpartum emotional contexts during the assessment phase.</p>
+    </div>
+  </div>
+
+  <div class="section-alt">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Hiring Criteria</span>
+        <h2>Proposed Agent Screening Profile</h2>
+      </div>
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card">
+        <h3>🧠 Must-Have Skills</h3>
+        <p><strong>English Proficiency:</strong> B2+ minimum, neutral accent<br><br>
+        <strong>Empathy Aptitude:</strong> Screened via scenario test — postpartum context<br><br>
+        <strong>Typing Accuracy:</strong> 40 WPM minimum with &lt;3% error rate<br><br>
+        <strong>Active Listening:</strong> Demonstrated ability to not interrupt, reflect back, and validate before resolving</p>
+      </div>
+      <div class="card">
+        <h3>⚡ Trainable at Hire</h3>
+        <p><strong>Product Knowledge:</strong> Full Willow catalog, app, accessories<br><br>
+        <strong>Technical Support:</strong> Bluetooth diagnostics, app flows<br><br>
+        <strong>Insurance Basics:</strong> ACA, FSA/HSA, Affirm (SME track only)<br><br>
+        <strong>Breastfeeding Basics:</strong> Sizing, suction theory, clinical-adjacent scripts</p>
+      </div>
+      <div class="card">
+        <h3>❌ Disqualifiers</h3>
+        <p><strong>High Escalation History:</strong> Pattern of chat abandonment in prior role<br><br>
+        <strong>Low CSAT Track Record:</strong> Below 85% CSAT in previous CS role<br><br>
+        <strong>Scripted Communication Style:</strong> Unable to deviate from template under pressure<br><br>
+        <strong>Low Patience Score:</strong> Fails scenario test with distressed customer simulation</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="cnx-mark">Concentrix <span>×</span> Willow — Agent Profile Match</div>
+    <div class="copyright">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.<br>Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- ===================== PAGE 5: OPS FRAMEWORK ===================== -->
+<div class="page" id="page-5">
+
+  <div class="p1-hero">
+    <div class="tag-row">
+      <span class="tag tag-teal">Proposed Operations Framework</span>
+      <span class="tag tag-outline">Philippines Delivery</span>
+      <span class="tag tag-outline">Full-Stack CS + Tech + Insurance</span>
+      <span class="tag tag-yellow">Internal — Not for Client Distribution</span>
+    </div>
+    <h1>Proposed <span>Ops Framework</span></h1>
+    <p class="subtitle">Service architecture, tiered routing, channel strategy (TBD with Willow), governance, and KPI targets for the Willow program</p>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Service Model</span>
+        <h2>Tiered Contact Routing Structure</h2>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge t1">Tier 1 — Frontline</span>
+        <h3>General Customer Support</h3>
+        <span class="tier-sub">~65–70% of contact volume</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <h4>Contact Types Handled</h4>
+          <ul>
+            <li>Order status, shipping, tracking</li>
+            <li>Returns and exchange processing</li>
+            <li>Basic setup and assembly guidance</li>
+            <li>Parts and accessories inquiries</li>
+            <li>Account and subscription management</li>
+            <li>General product comparison questions</li>
+            <li>Promos, discount codes, referral program</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Agent Profile</h4>
+          <ul>
+            <li>B2+ English proficiency</li>
+            <li>High empathy screener passed</li>
+            <li>Willow product KB certified</li>
+            <li>Shopify order management trained</li>
+            <li>AHT target: 8–10 min (chat), 12–15 min (voice)</li>
+            <li>CSAT target: &gt;90%</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Escalation Triggers</h4>
+          <ul>
+            <li>Customer mentions defective unit</li>
+            <li>Refund requested (beyond exchange)</li>
+            <li>Insurance / billing question raised</li>
+            <li>App / Bluetooth failure confirmed</li>
+            <li>Customer mentions BBB or legal action</li>
+            <li>CSAT risk flagged by agent</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge t2">Tier 2 — Technical &amp; Warranty</span>
+        <h3>Tech Support + Defective Unit + Warranty</h3>
+        <span class="tier-sub">~20–25% of contact volume</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <h4>Contact Types Handled</h4>
+          <ul>
+            <li>App pairing and Bluetooth troubleshooting</li>
+            <li>Session tracking errors in Willow app</li>
+            <li>Suction loss diagnosis (parts vs motor)</li>
+            <li>Defective unit assessment</li>
+            <li>Warranty replacement processing</li>
+            <li>Flange sizing deep-dives</li>
+            <li>SmartStash scanning issues</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Agent Profile</h4>
+          <ul>
+            <li>Senior agents (12+ months CS experience)</li>
+            <li>Willow Tech runbook certified</li>
+            <li>Pump mechanics training completed</li>
+            <li>Warranty policy authority granted</li>
+            <li>AHT target: 15–20 min</li>
+            <li>FCR target: &gt;80%</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Escalation Triggers</h4>
+          <ul>
+            <li>Pump confirmed defective, replacement needed urgently</li>
+            <li>Customer requests refund (not exchange)</li>
+            <li>Insurance / billing tied to defect case</li>
+            <li>Customer expressing extreme distress</li>
+            <li>Repeat contact on same unresolved issue</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge t-sme">SME — Insurance &amp; Billing</span>
+        <h3>Insurance Navigation + FSA/HSA + Billing Disputes</h3>
+        <span class="tier-sub">~5–10% of contact volume — high-stakes</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <h4>Contact Types Handled</h4>
+          <ul>
+            <li>ACA insurance reimbursement guidance</li>
+            <li>FSA/HSA eligibility and submission support</li>
+            <li>Affirm financing disputes and plan questions</li>
+            <li>Double-claim prevention coaching</li>
+            <li>Documentation preparation for insurer submission</li>
+            <li>Out-of-network vs in-network benefit guidance</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Agent Profile</h4>
+          <ul>
+            <li>Dedicated SME cohort — not general queue</li>
+            <li>ACA framework training completed</li>
+            <li>FSA/HSA administration process trained</li>
+            <li>Accuracy priority over speed</li>
+            <li>CSAT target: &gt;92%</li>
+            <li>Error rate target: &lt;1% (documentation errors)</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Governance Notes</h4>
+          <ul>
+            <li>SME agents may NOT give insurance/coverage guarantees</li>
+            <li>Scripted guidance only — no interpretation of plan terms</li>
+            <li>Willow is not a healthcare provider — do not list as provider on claims</li>
+            <li>Dual-submission risk must be flagged on every interaction</li>
+            <li>All calls recorded for compliance review</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge t3">Tier 3 — Escalations &amp; Complaints</span>
+        <h3>BBB-Risk, Refund Authority, Extreme Distress</h3>
+        <span class="tier-sub">&lt;5% of volume — highest priority</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <h4>Contact Types Handled</h4>
+          <ul>
+            <li>Customers who mention BBB, legal, or social media escalation</li>
+            <li>Refund requests post-30-day window — requires authority</li>
+            <li>Extreme emotional distress (supply loss, newborn feeding impact)</li>
+            <li>Repeat unresolved contacts (3+ touchpoints)</li>
+            <li>Media / influencer contacts</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Agent Profile</h4>
+          <ul>
+            <li>Team Leader or designated Senior Agent</li>
+            <li>Refund authority up to defined threshold (TBD with Willow)</li>
+            <li>De-escalation certification required</li>
+            <li>Direct Willow point-of-contact for critical escalations</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <h4>Resolution Targets</h4>
+          <ul>
+            <li>Response to escalated flag: &lt;15 minutes</li>
+            <li>Resolution or clear path within first contact</li>
+            <li>No unresolved escalations held &gt;24 hours</li>
+            <li>Feedback loop to Willow product/ops team on systemic issues</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-alt">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Performance Targets</span>
+        <h2>Proposed KPI Framework</h2>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-val">&gt;90%</div>
+        <div class="kpi-label">Overall CSAT<br>(Tier 1 Baseline)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">&gt;80%</div>
+        <div class="kpi-label">First Contact Resolution<br>(All Tiers)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">&lt;2 min</div>
+        <div class="kpi-label">Average Speed to Answer<br>(Chat &amp; Voice)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">&lt;5%</div>
+        <div class="kpi-label">Escalation Rate<br>(T1 to T2+)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">&lt;1%</div>
+        <div class="kpi-label">Insurance Documentation<br>Error Rate (SME)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">0</div>
+        <div class="kpi-label">Agent-Initiated<br>Contact Abandonment</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">&lt;24hr</div>
+        <div class="kpi-label">Escalation Resolution<br>SLA (Tier 3)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">100%</div>
+        <div class="kpi-label">Compliance Call<br>Recording (SME &amp; T3)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="bar"></div>
+      <div>
+        <span class="eyebrow">Open Items for Discovery</span>
+        <h2>What We Still Need from Willow</h2>
+      </div>
+    </div>
+
+    <div class="discovery-grid">
+      <div class="discovery-item">
+        <div class="discovery-icon">📡</div>
+        <div>
+          <h4>Channel Mix &amp; Volume</h4>
+          <p>Willow currently uses phone, live chat, email, and in-app support. We need contact volume by channel to right-size the team and determine which channels CNX is owning vs. Willow-retained.</p>
+        </div>
+      </div>
+      <div class="discovery-item">
+        <div class="discovery-icon">🔁</div>
+        <div>
+          <h4>Current AHT &amp; Volume Baseline</h4>
+          <p>No public data on current average handle time or weekly/monthly contact volume. We need Willow to share current metrics so we can build headcount and shift models accurately.</p>
+        </div>
+      </div>
+      <div class="discovery-item">
+        <div class="discovery-icon">📋</div>
+        <div>
+          <h4>Knowledge Base Access</h4>
+          <p>We need full access to Willow's existing KB, troubleshooting runbooks, warranty policy documents, and insurance claim process documentation before we can certify agents.</p>
+        </div>
+      </div>
+      <div class="discovery-item">
+        <div class="discovery-icon">🏦</div>
+        <div>
+          <h4>Refund Authority Thresholds</h4>
+          <p>For T3 escalations, agents need defined dollar-amount and scenario authorities. Without these, we'll hit the same wall Willow's current support does — promises but no empowerment.</p>
+        </div>
+      </div>
+      <div class="discovery-item">
+        <div class="discovery-icon">⚙️</div>
+        <div>
+          <h4>CRM &amp; Tooling Stack</h4>
+          <p>Willow uses Shopify for commerce. We need to know their CRM (Zendesk? Salesforce? Custom?), their ticketing system, and any existing automation or chatbot infrastructure we'd be inheriting or replacing.</p>
+        </div>
+      </div>
+      <div class="discovery-item">
+        <div class="discovery-icon">📅</div>
+        <div>
+          <h4>Seasonality &amp; Peak Events</h4>
+          <p>Breastfeeding Awareness Month (August), back-to-work season (September), and holiday gifting (Nov–Dec) likely drive volume spikes. We need Willow's historical data to build a flex model.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:28px;">
+      <p><strong>Bottom Line:</strong> We have enough to pitch the architecture. Channel scope, headcount model, and tooling details are confirmed discovery items — we flag these as open and position CNX as a structured, thoughtful partner, not one that over-promises before diligence. <strong>That's the pitch.</strong></p>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="cnx-mark">Concentrix <span>×</span> Willow — Proposed Ops Framework</div>
+    <div class="copyright">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.<br>Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<script>
+  // ===================== VIEW MODE =====================
+  // 'pdf' = default, all pages visible, share/print mode
+  // 'web' = single page nav mode with edit capability
+  let currentView = 'pdf';
+
+  function switchToWebView() {
+    currentView = 'web';
+    document.body.classList.remove('pdf-view');
+    document.body.classList.add('web-view');
+    // Show web nav controls, hide pdf controls
+    document.getElementById('nav-pdf-controls').style.display = 'none';
+    document.getElementById('nav-web-controls').style.display = 'flex';
+    // Show mobile tab bar on small screens
+    if (window.innerWidth <= 900) {
+      document.getElementById('mobile-nav').style.display = 'flex';
+    }
+    // Ensure page 1 is active
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById('page-1').classList.add('active');
+    // Sync nav pills and mobile tabs
+    document.querySelectorAll('.nav-pill')[0].classList.add('active');
+    document.querySelectorAll('.mobile-tab')[0].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function switchToPdfView() {
+    // Exit edit mode first if active
+    if (editMode) toggleEditMode();
+    currentView = 'pdf';
+    document.body.classList.remove('web-view');
+    document.body.classList.add('pdf-view');
+    // Show pdf controls, hide web controls
+    document.getElementById('nav-pdf-controls').style.display = 'flex';
+    document.getElementById('nav-web-controls').style.display = 'none';
+    // Hide mobile tab bar
+    document.getElementById('mobile-nav').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function triggerPrint() {
+    // Must be in PDF view for all pages to be visible
+    if (currentView !== 'pdf') switchToPdfView();
+    setTimeout(() => window.print(), 150);
+  }
+
+  // ===================== PAGE NAV (web view only) =====================
+  function showPage(num, btn, fromMobile) {
+    if (currentView !== 'web') return;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.mobile-tab').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + num).classList.add('active');
+    const pills = document.querySelectorAll('.nav-pill');
+    const tabs = document.querySelectorAll('.mobile-tab');
+    if (pills[num - 1]) pills[num - 1].classList.add('active');
+    if (tabs[num - 1]) tabs[num - 1].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ===================== EDIT SYSTEM =====================
+  const STORAGE_KEY = 'cnx_willow_brief_edits_v2';
+  let editMode = false;
+  let saveTimer = null;
+  let isDirty = false;
+
+  const EDITABLE_SELECTORS = [
+    'h1', 'h2', 'h3', 'h4',
+    'p', 'li',
+    '.stat-card .num',
+    '.stat-card .label',
+    '.subtitle',
+    '.eyebrow',
+    'td',
+    '.kpi-card .kpi-val',
+    '.kpi-card .kpi-label',
+    '.pain-content h3',
+    '.pain-content p',
+    '.ref-link',
+    '.stage-header h3',
+    '.stage-item',
+    '.stage-section-label',
+    '.emotion-bar',
+    '.profile-key',
+    '.profile-val',
+    '.tier-header h3',
+    '.tier-header .tier-sub',
+    '.tier-col ul li',
+    '.discovery-item h4',
+    '.discovery-item p',
+    '.callout p',
+    '.highlight-box h3',
+    '.highlight-box ul li',
+    '.tag',
+    '.chip',
+    '.footer-bar .cnx-mark',
+    '.nav-logo'
+  ].join(', ');
+
+  function stampEditIds() {
+    let i = 0;
+    document.querySelectorAll(EDITABLE_SELECTORS).forEach(el => {
+      if (el.closest('.nav-pills') || el.closest('#edit-toolbar') ||
+          el.closest('#main-nav') && el.tagName === 'BUTTON' ||
+          el.tagName === 'BUTTON' || el.closest('button')) return;
+      if (!el.dataset.editId) el.dataset.editId = 'eid_' + i;
+      i++;
+    });
+  }
+
+  function toggleEditMode() {
+    // Edit only available in web view
+    if (currentView !== 'web') {
+      switchToWebView();
+      setTimeout(toggleEditMode, 200);
+      return;
+    }
+    editMode = !editMode;
+    const btn = document.getElementById('edit-btn');
+    if (editMode) {
+      document.querySelectorAll(EDITABLE_SELECTORS).forEach(el => {
+        if (el.closest('.nav-pills') || el.closest('#edit-toolbar') ||
+            el.tagName === 'BUTTON' || el.closest('button')) return;
+        el.setAttribute('contenteditable', 'true');
+        el.setAttribute('spellcheck', 'true');
+        el.addEventListener('input', onEdit);
+      });
+      document.body.classList.add('edit-mode');
+      btn.classList.add('active');
+      btn.innerHTML = '<span class="dot"></span> ' + (window.innerWidth <= 480 ? 'Done' : 'Done Editing');
+      setStatus('Edit mode on — click any text', false);
+    } else {
+      if (isDirty) saveEdits();
+      document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+        el.removeAttribute('contenteditable');
+        el.removeAttribute('spellcheck');
+        el.removeEventListener('input', onEdit);
+      });
+      document.body.classList.remove('edit-mode');
+      btn.classList.remove('active', 'dirty');
+      btn.innerHTML = '<span class="dot"></span> Edit';
+      isDirty = false;
+    }
+  }
+
+  function onEdit() {
+    isDirty = true;
+    document.getElementById('edit-btn').classList.add('dirty');
+    setStatus('Unsaved changes...', false);
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveEdits, 1200);
+  }
+
+  function saveEdits() {
+    const edits = {};
+    document.querySelectorAll('[data-edit-id]').forEach(el => {
+      edits[el.dataset.editId] = el.innerHTML;
+    });
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(edits));
+      isDirty = false;
+      document.getElementById('edit-btn').classList.remove('dirty');
+      setStatus('Saved \u2713', true);
+      setTimeout(() => { if (!isDirty) setStatus('Auto-saved', true); }, 2000);
+    } catch(e) {
+      setStatus('Save failed — storage full?', false);
+    }
+  }
+
+  function loadEdits() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const edits = JSON.parse(raw);
+      document.querySelectorAll('[data-edit-id]').forEach(el => {
+        const saved = edits[el.dataset.editId];
+        if (saved !== undefined) el.innerHTML = saved;
+      });
+      if (editMode) setStatus('Edits restored \u2713', true);
+    } catch(e) {}
+  }
+
+  function clearEdits() {
+    if (!confirm('Reset all text to the original content? This cannot be undone.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    window.location.reload();
+  }
+
+  function setStatus(msg, ok) {
+    const s = document.getElementById('save-status');
+    if (s) { s.textContent = msg; s.className = 'toolbar-status' + (ok ? ' saved' : ''); }
+  }
+
+  function exportHTML() {
+    if (isDirty) saveEdits();
+    const clone = document.documentElement.cloneNode(true);
+    try {
+      const edits = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      clone.querySelectorAll('[data-edit-id]').forEach(el => {
+        const saved = edits[el.dataset.editId];
+        if (saved !== undefined) el.innerHTML = saved;
+      });
+    } catch(e) {}
+    clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    clone.querySelectorAll('[data-edit-id]').forEach(el => el.removeAttribute('data-edit-id'));
+    ['#edit-btn', '#edit-toolbar', '#edit-overlay'].forEach(sel => {
+      const el = clone.querySelector(sel);
+      if (el) el.remove();
+    });
+    clone.querySelector('body').classList.remove('edit-mode');
+    const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'willow-brief-final.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    setStatus('Exported!', true);
+    setTimeout(() => setStatus('Auto-saved', true), 2000);
+  }
+
+  // ===================== INIT =====================
+  document.addEventListener('DOMContentLoaded', () => {
+    stampEditIds();
+    loadEdits();
+  });
+
+</script>
+
+</body>
+</html>

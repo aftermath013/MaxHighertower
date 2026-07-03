@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gentle Monster — Program Brief | Concentrix</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<noscript>
+  <style>
+    .page { display: block !important; }
+    #main-nav .nav-pdf-controls { display: flex !important; }
+    #main-nav .nav-web-controls { display: none !important; }
+    #mobile-nav { display: none !important; }
+  </style>
+</noscript>
+<style>
+:root {
+  --cnx-blue: #003D5B;
+  --cnx-teal: #25E2CC;
+  --cnx-teal-60: #7CEEE0;
+  --cnx-teal-20: #D3F9F5;
+  --cnx-teal-10: #E9FCFA;
+  --cnx-jade: #007380;
+  --cnx-yellow: #FBCA18;
+  --cnx-yellow-20: #FEF4D1;
+  --cnx-orange: #FF8400;
+  --cnx-raspberry: #CC3262;
+  --cnx-charcoal: #2A2B2C;
+  --cnx-gray: #F2F2F2;
+  --cnx-white: #FFFFFF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #fff;
+  color: var(--cnx-charcoal);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* NAV */
+#main-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: var(--cnx-blue);
+  border-bottom: 3px solid var(--cnx-teal);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  z-index: 2000;
+}
+.nav-logo {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--cnx-teal);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--cnx-white); font-weight: 400; }
+.nav-internal {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--cnx-teal-60);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-spacer { flex: 1; }
+
+/* PDF controls (Share View) */
+.nav-pdf-controls { display: flex; align-items: center; gap: 10px; }
+.nav-web-controls { display: none; align-items: center; gap: 10px; }
+
+.nav-pills { display: flex; gap: 4px; }
+.nav-pill {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--cnx-teal-60);
+  border: 1px solid rgba(37,226,204,0.3);
+  border-radius: 20px;
+  padding: 4px 10px;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.2s;
+}
+.nav-pill:hover, .nav-pill.active {
+  background: var(--cnx-teal);
+  color: var(--cnx-blue);
+  border-color: var(--cnx-teal);
+}
+
+.btn-nav {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-nav-teal { background: var(--cnx-teal); color: var(--cnx-blue); }
+.btn-nav-teal:hover { background: var(--cnx-teal-60); }
+.btn-nav-outline {
+  background: transparent;
+  color: var(--cnx-teal);
+  border: 1px solid var(--cnx-teal);
+}
+.btn-nav-outline:hover { background: rgba(37,226,204,0.1); }
+.btn-edit {
+  background: var(--cnx-yellow);
+  color: var(--cnx-blue);
+}
+.btn-edit:hover { background: #e0b415; }
+
+/* PAGES */
+body.pdf-view .page { display: block; }
+body.web-view .page { display: none; }
+body.web-view .page.active { display: block; }
+
+.page {
+  position: relative;
+  z-index: 0;
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #003D5B 0%, #001f30 55%, #000d18 100%);
+  padding: 60px 48px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(37,226,204,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(37,226,204,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--cnx-teal);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--cnx-white);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.hero h1 span { color: var(--cnx-teal); }
+.hero-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 32px;
+}
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.stat-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(37,226,204,0.2);
+  border-radius: 8px;
+  padding: 16px;
+}
+.stat-card .stat-val {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--cnx-teal);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card .stat-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.55);
+}
+
+/* SECTIONS */
+.section { padding: 48px; }
+.section-gray { background: var(--cnx-gray); }
+.section-dark {
+  background: var(--cnx-blue);
+  color: var(--cnx-white);
+}
+.section-dark h2, .section-dark h3 { color: var(--cnx-white); }
+
+.section-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--cnx-teal);
+  margin-bottom: 8px;
+}
+.section h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--cnx-blue);
+  margin-bottom: 20px;
+}
+.section-dark .section-eyebrow { color: var(--cnx-teal-60); }
+
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.six-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+/* CARDS */
+.card {
+  background: var(--cnx-white);
+  border: 1px solid #e8e8e8;
+  border-top: 3px solid var(--cnx-teal);
+  border-radius: 6px;
+  padding: 20px;
+}
+.card-dark {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(37,226,204,0.2);
+  border-top: 3px solid var(--cnx-teal);
+  border-radius: 6px;
+  padding: 20px;
+}
+.card h4, .card-dark h4 {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.card-dark h4 { color: var(--cnx-teal); }
+.card p, .card-dark p { font-size: 12px; line-height: 1.65; }
+.card-dark p { color: rgba(255,255,255,0.75); }
+.card-icon { font-size: 20px; margin-bottom: 8px; }
+
+/* CHIPS */
+.chip {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-radius: 20px;
+  padding: 3px 8px;
+  margin: 2px 2px 2px 0;
+}
+.chip-teal { background: var(--cnx-teal-10); color: var(--cnx-jade); border: 1px solid var(--cnx-teal-60); }
+.chip-yellow { background: var(--cnx-yellow-20); color: #7a5e00; border: 1px solid var(--cnx-yellow); }
+.chip-orange { background: #FFF3E0; color: #8a4500; border: 1px solid var(--cnx-orange); }
+.chip-red { background: #FDEEF3; color: #8a1038; border: 1px solid var(--cnx-raspberry); }
+.chip-blue { background: #E3EEF5; color: var(--cnx-blue); border: 1px solid #b0cdd9; }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th {
+  background: var(--cnx-blue);
+  color: var(--cnx-white);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e8e8e8;
+  vertical-align: top;
+}
+.data-table tr:nth-child(even) td { background: var(--cnx-gray); }
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* PAIN ITEMS */
+.pain-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: var(--cnx-white);
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.pain-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-high { background: #FDEEF3; color: var(--cnx-raspberry); border: 1px solid var(--cnx-raspberry); }
+.badge-med { background: var(--cnx-yellow-20); color: #7a5e00; border: 1px solid var(--cnx-yellow); }
+.badge-low { background: var(--cnx-teal-10); color: var(--cnx-jade); border: 1px solid var(--cnx-teal); }
+.pain-content h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.pain-source { font-size: 10px; color: #888; margin-top: 6px; }
+
+.pain-item.border-high { border-left: 4px solid var(--cnx-raspberry); }
+.pain-item.border-med { border-left: 4px solid var(--cnx-yellow); }
+.pain-item.border-low { border-left: 4px solid var(--cnx-teal); }
+
+/* JOURNEY */
+.journey-container {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.journey-stage {
+  flex: 1;
+  min-width: 150px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 8px;
+}
+.journey-stage:last-child { margin-right: 0; }
+.journey-header {
+  background: var(--cnx-blue);
+  color: var(--cnx-white);
+  padding: 10px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.journey-body {
+  background: var(--cnx-white);
+  padding: 12px;
+  flex: 1;
+}
+.journey-body p { font-size: 11px; line-height: 1.6; margin-bottom: 6px; }
+.journey-trigger {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--cnx-jade);
+  margin-top: 8px;
+}
+.emotion-bar {
+  padding: 8px 12px;
+  font-size: 10px;
+  font-weight: 700;
+}
+.emotion-excited { background: var(--cnx-teal-10); color: var(--cnx-jade); }
+.emotion-anxious { background: var(--cnx-yellow-20); color: #7a5e00; }
+.emotion-frustrated { background: #FDEEF3; color: var(--cnx-raspberry); }
+.emotion-relieved { background: var(--cnx-teal-20); color: var(--cnx-jade); }
+.emotion-satisfied { background: #E3EEF5; color: var(--cnx-blue); }
+
+.priority-zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+.pz-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(37,226,204,0.2);
+  border-radius: 6px;
+  padding: 16px;
+}
+.pz-card h4 { font-size: 12px; font-weight: 700; color: var(--cnx-teal); margin-bottom: 6px; }
+.pz-card p { font-size: 11px; color: rgba(255,255,255,0.7); }
+
+/* PROFILE MATCH */
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+  gap: 12px;
+}
+.profile-key { font-weight: 700; color: var(--cnx-blue); flex: 0 0 140px; }
+.profile-val { color: var(--cnx-charcoal); flex: 1; }
+.profile-col { flex: 1; }
+.profile-col .col-header {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cnx-teal);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--cnx-teal);
+  margin-bottom: 8px;
+}
+
+.fit-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.fit-table th {
+  background: var(--cnx-blue);
+  color: #fff;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.fit-table td { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+.fit-table tr:nth-child(even) td { background: var(--cnx-gray); }
+
+/* OPS FRAMEWORK */
+.framework-tier {
+  background: var(--cnx-white);
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--cnx-blue);
+  padding: 12px 16px;
+  color: var(--cnx-white);
+}
+.tier-badge {
+  font-size: 10px;
+  font-weight: 800;
+  background: var(--cnx-teal);
+  color: var(--cnx-blue);
+  border-radius: 4px;
+  padding: 4px 10px;
+  letter-spacing: 0.5px;
+}
+.tier-title { font-size: 13px; font-weight: 700; }
+.tier-volume {
+  font-size: 10px;
+  color: var(--cnx-teal-60);
+  margin-left: auto;
+}
+.tier-body { display: grid; grid-template-columns: repeat(3, 1fr); }
+.tier-col { padding: 14px 16px; border-right: 1px solid #e8e8e8; }
+.tier-col:last-child { border-right: none; }
+.tier-col-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cnx-jade);
+  margin-bottom: 8px;
+}
+.tier-col ul { padding-left: 14px; }
+.tier-col li { font-size: 11.5px; line-height: 1.65; margin-bottom: 3px; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kpi-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(37,226,204,0.15);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+}
+.kpi-card .kpi-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--cnx-teal);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.kpi-card .kpi-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.55);
+}
+
+.discovery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.discovery-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(37,226,204,0.15);
+  border-radius: 6px;
+  padding: 14px;
+}
+.discovery-card .disc-icon { font-size: 18px; margin-bottom: 6px; }
+.discovery-card h5 { font-size: 11px; font-weight: 700; color: var(--cnx-teal); margin-bottom: 4px; }
+.discovery-card p { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+
+/* CALLOUT */
+.callout {
+  background: var(--cnx-teal-10);
+  border-left: 4px solid var(--cnx-teal);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+.callout h4 { font-size: 12px; font-weight: 800; color: var(--cnx-blue); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.callout p { font-size: 12px; color: var(--cnx-charcoal); line-height: 1.65; }
+
+.callout-dark {
+  background: rgba(37,226,204,0.08);
+  border-left: 4px solid var(--cnx-teal);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+.callout-dark h4 { font-size: 12px; font-weight: 800; color: var(--cnx-teal); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.callout-dark p { font-size: 12px; color: rgba(255,255,255,0.75); line-height: 1.65; }
+
+/* FOOTER */
+.page-footer {
+  background: var(--cnx-blue);
+  border-top: 2px solid var(--cnx-teal);
+  padding: 16px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-left { font-size: 10px; color: rgba(255,255,255,0.5); }
+.footer-right { font-size: 10px; color: rgba(255,255,255,0.5); }
+.footer-center { font-size: 9px; font-weight: 700; color: var(--cnx-teal-60); text-transform: uppercase; letter-spacing: 1px; }
+
+/* WHY BOX */
+.why-box {
+  background: var(--cnx-blue);
+  border-radius: 8px;
+  padding: 24px;
+  color: var(--cnx-white);
+}
+.why-box h3 { font-size: 14px; font-weight: 800; color: var(--cnx-teal); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+.why-box .why-item { margin-bottom: 14px; }
+.why-box .why-item h5 { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+.why-box .why-item p { font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+/* ARCHETYPE */
+.archetype-card {
+  background: var(--cnx-white);
+  border: 1px solid #e8e8e8;
+  border-top: 3px solid var(--cnx-teal);
+  border-radius: 6px;
+  padding: 16px;
+}
+.archetype-card .arch-icon { font-size: 24px; margin-bottom: 8px; }
+.archetype-card h4 { font-size: 12px; font-weight: 800; color: var(--cnx-blue); margin-bottom: 6px; }
+.archetype-card p { font-size: 11px; line-height: 1.65; color: var(--cnx-charcoal); margin-bottom: 8px; }
+
+/* MOBILE NAV */
+.mobile-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--cnx-blue);
+  border-top: 2px solid var(--cnx-teal);
+  padding: 8px 4px calc(6px + env(safe-area-inset-bottom));
+  z-index: 2000;
+  justify-content: space-around;
+  gap: 4px;
+}
+.mob-tab {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  padding: 4px 2px;
+}
+.mob-tab .tab-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--cnx-teal-60);
+  text-transform: uppercase;
+}
+.mob-tab .tab-lbl {
+  font-size: 8px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.mob-tab.active .tab-num { color: var(--cnx-teal); }
+.mob-tab.active .tab-lbl { color: var(--cnx-teal-60); }
+
+/* EDIT OVERLAY */
+#edit-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  pointer-events: none;
+}
+[contenteditable="true"] {
+  position: relative;
+  z-index: 1100;
+  outline: 2px dashed var(--cnx-teal);
+  outline-offset: 2px;
+  cursor: text;
+  border-radius: 2px;
+}
+
+/* EDIT TOOLBAR */
+#edit-toolbar {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cnx-blue);
+  border: 1px solid var(--cnx-teal);
+  border-radius: 30px;
+  padding: 8px 16px;
+  z-index: 1500;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+#edit-status { font-size: 10px; font-weight: 700; color: var(--cnx-teal-60); white-space: nowrap; }
+.btn-toolbar {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  border: none;
+}
+.btn-toolbar-red { background: var(--cnx-raspberry); color: #fff; }
+.btn-toolbar-teal { background: var(--cnx-teal); color: var(--cnx-blue); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { padding: 40px 24px 32px; }
+  .section { padding: 32px 24px; }
+  .page-footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr 1fr; }
+  .four-col { grid-template-columns: 1fr 1fr; }
+  .six-col { grid-template-columns: 1fr 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .priority-zones { grid-template-columns: 1fr; }
+  .discovery-grid { grid-template-columns: 1fr 1fr; }
+  .tier-body { grid-template-columns: 1fr; }
+  .tier-col { border-right: none; border-bottom: 1px solid #e8e8e8; }
+  .tier-col:last-child { border-bottom: none; }
+  .journey-container { flex-direction: column; }
+  .journey-stage { min-width: unset; margin-right: 0; margin-bottom: 10px; }
+  .data-table { display: block; overflow-x: auto; }
+  .fit-table { display: block; overflow-x: auto; }
+  #edit-toolbar { bottom: 88px; }
+  .page { padding-bottom: 72px; }
+  .hero h1 { font-size: 28px; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 26px; }
+  .section { padding: 28px 16px; }
+  .pain-item { flex-direction: column; }
+  .profile-row { flex-direction: column; gap: 4px; }
+  #edit-toolbar { bottom: 84px; border-radius: 12px; width: calc(100% - 24px); justify-content: space-between; }
+  .btn-toolbar { flex: 1; text-align: center; }
+}
+@media (max-width: 380px) {
+  .hero h1 { font-size: 22px; }
+  .stat-row { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .section h2 { font-size: 18px; }
+}
+
+/* PRINT */
+@media print {
+  #main-nav, #mobile-nav, #edit-overlay, #edit-toolbar { display: none !important; }
+  body.pdf-view .page, body.web-view .page, .page { display: block !important; padding-top: 0 !important; }
+  .page ~ .page { page-break-before: always; break-before: page; border-top: none !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: #fff !important; }
+  .card, .card-dark, .pain-item, .framework-tier, .stat-card, .kpi-card { break-inside: avoid; }
+  .data-table, .fit-table { display: table !important; overflow-x: visible !important; }
+  .journey-container { flex-direction: row !important; }
+}
+</style>
+</head>
+<body class="pdf-view">
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">CNX <span>×</span> Gentle Monster</div>
+  <div class="nav-internal">Internal Use Only</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-pdf-controls" id="pdfControls">
+    <button class="btn-nav btn-nav-outline" onclick="switchToWebView()">Web View</button>
+    <button class="btn-nav btn-nav-teal" onclick="triggerPrint()">Print / Save PDF</button>
+  </div>
+  <div class="nav-web-controls" id="webControls">
+    <div class="nav-pills">
+      <button class="nav-pill active" onclick="showPage(0)">01 Brief</button>
+      <button class="nav-pill" onclick="showPage(1)">02 Pain Points</button>
+      <button class="nav-pill" onclick="showPage(2)">03 Journey</button>
+      <button class="nav-pill" onclick="showPage(3)">04 Agents</button>
+      <button class="nav-pill" onclick="showPage(4)">05 Ops</button>
+    </div>
+    <button class="btn-nav btn-nav-outline" onclick="switchToPdfView()">Share View</button>
+    <button class="btn-nav btn-edit" id="editBtn" onclick="toggleEditMode()">Edit</button>
+    <button class="btn-nav btn-nav-teal" onclick="triggerPrint()">Print / Save PDF</button>
+  </div>
+</nav>
+
+<!-- EDIT OVERLAY -->
+<div id="edit-overlay"></div>
+
+<!-- EDIT TOOLBAR -->
+<div id="edit-toolbar">
+  <span id="edit-status">✏️ Edit Mode</span>
+  <button class="btn-toolbar btn-toolbar-red" onclick="resetEdits()">Reset</button>
+  <button class="btn-toolbar btn-toolbar-teal" onclick="exportBrief()">Export HTML</button>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav" style="display:none;">
+  <div class="mob-tab active" onclick="showPage(0)"><div class="tab-num">01</div><div class="tab-lbl">Brief</div></div>
+  <div class="mob-tab" onclick="showPage(1)"><div class="tab-num">02</div><div class="tab-lbl">Pain</div></div>
+  <div class="mob-tab" onclick="showPage(2)"><div class="tab-num">03</div><div class="tab-lbl">Journey</div></div>
+  <div class="mob-tab" onclick="showPage(3)"><div class="tab-num">04</div><div class="tab-lbl">Agents</div></div>
+  <div class="mob-tab" onclick="showPage(4)"><div class="tab-num">05</div><div class="tab-lbl">Ops</div></div>
+</div>
+
+<!-- =================== PAGE 01 =================== -->
+<div class="page active" id="page-0">
+  <div class="hero">
+    <div class="hero-eyebrow">Program Brief — Potential New Account</div>
+    <h1>Gentle <span>Monster</span></h1>
+    <div class="hero-sub">South Korean Luxury Eyewear &amp; Intelligent Eyewear · E-Commerce CS + Retail Support · Philippines Delivery</div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-val">$540M</div><div class="stat-lbl">FY2025 Revenue</div></div>
+      <div class="stat-card"><div class="stat-val">81</div><div class="stat-lbl">Stores, 14 Countries</div></div>
+      <div class="stat-card"><div class="stat-val">47%</div><div class="stat-lbl">US Revenue Share</div></div>
+      <div class="stat-card"><div class="stat-val">$2.7B</div><div class="stat-lbl">Brand Valuation (2025)</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="two-col">
+      <div>
+        <div class="section-eyebrow">Client Overview</div>
+        <h2>Fashion Eyewear Meets Experiential Retail</h2>
+        <p>Gentle Monster is a South Korean luxury eyewear brand founded in 2011 under parent company IICOMBINED. Built around "weird beauty" and high-end experimentation, the brand is as famous for its immersive, art-installation-style flagship stores as it is for its frames. Products are priced between $240–$400+ and are designed specifically for Asian facial structures, which gave the brand massive tailwinds in Asian-diaspora and K-pop adjacent markets globally.</p>
+        <br>
+        <p>The US is their largest market (47% of revenue), with flagship locations in NYC SoHo, LA, and American Dream NJ, and a Toronto store opening in 2026. Active tech pivots include a Google Android XR smart glasses partnership ($100M investment, 2025) and a Samsung Galaxy Glasses collab — moving Gentle Monster from pure fashion into the intelligent eyewear category. Revenue declined slightly in FY2025 — the first dip in five years — making CX quality and retention a more urgent lever than before.</p>
+        <div class="callout">
+          <h4>CNX Opportunity</h4>
+          <p>A premium brand with a documented CS gap at scale. Customers paying $300–$400+ are expecting luxury-tier service and getting inconsistent, slow, and policy-rigid responses. This is a solvable problem — one CNX is built for.</p>
+        </div>
+      </div>
+      <div class="why-box">
+        <h3>Why This Account Matters</h3>
+        <div class="why-item">
+          <h5>🌏 Asian-First Brand DNA</h5>
+          <p>Filipino agents naturally align with the brand's Asian aesthetic sensibility, K-pop cultural references, and customer persona. Cultural IQ reduces ramp time significantly.</p>
+        </div>
+        <div class="why-item">
+          <h5>📈 Growth Story + Tech Pivot</h5>
+          <p>Google and Samsung partnerships signal intelligent eyewear scale-up. That means more product complexity, more contact volume, and higher-value interactions — all in CNX's sweet spot.</p>
+        </div>
+        <div class="why-item">
+          <h5>🛒 US-Dominant E-Commerce</h5>
+          <p>47% of revenue from the US, DTC via web + flagships. Shipping, returns, and order queries dominate current complaint channels — classic e-comm CS.</p>
+        </div>
+        <div class="why-item">
+          <h5>⚠️ CS Reputation Risk</h5>
+          <p>BBB, Trustpilot, and Thingtesting reviews are consistently critical of CS responsiveness. Brand is growing faster than their support structure can handle. Entry point: stabilize and scale.</p>
+        </div>
+        <div class="why-item">
+          <h5>💼 Premium Segment = Premium CSAT</h5>
+          <p>Customers at this price point are emotionally invested in the brand. High-empathy, brand-aligned agents drive outsized satisfaction scores. CNX at our best.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gray">
+    <div class="section-eyebrow">Product Catalog</div>
+    <h2>What We're Supporting</h2>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Product / Category</th>
+            <th>Price Range</th>
+            <th>Key Features</th>
+            <th>Support Complexity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sunglasses — Core Collections</strong><br>Bestsellers, Veggie, BOLD, 2026 Collection</td>
+            <td>$240 – $360</td>
+            <td>Acetate/metal frames, Asian fit, UV protection, tinted lenses</td>
+            <td><span class="chip chip-teal">Low</span></td>
+          </tr>
+          <tr>
+            <td><strong>Optical Glasses</strong><br>Single-vision RX, blue light lenses</td>
+            <td>$260 – $380</td>
+            <td>Single-vision RX only (no progressives), blue light filter option</td>
+            <td><span class="chip chip-yellow">Med</span></td>
+          </tr>
+          <tr>
+            <td><strong>Collaboration Collections</strong><br>Disney F1, Maison Margiela, Mugler, TEKKEN 8</td>
+            <td>$300 – $450+</td>
+            <td>Limited edition, collab-specific packaging, high social demand</td>
+            <td><span class="chip chip-yellow">Med</span></td>
+          </tr>
+          <tr>
+            <td><strong>Intelligent Eyewear</strong><br>Android XR / Samsung Galaxy Glasses (upcoming)</td>
+            <td>TBD — premium tier</td>
+            <td>AI-powered, smart lens, Google Android XR integration</td>
+            <td><span class="chip chip-orange">High</span></td>
+          </tr>
+          <tr>
+            <td><strong>Accessories / Jewelry</strong><br>2025 Jewelry Collection, branded accessories</td>
+            <td>$80 – $200</td>
+            <td>Pearl-inspired, crystal elements, limited availability</td>
+            <td><span class="chip chip-teal">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Customer Archetypes</div>
+    <h2>Who We'll Be Talking To</h2>
+    <div class="six-col">
+      <div class="archetype-card">
+        <div class="arch-icon">✨</div>
+        <h4>The K-Beauty Convert</h4>
+        <p>East Asian or diaspora shopper, 22–35, first GM purchase driven by K-pop or K-drama influence. High brand loyalty, emotional attachment to specific "celebrity frame."</p>
+        <span class="chip chip-teal">Online Shopper</span>
+        <span class="chip chip-blue">Order Tracking</span>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-icon">🕶️</div>
+        <h4>The Fashion Insider</h4>
+        <p>NYC or LA-based, follows designer collabs, buys limited editions. Knows the brand well. Low patience for CS friction. Will post about the experience publicly.</p>
+        <span class="chip chip-yellow">Collab Orders</span>
+        <span class="chip chip-orange">Returns</span>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-icon">💊</div>
+        <h4>The RX Prescription User</h4>
+        <p>Needs optical glasses with prescription lenses. Often frustrated by limited RX options (single-vision only). High contact complexity, lens quality sensitivity.</p>
+        <span class="chip chip-orange">Lens Queries</span>
+        <span class="chip chip-yellow">Product Fit</span>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-icon">🎁</div>
+        <h4>The Gift Buyer</h4>
+        <p>Buying for a partner or friend, often unsure of style details. High return rate, needs help with gifting options, size guidance, and exchange policy clarity.</p>
+        <span class="chip chip-teal">Gift Queries</span>
+        <span class="chip chip-yellow">Exchanges</span>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-icon">🤖</div>
+        <h4>The Tech Early Adopter</h4>
+        <p>Interested in Intelligent Eyewear, Android XR, Samsung collab. Likely to contact pre-launch with questions. Will need tech-aware support post-launch.</p>
+        <span class="chip chip-orange">Smart Eyewear</span>
+        <span class="chip chip-red">Tech Support</span>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-icon">🌍</div>
+        <h4>The International Shopper</h4>
+        <p>Orders from outside US flagship zones (Australia, Canada, SE Asia). Common issues: IOR/customs delays, missing delivery, currency/payment friction.</p>
+        <span class="chip chip-yellow">Shipping</span>
+        <span class="chip chip-orange">Lost Orders</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-dark">
+    <div class="section-eyebrow">Concentrix Role</div>
+    <h2>How We Plug In</h2>
+    <div class="three-col">
+      <div class="card-dark">
+        <div class="card-icon">🛒</div>
+        <h4>E-Commerce CS</h4>
+        <p>Order tracking, delivery issues, returns, exchanges, payment disputes. The bulk of current complaint volume. Chat-first, email-secondary channel mix aligned to brand's digital-native customer base.</p>
+      </div>
+      <div class="card-dark">
+        <div class="card-icon">🔍</div>
+        <h4>Product Support</h4>
+        <p>Frame fit guidance, lens type queries, RX compatibility (current: single-vision only), product authenticity concerns, care and repair questions. Require brand-knowledgeable, empathetic agents.</p>
+      </div>
+      <div class="card-dark">
+        <div class="card-icon">🔮</div>
+        <h4>Intelligent Eyewear Readiness</h4>
+        <p>As Android XR and Samsung collab products launch, a Tier 2 tech support layer will be required. CNX can pre-build an SME bench now to scale without scrambling during launch windows.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.</div>
+    <div class="footer-center">Gentle Monster Program Brief</div>
+    <div class="footer-right">Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- =================== PAGE 02 =================== -->
+<div class="page" id="page-1">
+  <div class="hero">
+    <div class="hero-eyebrow">Page 02 — Customer Pain Points</div>
+    <h1>Where <span>CS Breaks</span></h1>
+    <div class="hero-sub">Sourced from BBB, Trustpilot, Thingtesting, and consumer review platforms · 2025–2026</div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-val">3.1</div><div class="stat-lbl">Avg Review Rating</div></div>
+      <div class="stat-card"><div class="stat-val">HIGH</div><div class="stat-lbl">Return Policy Friction</div></div>
+      <div class="stat-card"><div class="stat-val">LOW</div><div class="stat-lbl">CS Response Rate</div></div>
+      <div class="stat-card"><div class="stat-val">$785</div><div class="stat-lbl">Avg Disputed Order Value</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Documented Pain Points</div>
+    <h2>What Customers Are Complaining About</h2>
+
+    <div class="pain-item border-high">
+      <span class="pain-badge badge-high">HIGH</span>
+      <div class="pain-content">
+        <h4>CS Goes Silent After Complaints</h4>
+        <p>Multiple customers report emailing multiple times with zero response. CS phone lines go to unset voicemail. After order disputes, communications stop entirely — leaving customers without resolution or refund.</p>
+        <div style="margin-top:8px;"><span class="chip chip-teal">Chat</span><span class="chip chip-orange">Email Response</span><span class="chip chip-red">Escalation Handling</span></div>
+        <div class="pain-source">Source: Trustpilot reviews, BBB complaint filings, 2025–2026</div>
+      </div>
+    </div>
+
+    <div class="pain-item border-high">
+      <span class="pain-badge badge-high">HIGH</span>
+      <div class="pain-content">
+        <h4>Return &amp; Exchange Policy Inconsistently Applied</h4>
+        <p>In-store staff deny returns citing internal "protocol" not referenced in any published policy. Customers report being turned away for invisible "scratches" even on unworn items. Policy ambiguity creates a trust gap that damages brand equity at a $300–$400 price point.</p>
+        <div style="margin-top:8px;"><span class="chip chip-orange">Returns</span><span class="chip chip-red">Policy Enforcement</span><span class="chip chip-yellow">Store Escalation</span></div>
+        <div class="pain-source">Source: BBB Customer Reviews, multiple 2025–2026 filings</div>
+      </div>
+    </div>
+
+    <div class="pain-item border-high">
+      <span class="pain-badge badge-high">HIGH</span>
+      <div class="pain-content">
+        <h4>Order Fulfillment and Delivery Errors</h4>
+        <p>Customers receive wrong items (cheaper version vs. store display product), invalid tracking numbers, and non-delivery with no resolution. In documented cases, customers are told to claim with courier only for the courier to redirect them back to Gentle Monster — a full ownership gap.</p>
+        <div style="margin-top:8px;"><span class="chip chip-orange">Order Management</span><span class="chip chip-red">Delivery</span><span class="chip chip-yellow">Fulfillment QA</span></div>
+        <div class="pain-source">Source: BBB Complaints, Trustpilot, 2025–2026</div>
+      </div>
+    </div>
+
+    <div class="pain-item border-med">
+      <span class="pain-badge badge-med">MED</span>
+      <div class="pain-content">
+        <h4>Premium Price, Budget CS Experience</h4>
+        <p>Recurring sentiment: "customer service is severely lacking, especially given your price point." Customers paying $300–$400+ expect luxury-tier follow-through. The brand's CS tone and responsiveness does not match the brand's positioning.</p>
+        <div style="margin-top:8px;"><span class="chip chip-yellow">CSAT</span><span class="chip chip-orange">Brand Alignment</span><span class="chip chip-blue">Tone of Service</span></div>
+        <div class="pain-source">Source: Thingtesting reviews, 2025–2026</div>
+      </div>
+    </div>
+
+    <div class="pain-item border-med">
+      <span class="pain-badge badge-med">MED</span>
+      <div class="pain-content">
+        <h4>Repair and Post-Purchase Support Gap</h4>
+        <p>Glasses sent for repair via FedEx were lost in transit. GM and FedEx both deflected ownership. Customer received no update for 9+ weeks despite repeated follow-ups. No insurance, no resolution pathway.</p>
+        <div style="margin-top:8px;"><span class="chip chip-orange">Repair Logistics</span><span class="chip chip-yellow">Vendor Coordination</span><span class="chip chip-red">Ownership Gap</span></div>
+        <div class="pain-source">Source: Thingtesting, 2026</div>
+      </div>
+    </div>
+
+    <div class="pain-item border-med">
+      <span class="pain-badge badge-med">MED</span>
+      <div class="pain-content">
+        <h4>Prescription Lens Limitations Undercommunicated</h4>
+        <p>No progressive lens support — single-vision RX only. Customers who wear progressives discover this after purchasing frames or when researching repair options. Not clearly flagged at point of purchase or on product pages.</p>
+        <div style="margin-top:8px;"><span class="chip chip-yellow">RX Queries</span><span class="chip chip-blue">Product Information</span><span class="chip chip-teal">Pre-Sale Guidance</span></div>
+        <div class="pain-source">Source: Thingtesting long-form review, 2025</div>
+      </div>
+    </div>
+
+    <div class="pain-item border-low">
+      <span class="pain-badge badge-low">LOW</span>
+      <div class="pain-content">
+        <h4>Frame Quality Concerns on Metal Styles</h4>
+        <p>Some customers report metal frames feeling "flimsy" and nose pad arms arriving pre-damaged. Quality perception gap between in-store display quality and shipped product — particularly for online orders.</p>
+        <div style="margin-top:8px;"><span class="chip chip-teal">Product Quality</span><span class="chip chip-yellow">Defect Claims</span><span class="chip chip-blue">Warranty</span></div>
+        <div class="pain-source">Source: Thingtesting, BBB, 2025–2026</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>CNX Pitch Angle</h4>
+      <p>The pain points here are structural, not cosmetic. CS ownership gaps, policy ambiguity at point of resolution, and zero responsiveness after complaints — these are solvable with the right agent profile, escalation matrix, and quality governance. CNX brings all three. We don't just staff the queue; we fix the system behind it.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.</div>
+    <div class="footer-center">Gentle Monster Program Brief</div>
+    <div class="footer-right">Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- =================== PAGE 03 =================== -->
+<div class="page" id="page-2">
+  <div class="hero">
+    <div class="hero-eyebrow">Page 03 — Customer Journey Map</div>
+    <h1>From <span>Discovery</span> to Dispute</h1>
+    <div class="hero-sub">Mapping contact triggers, emotional states, and CNX priority zones across the GM customer lifecycle</div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-val">6</div><div class="stat-lbl">Journey Stages</div></div>
+      <div class="stat-card"><div class="stat-val">3</div><div class="stat-lbl">CNX Priority Zones</div></div>
+      <div class="stat-card"><div class="stat-val">HIGH</div><div class="stat-lbl">Emotion Volatility</div></div>
+      <div class="stat-card"><div class="stat-val">E-Comm</div><div class="stat-lbl">Primary Contact Channel</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Customer Journey</div>
+    <h2>Six Stages, Three Moments That Matter</h2>
+    <div class="journey-container">
+      <div class="journey-stage">
+        <div class="journey-header">01 Discovery</div>
+        <div class="journey-body">
+          <p>Customer discovers GM via K-pop content, celebrity endorsement, collab drop (Disney F1, Maison Margiela), or TikTok/Instagram. First exposure is typically a specific frame tied to a cultural moment.</p>
+          <div class="journey-trigger">📌 Contact trigger: Pre-sale product queries, availability, Asia-fit sizing</div>
+        </div>
+        <div class="emotion-bar emotion-excited">😍 Excited / Aspirational</div>
+      </div>
+      <div class="journey-stage">
+        <div class="journey-header">02 Purchase</div>
+        <div class="journey-body">
+          <p>Online via gentlemonster.com (primary) or in-store at flagship. Payment via card, Klarna. High-consideration purchase — customers research before committing. Prescription lens availability decision point here.</p>
+          <div class="journey-trigger">📌 Contact trigger: RX lens compatibility, payment issues, order confirmation delays</div>
+        </div>
+        <div class="emotion-bar emotion-satisfied">✅ Confident / Anticipating</div>
+      </div>
+      <div class="journey-stage">
+        <div class="journey-header">03 Delivery</div>
+        <div class="journey-body">
+          <p>Order ships via UPS or FedEx. Tracking delays, wrong item received, or damaged product on arrival are documented pain points. Online customers especially vulnerable — no in-store quality check.</p>
+          <div class="journey-trigger">📌 Contact trigger: Tracking issues, wrong item, arrival damage, IOR/customs</div>
+        </div>
+        <div class="emotion-bar emotion-anxious">⏳ Anxious / Impatient</div>
+      </div>
+      <div class="journey-stage">
+        <div class="journey-header">04 Unboxing</div>
+        <div class="journey-body">
+          <p>First physical product interaction. For many customers, this is a high-emotion moment tied to brand expectation. Frame quality mismatch vs. in-store display, sticker/tag condition, and packaging integrity all factor here.</p>
+          <div class="journey-trigger">📌 Contact trigger: Defect claims, quality mismatch, missing parts/tags</div>
+        </div>
+        <div class="emotion-bar emotion-anxious">😬 Hopeful / Vulnerable</div>
+      </div>
+      <div class="journey-stage">
+        <div class="journey-header">05 Return / Repair</div>
+        <div class="journey-body">
+          <p>Highest-friction stage. Policy enforcement is inconsistent in-store. Online returns face tag/sticker requirements customers weren't informed about. Repair logistics involve third-party couriers with unresolved ownership gaps.</p>
+          <div class="journey-trigger">📌 Contact trigger: Return denials, policy disputes, repair status, refund delays</div>
+        </div>
+        <div class="emotion-bar emotion-frustrated">😤 Frustrated / Betrayed</div>
+      </div>
+      <div class="journey-stage">
+        <div class="journey-header">06 Resolution</div>
+        <div class="journey-body">
+          <p>Customer either receives satisfactory resolution (refund, replacement, repair) or escalates publicly via BBB, Trustpilot, or social media. Currently, most interactions fall into public escalation rather than quiet resolution.</p>
+          <div class="journey-trigger">📌 Contact trigger: Escalation to BBB/review platforms, chargeback initiation</div>
+        </div>
+        <div class="emotion-bar emotion-relieved">🤝 Relieved (if resolved) / Burned (if not)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-dark">
+    <div class="section-eyebrow">Priority Zones</div>
+    <h2>Where CNX Has Highest Impact</h2>
+    <div class="priority-zones">
+      <div class="pz-card">
+        <h4>🔴 Stage 3 — Delivery Ownership</h4>
+        <p>CNX agents must own delivery issues end-to-end — coordinate with UPS/FedEx, file claims, and drive resolution without bouncing customers to the carrier. No-ownership handoffs are the #1 complaint driver right now.</p>
+      </div>
+      <div class="pz-card">
+        <h4>🔴 Stage 5 — Returns & Policy Mediation</h4>
+        <p>Return and exchange handling needs clear empowerment guidelines. Agents need authority to honor policy for unworn, tagged items — not create unapproved blockers. CNX governance framework applied here = CSAT recovery.</p>
+      </div>
+      <div class="pz-card">
+        <h4>🟡 Stage 6 — Escalation Diversion</h4>
+        <p>Customers who reach BBB or Trustpilot first are customers who weren't reached fast enough. A proactive follow-up queue post-resolution (Day 1, Day 3, Day 7) diverts the public escalation funnel before it starts.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.</div>
+    <div class="footer-center">Gentle Monster Program Brief</div>
+    <div class="footer-right">Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- =================== PAGE 04 =================== -->
+<div class="page" id="page-3">
+  <div class="hero">
+    <div class="hero-eyebrow">Page 04 — Customer vs. Agent Profile</div>
+    <h1>The Right <span>Fit</span></h1>
+    <div class="hero-sub">Matching customer expectations to CNX agent profile for Gentle Monster E-Commerce CS</div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-val">18–35</div><div class="stat-lbl">Primary Customer Age</div></div>
+      <div class="stat-card"><div class="stat-val">Strong</div><div class="stat-lbl">Cultural Alignment (PH)</div></div>
+      <div class="stat-card"><div class="stat-val">Chat+</div><div class="stat-lbl">Preferred Channel</div></div>
+      <div class="stat-card"><div class="stat-val">High</div><div class="stat-lbl">Brand Expectation Bar</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Side-by-Side Profile Match</div>
+    <h2>Customer Profile vs. CNX Agent Profile</h2>
+    <div class="two-col">
+      <div>
+        <div class="profile-col">
+          <div class="col-header">Customer Profile</div>
+          <div class="profile-row"><span class="profile-key">Age Range</span><span class="profile-val">18–38, predominantly Millennial + Gen Z</span></div>
+          <div class="profile-row"><span class="profile-key">Geography</span><span class="profile-val">US (47%), Asia Pacific, Europe — heavy Asian diaspora</span></div>
+          <div class="profile-row"><span class="profile-key">Income Level</span><span class="profile-val">Mid to upper-middle; fashion-conscious spender</span></div>
+          <div class="profile-row"><span class="profile-key">Cultural IQ</span><span class="profile-val">K-pop, K-beauty, designer collab aware; brand identity matters</span></div>
+          <div class="profile-row"><span class="profile-key">Service Expectation</span><span class="profile-val">Luxury-tier service; expects fast, empowered resolution</span></div>
+          <div class="profile-row"><span class="profile-key">Channel Preference</span><span class="profile-val">Chat, email; social media for escalation</span></div>
+          <div class="profile-row"><span class="profile-key">Frustration Triggers</span><span class="profile-val">Silence, policy rigidity, courier blame-shifting</span></div>
+          <div class="profile-row"><span class="profile-key">Loyalty Driver</span><span class="profile-val">Brand narrative, celeb alignment, collab drops, aesthetics</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="profile-col">
+          <div class="col-header">CNX Philippines Agent Profile</div>
+          <div class="profile-row"><span class="profile-key">Age Range</span><span class="profile-val">20–32; shared generational context with customer base</span></div>
+          <div class="profile-row"><span class="profile-key">Cultural Fit</span><span class="profile-val">Naturally fluent in K-pop, Korean brand culture, fashion trends</span></div>
+          <div class="profile-row"><span class="profile-key">English Proficiency</span><span class="profile-val">Neutral accent, high written English fluency for chat/email</span></div>
+          <div class="profile-row"><span class="profile-key">Brand Empathy</span><span class="profile-val">Understands emotional investment in premium fashion purchases</span></div>
+          <div class="profile-row"><span class="profile-key">Service Tone</span><span class="profile-val">Warm, solutions-oriented, non-robotic — can match luxury brand voice</span></div>
+          <div class="profile-row"><span class="profile-key">Channel Strength</span><span class="profile-val">Chat and email primary; strong written communication</span></div>
+          <div class="profile-row"><span class="profile-key">Escalation Handling</span><span class="profile-val">Trained de-escalation; empowered resolution pathways via CNX governance</span></div>
+          <div class="profile-row"><span class="profile-key">Product Training</span><span class="profile-val">4–6 weeks brand immersion: products, policies, collab context, lens types</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gray">
+    <div class="section-eyebrow">Competency Fit Analysis</div>
+    <h2>Contact Type to Agent Capability Match</h2>
+    <div class="table-wrap">
+      <table class="fit-table">
+        <thead>
+          <tr>
+            <th>Contact Type</th>
+            <th>Customer Need</th>
+            <th>CNX Capability</th>
+            <th>Fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Order / Delivery Issue</td>
+            <td>Tracking resolution, missing items, wrong product</td>
+            <td>E-comm CS expertise, carrier coordination protocols</td>
+            <td><span class="chip chip-teal">Strong</span></td>
+          </tr>
+          <tr>
+            <td>Returns &amp; Exchanges</td>
+            <td>Policy clarity, empowered resolution, emotional handling</td>
+            <td>Policy training + agent empowerment framework</td>
+            <td><span class="chip chip-teal">Strong</span></td>
+          </tr>
+          <tr>
+            <td>Product Queries (Pre-sale)</td>
+            <td>Sizing, lens type, fit for face shape, collab availability</td>
+            <td>Brand training, product knowledge base</td>
+            <td><span class="chip chip-teal">Strong</span></td>
+          </tr>
+          <tr>
+            <td>RX / Lens Customization</td>
+            <td>Prescription compatibility, external optician workflow</td>
+            <td>Process training required; escalation to client optician team</td>
+            <td><span class="chip chip-yellow">With Training</span></td>
+          </tr>
+          <tr>
+            <td>Repair &amp; Post-Purchase</td>
+            <td>Repair status, courier claims, 3P optician coordination</td>
+            <td>Case management + vendor coordination SOP</td>
+            <td><span class="chip chip-yellow">With Training</span></td>
+          </tr>
+          <tr>
+            <td>Intelligent Eyewear Support</td>
+            <td>Android XR setup, Samsung collab tech, connectivity</td>
+            <td>Dedicated SME build required pre-launch</td>
+            <td><span class="chip chip-orange">SME Required</span></td>
+          </tr>
+          <tr>
+            <td>Escalations / BBB-Level</td>
+            <td>Full case review, make-good resolution, brand recovery</td>
+            <td>Trained resolution specialists, senior agent tier</td>
+            <td><span class="chip chip-teal">Strong</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Hiring Criteria</div>
+    <h2>Profile Requirements</h2>
+    <div class="three-col">
+      <div class="card">
+        <h4>✅ Must-Have</h4>
+        <ul style="padding-left:16px; font-size:12px; line-height:1.8;">
+          <li>Strong written English — chat and email</li>
+          <li>Empathy and patience under pressure</li>
+          <li>Familiarity with K-culture, fashion brands</li>
+          <li>E-commerce CS or retail experience preferred</li>
+          <li>High attention to detail (returns/policy adherence)</li>
+          <li>Typing speed ≥ 45 WPM for chat</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>📚 Trainable</h4>
+        <ul style="padding-left:16px; font-size:12px; line-height:1.8;">
+          <li>Gentle Monster product catalog and collections</li>
+          <li>Lens types and RX compatibility knowledge</li>
+          <li>Brand voice and tone alignment</li>
+          <li>Carrier claim and repair case workflows</li>
+          <li>Intelligent eyewear product basics (pre-launch)</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top-color: var(--cnx-raspberry);">
+        <h4 style="color:var(--cnx-raspberry);">🚫 Disqualifiers</h4>
+        <ul style="padding-left:16px; font-size:12px; line-height:1.8;">
+          <li>Rigid, scripted communication style</li>
+          <li>Poor written grammar under low-supervision conditions</li>
+          <li>Inability to handle emotionally escalated customers</li>
+          <li>No comfort with fashion/lifestyle brand context</li>
+          <li>Passive escalation behavior (just logs, doesn't resolve)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <h4>CNX Differentiator</h4>
+      <p>Filipino agents are among the most culturally fluent globally when it comes to K-pop, K-beauty, and Asian fashion brands. This isn't a generic customer demographic for us — it's home territory. That cultural proximity accelerates product absorption, reduces training hours, and shows up directly in tone of service.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.</div>
+    <div class="footer-center">Gentle Monster Program Brief</div>
+    <div class="footer-right">Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<!-- =================== PAGE 05 =================== -->
+<div class="page" id="page-4">
+  <div class="hero">
+    <div class="hero-eyebrow">Page 05 — Proposed Ops Framework</div>
+    <h1>How We <span>Run It</span></h1>
+    <div class="hero-sub">Tiered routing, KPI targets, and discovery items for Gentle Monster E-Commerce CS + Retail Support</div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-val">T1–T3</div><div class="stat-lbl">Tier Structure</div></div>
+      <div class="stat-card"><div class="stat-val">Chat</div><div class="stat-lbl">Primary Channel</div></div>
+      <div class="stat-card"><div class="stat-val">PH</div><div class="stat-lbl">Delivery Location</div></div>
+      <div class="stat-card"><div class="stat-val">TBD</div><div class="stat-lbl">Volume Baseline</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Tiered Routing Model</div>
+    <h2>Four-Tier Contact Structure</h2>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge">T1</span>
+        <span class="tier-title">General E-Commerce CS</span>
+        <span class="tier-volume">Est. ~55–65% of Volume</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <div class="tier-col-label">Contact Types</div>
+          <ul>
+            <li>Order status and tracking</li>
+            <li>Delivery issue (delayed, missing)</li>
+            <li>Pre-sale product queries</li>
+            <li>Gift order support</li>
+            <li>Account / login issues</li>
+            <li>Payment and checkout</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Agent Profile</div>
+          <ul>
+            <li>Brand-trained e-comm CS agent</li>
+            <li>Chat primary, email secondary</li>
+            <li>Carrier portal access (UPS/FedEx)</li>
+            <li>Culture-fluent (K-pop/fashion context)</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Escalation Triggers</div>
+          <ul>
+            <li>Delivery unresolved after 48h</li>
+            <li>Customer demands refund &gt; $200</li>
+            <li>Fraud/chargeback language used</li>
+            <li>Emotionally escalated beyond T1 recovery</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge">T2</span>
+        <span class="tier-title">Returns, Exchanges &amp; Product Specialty</span>
+        <span class="tier-volume">Est. ~25–30% of Volume</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <div class="tier-col-label">Contact Types</div>
+          <ul>
+            <li>Return and exchange processing</li>
+            <li>Policy dispute resolution</li>
+            <li>Defect / quality claims</li>
+            <li>RX / lens compatibility queries</li>
+            <li>Repair case management</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Agent Profile</div>
+          <ul>
+            <li>Extended product certification</li>
+            <li>Policy empowerment guidelines</li>
+            <li>Defect documentation SOPs</li>
+            <li>Carrier claim initiation skills</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Escalation Triggers</div>
+          <ul>
+            <li>Disputed defect with photo evidence</li>
+            <li>Repair lost in transit &gt; 14 days</li>
+            <li>Policy override needed beyond T2 authority</li>
+            <li>BBB / chargeback threat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge">SME</span>
+        <span class="tier-title">Intelligent Eyewear &amp; Tech Support (Pre-build)</span>
+        <span class="tier-volume">Est. &lt;5% Now → Scale at Launch</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <div class="tier-col-label">Contact Types</div>
+          <ul>
+            <li>Android XR device queries</li>
+            <li>Samsung Galaxy Glasses setup</li>
+            <li>Smart lens pairing / connectivity</li>
+            <li>Pre-launch product FAQs</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Agent Profile</div>
+          <ul>
+            <li>Tech-adjacent background preferred</li>
+            <li>Product access via beta/pre-launch</li>
+            <li>Co-trained with Google / Samsung materials</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Escalation Triggers</div>
+          <ul>
+            <li>Firmware / software bug confirmed</li>
+            <li>Defective smart unit requiring replacement</li>
+            <li>Out of CNX tech scope → client-side engineering</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-tier">
+      <div class="tier-header">
+        <span class="tier-badge" style="background: var(--cnx-raspberry); color: #fff;">T3</span>
+        <span class="tier-title">Escalations &amp; Brand Recovery</span>
+        <span class="tier-volume">Est. ~5–8% of Volume</span>
+      </div>
+      <div class="tier-body">
+        <div class="tier-col">
+          <div class="tier-col-label">Contact Types</div>
+          <ul>
+            <li>BBB / Trustpilot complaint follow-up</li>
+            <li>Chargeback dispute management</li>
+            <li>Executive escalation cases</li>
+            <li>Make-good and goodwill offers</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Agent Profile</div>
+          <ul>
+            <li>Senior CS specialist (2+ years)</li>
+            <li>Full case history access</li>
+            <li>Pre-approved goodwill toolkit</li>
+            <li>Brand recovery communication training</li>
+          </ul>
+        </div>
+        <div class="tier-col">
+          <div class="tier-col-label">Escalation Triggers</div>
+          <ul>
+            <li>Legal threat language used</li>
+            <li>Dispute exceeds CNX resolution authority</li>
+            <li>Media/influencer-level customer identified</li>
+            <li>Client-side VP involvement required</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-dark">
+    <div class="section-eyebrow">KPI Framework</div>
+    <h2>Proposed Performance Targets</h2>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-val">≥85%</div><div class="kpi-lbl">CSAT Target</div></div>
+      <div class="kpi-card"><div class="kpi-val">&lt;30s</div><div class="kpi-lbl">Chat First Response</div></div>
+      <div class="kpi-card"><div class="kpi-val">&lt;24h</div><div class="kpi-lbl">Email Response SLA</div></div>
+      <div class="kpi-card"><div class="kpi-val">≥80%</div><div class="kpi-lbl">FCR Rate (T1)</div></div>
+      <div class="kpi-card"><div class="kpi-val">&lt;5%</div><div class="kpi-lbl">Escalation Rate</div></div>
+      <div class="kpi-card"><div class="kpi-val">≤8 min</div><div class="kpi-lbl">AHT Target (TBD)</div></div>
+      <div class="kpi-card"><div class="kpi-val">100%</div><div class="kpi-lbl">Returns Policy Adherence</div></div>
+      <div class="kpi-card"><div class="kpi-val">&lt;2%</div><div class="kpi-lbl">BBB / Public Escalation Rate</div></div>
+    </div>
+    <div class="callout-dark">
+      <h4>Note on KPI Baselines</h4>
+      <p>AHT and volume-based targets will be finalized post-discovery. Current complaint volume and contact mix data from Gentle Monster are needed to validate these assumptions. All figures above are CNX standard starting benchmarks for fashion e-commerce CS accounts.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Open Discovery Items</div>
+    <h2>What We Still Need From Gentle Monster</h2>
+    <div class="discovery-grid">
+      <div class="discovery-card" style="background: #f9f9f9; border: 1px solid #e8e8e8; color: var(--cnx-charcoal);">
+        <div class="disc-icon">📊</div>
+        <h5 style="color: var(--cnx-blue);">Volume Baseline</h5>
+        <p style="color: #555;">Monthly and weekly contact volume by channel (chat, email, voice). Needed for HC modeling and scheduling design.</p>
+      </div>
+      <div class="discovery-card" style="background: #f9f9f9; border: 1px solid #e8e8e8; color: var(--cnx-charcoal);">
+        <div class="disc-icon">⏱️</div>
+        <h5 style="color: var(--cnx-blue);">Current AHT Data</h5>
+        <p style="color: #555;">AHT by contact type, if available. Informs T1/T2 queue separation and agent productivity targets.</p>
+      </div>
+      <div class="discovery-card" style="background: #f9f9f9; border: 1px solid #e8e8e8; color: var(--cnx-charcoal);">
+        <div class="disc-icon">💻</div>
+        <h5 style="color: var(--cnx-blue);">CRM &amp; Tooling Stack</h5>
+        <p style="color: #555;">Current CRM (Zendesk, Salesforce, custom?), chat platform, and order management system. Determines integration complexity and agent training scope.</p>
+      </div>
+      <div class="discovery-card" style="background: #f9f9f9; border: 1px solid #e8e8e8; color: var(--cnx-charcoal);">
+        <div class="disc-icon">📚</div>
+        <h5 style="color: var(--cnx-blue);">Knowledge Base Access</h5>
+        <p style="color: #555;">Existing runbooks, SOPs, or policy documentation. Is there a KB to work from, or does CNX build from scratch?</p>
+      </div>
+      <div class="discovery-card" style="background: #f9f9f9; border: 1px solid #e8e8e8; color: var(--cnx-charcoal);">
+        <div class="disc-icon">💰</div>
+        <h5 style="color: var(--cnx-blue);">Resolution Authority Thresholds</h5>
+        <p style="color: #555;">What refund/goodwill amounts can agents authorize independently? Needed to define T1 vs. T2 vs. T3 empowerment levels.</p>
+      </div>
+      <div class="discovery-card" style="background: #f9f9f9; border: 1px solid #e8e8e8; color: var(--cnx-charcoal);">
+        <div class="disc-icon">📅</div>
+        <h5 style="color: var(--cnx-blue);">Seasonality &amp; Collab Drops</h5>
+        <p style="color: #555;">Planned collection launches and collab drop calendar. Peak windows (holidays, collab launches) drive volume spikes requiring surge planning.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-dark">
+    <div class="section-eyebrow">Bottom Line</div>
+    <h2>Why CNX, Why Now</h2>
+    <div class="callout-dark">
+      <h4>The Situation</h4>
+      <p>Gentle Monster is a $540M global brand experiencing its first revenue decline — and its CS reputation is a documented liability. Customers paying $300–$400 per frame are publicly posting about unresponsive support, denied returns, and lost repairs. That gap between brand premium and service delivery is exactly where CNX plays best.</p>
+    </div>
+    <div class="callout-dark" style="margin-top: 12px;">
+      <h4>Our Bet</h4>
+      <p>Filipino agents don't need to be briefed on K-beauty or K-pop to serve this customer base — it's already in the cultural DNA. Combine that with CNX's e-commerce CS playbook, empowered return handling, and an SME pre-build for Intelligent Eyewear, and we're not just filling headcount. We're solving a brand risk problem before it compounds.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">© 2026 Concentrix Corp. All rights reserved. Confidential and proprietary.</div>
+    <div class="footer-center">Gentle Monster Program Brief</div>
+    <div class="footer-right">Internal use only. Not for external distribution.</div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'cnx_gentlemonster_brief_edits_v2';
+const EXPORT_FILENAME = 'gentle-monster-brief-final.html';
+const EDITABLE_SELECTORS = 'h1, h2, h3, h4, h5, p, li, .stat-val, .stat-lbl, .kpi-val, .kpi-lbl, td, .hero-sub, .tier-title, .tier-volume, .pain-source';
+
+let currentView = 'pdf';
+let editMode = false;
+let saveTimer = null;
+
+function switchToWebView() {
+  currentView = 'web';
+  document.body.classList.remove('pdf-view');
+  document.body.classList.add('web-view');
+  document.getElementById('pdfControls').style.display = 'none';
+  document.getElementById('webControls').style.display = 'flex';
+  if (window.innerWidth <= 900) {
+    document.getElementById('mobile-nav').style.display = 'flex';
+  }
+  showPage(0);
+}
+
+function switchToPdfView() {
+  if (editMode) toggleEditMode();
+  currentView = 'pdf';
+  document.body.classList.remove('web-view');
+  document.body.classList.add('pdf-view');
+  document.getElementById('pdfControls').style.display = 'flex';
+  document.getElementById('webControls').style.display = 'none';
+  document.getElementById('mobile-nav').style.display = 'none';
+}
+
+function triggerPrint() {
+  if (currentView !== 'pdf') switchToPdfView();
+  setTimeout(() => window.print(), 100);
+}
+
+function showPage(idx) {
+  if (currentView !== 'web') return;
+  document.querySelectorAll('.page').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.nav-pill').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.mob-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  window.scrollTo(0, 0);
+}
+
+function stampEditIds() {
+  let counter = 1;
+  document.querySelectorAll(EDITABLE_SELECTORS).forEach(el => {
+    if (!el.dataset.editId) {
+      el.dataset.editId = 'eid_' + counter++;
+    }
+  });
+}
+
+function loadEdits() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const edits = JSON.parse(saved);
+    Object.entries(edits).forEach(([eid, html]) => {
+      const el = document.querySelector('[data-edit-id="' + eid + '"]');
+      if (el) el.innerHTML = html;
+    });
+  } catch(e) {}
+}
+
+function saveEdit(el) {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      saved[el.dataset.editId] = el.innerHTML;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      document.getElementById('edit-status').textContent = '✅ Saved';
+      setTimeout(() => { document.getElementById('edit-status').textContent = '✏️ Edit Mode'; }, 1500);
+    } catch(e) {}
+  }, 1200);
+}
+
+function toggleEditMode() {
+  editMode = !editMode;
+  const overlay = document.getElementById('edit-overlay');
+  const toolbar = document.getElementById('edit-toolbar');
+  const editBtn = document.getElementById('editBtn');
+
+  if (editMode) {
+    overlay.style.display = 'block';
+    toolbar.style.display = 'flex';
+    editBtn.textContent = window.innerWidth <= 480 ? 'Done' : 'Done Editing';
+    document.querySelectorAll(EDITABLE_SELECTORS).forEach(el => {
+      el.contentEditable = 'true';
+      el.addEventListener('input', () => saveEdit(el));
+    });
+  } else {
+    overlay.style.display = 'none';
+    toolbar.style.display = 'none';
+    editBtn.textContent = 'Edit';
+    document.querySelectorAll(EDITABLE_SELECTORS).forEach(el => {
+      el.contentEditable = 'false';
+    });
+  }
+}
+
+function resetEdits() {
+  if (!confirm('Reset all edits? This cannot be undone.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+function exportBrief() {
+  const clone = document.cloneNode(true);
+  clone.querySelectorAll('#edit-overlay, #edit-toolbar, #mobile-nav').forEach(el => el.remove());
+  clone.querySelectorAll('[data-edit-id]').forEach(el => el.removeAttribute('data-edit-id'));
+  clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  clone.body.className = 'pdf-view';
+  const blob = new Blob(['<!DOCTYPE html>' + clone.documentElement.outerHTML], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = EXPORT_FILENAME;
+  a.click();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  stampEditIds();
+  loadEdits();
+});
+</script>
+</body>
+</html>

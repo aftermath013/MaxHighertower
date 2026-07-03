@@ -29,8 +29,8 @@ jobs:
       - name: Deploy background processor
         uses: Azure/functions-action@v1
         with:
-          app-name: cnx-brief-processor
-          package: api
+          app-name: cnxphhighguardenfunction
+          package: processor
           publish-profile: ${{ secrets.AZURE_FUNCTIONS_PUBLISH_PROFILE }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
