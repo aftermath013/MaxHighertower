@@ -57,6 +57,6 @@ module.exports = async function (context, req) {
     context.res = { status: 200, body: { success: true, data: { projectId } } };
   } catch (err) {
     context.log.error('submit-request error:', err.message);
-    context.res = { status: 500, body: { success: false, error: 'Failed to submit request.' } };
+    context.res = { status: 500, body: { success: false, error: err.message } };
   }
 };
