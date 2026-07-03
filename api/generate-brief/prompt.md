@@ -27,6 +27,16 @@ Before generating content:
 2. Search "[CLIENT NAME] customer complaints reviews 2025"
 3. Search "[CLIENT NAME] BBB complaints" or "[CLIENT NAME] Trustpilot reviews"
 
+## BACK OFFICE SCOPE
+If SCOPE/SUPPORT includes "Back Office", the program involves non-customer-facing operations — annotation, data labeling, content moderation, document processing, or similar AI/ML support work. Apply these reframes throughout the brief:
+- **painPoints**: Do not use consumer review sites. Source from industry reports, client operational challenges, or known BPO quality issues. Focus on: data quality consistency, turnaround time (TAT), accuracy SLA failures, labeler disagreement rates, cost-per-task escalation, onboarding ramp time.
+- **archetypes**: Replace customer personas with internal stakeholder types who depend on the output. Examples: ML Engineer relying on clean labeled datasets, Operations Manager tracking accuracy and throughput, Data Science Lead setting annotation guidelines, Product Manager racing a model release deadline.
+- **journeyStages**: Map the operational workflow, not a customer lifecycle. Stages should reflect: Scoping & Briefing → Agent Training & Calibration → Production Ramp → QA & Accuracy Audit → Scaling / Steady State.
+- **contactTriggers**: Reframe as workflow escalation points — e.g. accuracy drops below SLA threshold, edge case not covered by taxonomy, batch deadline at risk, inter-rater disagreement flagged.
+- **agentProfile**: Shift emphasis from empathy and communication to: attention to detail, ability to follow complex taxonomies, throughput consistency, domain familiarity with the labeling subject matter.
+- **hiring**: Emphasize accuracy orientation, focus under repetitive tasks, domain affinity, and ability to internalize guidelines — not communication or empathy skills.
+- Keep all other sections (stats, catalog, cnxRole, csOpportunity, discoveryItems, whyCnx) but frame them for an operational/B2B pitch, not a customer experience pitch.
+
 ## STEP 2 — GENERATE
 Return exactly this JSON structure, all fields populated:
 

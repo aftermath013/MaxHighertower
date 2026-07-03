@@ -132,6 +132,12 @@
     .check-pill input[type="checkbox"] { display: none; }
     .check-pill.checked { background: rgba(37,226,204,.12); border-color: var(--cnx-teal); color: var(--cnx-jade); font-weight: 700; }
     .check-pill.check-all.checked { background: rgba(0,61,91,.08); border-color: var(--cnx-blue); color: var(--cnx-blue); }
+    .check-pill-bo:hover { border-color: var(--cnx-orange); color: #7a3f00; }
+    .check-pill-bo.checked { background: rgba(255,132,0,.1); border-color: var(--cnx-orange); color: #7a3f00; font-weight: 700; }
+    .scope-selector { display: flex; flex-direction: column; gap: 10px; }
+    .scope-or { font-size: 11px; font-weight: 700; color: #c4c9d0; text-transform: uppercase; letter-spacing: .08em; display: flex; align-items: center; gap: 10px; }
+    .scope-or::before, .scope-or::after { content: ''; flex: 0 0 28px; height: 1px; background: #e5e7eb; }
+    .scope-note { font-size: 11px; color: #9ca3af; font-weight: 500; }
 
     /* ── Token counter ── */
     .token-big { font-size: 30px; font-weight: 800; color: var(--cnx-blue); line-height: 1; margin-bottom: 2px; }
@@ -272,12 +278,21 @@
           </div>
           <div class="form-group full">
             <span class="check-group-label">Scope / Support <span class="req">*</span></span>
-            <div class="checklist" id="lobScopeGroup">
-              <label class="check-pill"><input type="checkbox" value="CS"> CS</label>
-              <label class="check-pill"><input type="checkbox" value="Tech"> Tech</label>
-              <label class="check-pill"><input type="checkbox" value="Insurance"> Insurance</label>
-              <label class="check-pill"><input type="checkbox" value="Sales"> Sales</label>
-              <label class="check-pill check-all"><input type="checkbox" value="all"> All of the above</label>
+            <div class="scope-selector">
+              <div class="checklist" id="lobScopeGroup">
+                <label class="check-pill"><input type="checkbox" value="CS"> CS</label>
+                <label class="check-pill"><input type="checkbox" value="Tech"> Tech</label>
+                <label class="check-pill"><input type="checkbox" value="Insurance"> Insurance</label>
+                <label class="check-pill"><input type="checkbox" value="Sales"> Sales</label>
+                <label class="check-pill check-all"><input type="checkbox" value="all"> All of the above</label>
+              </div>
+              <div class="scope-or">or</div>
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                <label class="check-pill check-pill-bo" id="boPill">
+                  <input type="checkbox" id="boInput" value="Back Office"> 🏢 Back Office
+                </label>
+                <span class="scope-note">Non-customer-facing &nbsp;·&nbsp; Annotation, labeling, data ops</span>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -510,6 +525,12 @@ function getChecklistValue(groupId) {
     .map(cb => cb.value).join(' + ');
 }
 
+function getScopeValue() {
+  const bo = document.getElementById('boInput');
+  if (bo && bo.checked) return 'Back Office';
+  return getChecklistValue('lobScopeGroup');
+}
+
 // ── Token counter ────────────────────────────────────
 const BASE_IN = 1500, OUT = 3000;
 const IN_P = 3 / 1e6, OUT_P = 15 / 1e6;
@@ -517,7 +538,7 @@ const IN_P = 3 / 1e6, OUT_P = 15 / 1e6;
 function updateCounter() {
   const chars = ['clientName','clientUrl','briefName','remarks']
     .reduce((s, id) => s + document.getElementById(id).value.length, 0)
-    + getChecklistValue('lobScopeGroup').length
+    + getScopeValue().length
     + getChecklistValue('channelScopeGroup').length
     + (document.getElementById('deliveryLocation').value || '').length;
   const inputTok = BASE_IN + Math.ceil(chars / 4);
@@ -573,13 +594,13 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
   const clientName = document.getElementById('clientName').value.trim();
   const clientUrl = document.getElementById('clientUrl').value.trim();
   const briefName = document.getElementById('briefName').value.trim();
-  const lobScope = getChecklistValue('lobScopeGroup');
+  const lobScope = getScopeValue();
   const deliveryLocation = document.getElementById('deliveryLocation').value;
   const channelScope = getChecklistValue('channelScopeGroup');
   const remarks = document.getElementById('remarks').value.trim();
 
   if (!clientName || !clientUrl) return showErr('Client name and website are required.');
-  if (!lobScope) return showErr('Select at least one LOB scope.');
+  if (!lobScope) return showErr('Select at least one scope.');
   if (!deliveryLocation) return showErr('Select a delivery location.');
   try { new URL(clientUrl); } catch { return showErr('Enter a valid URL (include https://)'); }
 
@@ -687,6 +708,8 @@ function resetForm() {
   document.getElementById('briefForm').reset();
   document.getElementById('briefName').value = '';
   document.getElementById('remarks').value = '';
+  document.getElementById('boInput').checked = false;
+  document.getElementById('boPill').classList.remove('checked');
   document.getElementById('lobScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('channelScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('successBox').style.display = 'none';
@@ -705,6 +728,26 @@ function showErr(msg) {
   el.style.display = 'inline';
 }
 function clearErr() { document.getElementById('formError').style.display = 'none'; }
+
+// ── Back Office mutual exclusion ─────────────────────
+const boInput = document.getElementById('boInput');
+const boPill = document.getElementById('boPill');
+
+boInput.addEventListener('change', function() {
+  if (boInput.checked) {
+    document.querySelectorAll('#lobScopeGroup input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      cb.closest('.check-pill').classList.remove('checked');
+    });
+  }
+  boPill.classList.toggle('checked', boInput.checked);
+  updateCounter();
+});
+
+document.getElementById('lobScopeGroup').addEventListener('change', function() {
+  boInput.checked = false;
+  boPill.classList.remove('checked');
+});
 
 // ── Init ─────────────────────────────────────────────
 loadUser();
