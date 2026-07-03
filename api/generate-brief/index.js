@@ -115,7 +115,7 @@ Follow the system prompt exactly. Return raw HTML only.`;
 
 async function callAI(systemPrompt, userMessage, context) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 200000);
+  const timeout = setTimeout(() => controller.abort(), 80000);
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -127,7 +127,7 @@ async function callAI(systemPrompt, userMessage, context) {
       },
       body: JSON.stringify({
         model: process.env.AI_MODEL || 'claude-sonnet-4-5',
-        max_tokens: 16000,
+        max_tokens: 7000,
         system: systemPrompt,
         messages: [{ role: 'user', content: userMessage }]
       }),
