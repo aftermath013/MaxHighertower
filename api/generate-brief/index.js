@@ -153,14 +153,15 @@ function buildUserMessage(entity, clientInfo) {
   if (clientInfo.fetched) {
     extra = `\nCLIENT WEBSITE DATA:\nTitle: ${clientInfo.title}\nDescription: ${clientInfo.description}\n`;
   }
+  const remarksLine = entity.remarks ? `\nREMARKS/SPECIFIC BUSINESS: ${entity.remarks}` : '';
   return `Generate a CNX program brief for the following client:
 
 CLIENT NAME: ${entity.clientName}
 CLIENT URL: ${entity.clientUrl}
-LOB SCOPE: ${entity.lobScope}
+SCOPE/SUPPORT: ${entity.lobScope}
 DELIVERY LOCATION: ${entity.deliveryLocation}
 CHANNEL SCOPE: ${entity.channelScope || 'TBD'}
-REQUESTED BY: ${entity.requestedBy}
+REQUESTED BY: ${entity.requestedBy}${remarksLine}
 ${extra}
 Return the JSON object only. No explanation.`;
 }
@@ -202,6 +203,7 @@ function renderText(str) {
 
 function buildHTML(data, entity) {
   const clientName = safe(data.clientName, entity.clientName);
+  const briefName = safe(entity.briefName);
   const requestedBy = safe(entity.requestedBy);
   const slug = clientName.toLowerCase().replace(/[^a-z0-9]+/g, '_');
   const hyphenSlug = clientName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -211,7 +213,7 @@ function buildHTML(data, entity) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(clientName)} — Concentrix Program Brief</title>
+<title>${briefName ? esc(briefName) + ' — ' : ''}${esc(clientName)} — Concentrix Program Brief</title>
 ${FAVICON_DATA_URI ? `<link rel="icon" type="image/png" href="${FAVICON_DATA_URI}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -334,18 +336,18 @@ body.web-view .page.active{display:block}
   <div class="nav-internal">Internal &middot; Confidential</div>
   <div style="flex:1"></div>
   <div id="pdfControls" style="display:flex;align-items:center;gap:10px;">
-    <div class="nav-pills" id="navPills">
+    <button class="btn-nav btn-nav-outline" onclick="switchToWebView()">Web View</button>
+    <button class="btn-nav btn-nav-teal" onclick="triggerPrint()">Print / PDF</button>
+    <button class="btn-nav btn-edit" id="edit-btn" onclick="toggleEditMode()">✏️ Edit</button>
+  </div>
+  <div id="webControls" style="display:none;align-items:center;gap:10px;">
+    <div class="nav-pills" id="navPills" style="display:flex;gap:6px;">
       <button class="nav-pill" onclick="showPage(0)">01 Brief</button>
       <button class="nav-pill" onclick="showPage(1)">02 Pain Points</button>
       <button class="nav-pill" onclick="showPage(2)">03 Journey</button>
       <button class="nav-pill" onclick="showPage(3)">04 Agent Match</button>
       <button class="nav-pill" onclick="showPage(4)">05 Ops</button>
     </div>
-    <button class="btn-nav btn-nav-outline" onclick="switchToWebView()">Web View</button>
-    <button class="btn-nav btn-nav-teal" onclick="triggerPrint()">Print / PDF</button>
-    <button class="btn-nav btn-edit" id="edit-btn" onclick="toggleEditMode()">✏️ Edit</button>
-  </div>
-  <div id="webControls" style="display:none;align-items:center;gap:10px;">
     <button class="btn-nav btn-nav-outline" onclick="switchToPdfView()">← Share View</button>
     <button class="btn-nav btn-nav-teal" onclick="triggerPrint()">Print</button>
   </div>
@@ -365,7 +367,7 @@ body.web-view .page.active{display:block}
   <button onclick="exportBrief()" style="font-size:11px;background:var(--cnx-teal);color:var(--cnx-blue);border:none;border-radius:4px;padding:4px 10px;cursor:pointer;font-weight:700;">Export HTML</button>
 </div>
 
-${buildPage1(data, clientName, requestedBy)}
+${buildPage1(data, clientName, requestedBy, briefName)}
 ${buildPage2(data, clientName, requestedBy)}
 ${buildPage3(data, clientName, requestedBy)}
 ${buildPage4(data, clientName, requestedBy)}
@@ -400,7 +402,7 @@ function buildFooter(clientName, requestedBy) {
 </div>`;
 }
 
-function buildPage1(data, clientName, requestedBy) {
+function buildPage1(data, clientName, requestedBy, briefName) {
   const stats = safeArr(data.stats).slice(0, 4).map(s =>
     `<div class="stat-card"><div class="stat-val">${esc(s.val)}</div><div class="stat-lbl">${esc(s.lbl)}</div></div>`
   ).join('');
@@ -419,7 +421,7 @@ function buildPage1(data, clientName, requestedBy) {
 
   return `<div class="page">
   <div class="hero">
-    <div class="hero-eyebrow">Concentrix Program Brief</div>
+    <div class="hero-eyebrow">Concentrix Program Brief${briefName ? ' &nbsp;·&nbsp; ' + esc(briefName) : ''}</div>
     <h1>${esc(clientName)}</h1>
     <div class="hero-sub">${esc(safe(data.clientTagline))}</div>
     <div class="stat-row">${stats}</div>
@@ -510,7 +512,7 @@ function buildPage3(data, clientName, requestedBy) {
     `<tr>
       <td><strong>${esc(o.stage)}</strong></td>
       <td>${renderText(safe(o.intervention))}</td>
-      <td style="color:var(--cnx-jade)">${renderText(safe(o.innovation))}</td>
+      <td style="color:var(--cnx-charcoal);font-weight:600;">${renderText(safe(o.innovation))}</td>
     </tr>`
   ).join('');
 

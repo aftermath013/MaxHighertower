@@ -17,7 +17,9 @@ Use these markers inside string values to add emphasis. Keep it selective — on
 - Emojis — use inline freely in descriptions and labels to add flavor (e.g. "💸 Pricing complaints dominate...")
 
 ## INPUTS
-You will receive: CLIENT NAME, CLIENT URL, LOB SCOPE, DELIVERY LOCATION, CHANNEL SCOPE, REQUESTED BY
+You will receive: CLIENT NAME, CLIENT URL, SCOPE/SUPPORT, DELIVERY LOCATION, CHANNEL SCOPE, REQUESTED BY, and optionally BRIEF NAME and REMARKS/SPECIFIC BUSINESS.
+
+If REMARKS/SPECIFIC BUSINESS is provided, treat it as the primary context lens for the entire brief — it describes the specific segment, opportunity, or angle CNX is pitching. Weave it into all relevant sections (scope, archetypes, pain points, agent profile, discovery items).
 
 ## STEP 1 — RESEARCH
 Before generating content:
@@ -55,7 +57,7 @@ Return exactly this JSON structure, all fields populated:
   ],
 
   "painPoints": [
-    {"title": "string", "severity": "HIGH|MED|LOW", "description": "string — 1-2 sentences from real complaints. Use **bold** for the core issue.", "source": "string — e.g. BBB 2024, Trustpilot, Reddit r/clientname"}
+    {"title": "string", "severity": "HIGH|MED|LOW", "description": "string — 1-2 sentences from real complaints. Include how widespread or frequent this issue is (e.g. 'hundreds of reviews mention...', 'the most common complaint is...'). Use **bold** for the core issue.", "source": "string — e.g. BBB 2024, Trustpilot, Reddit r/clientname"}
   ],
 
   "painSummary": {
@@ -122,15 +124,17 @@ Return exactly this JSON structure, all fields populated:
 - **stats**: Exactly 4. Revenue, employee count, founding year, HQ location.
 - **catalog**: 4–6 rows. One sentence per description. Real pricing.
 - **archetypes**: Exactly 5. One sentence per description.
-- **cnxRole**: Title each box by the input: LOB Scope, Delivery Location, Channel Scope. 1-2 sentences each.
-- **painPoints**: Exactly 5. Severity based on complaint volume/impact. 1-2 sentences per description. Source must be real.
+- **cnxRole**: Title each box by the input: Scope/Support, Delivery Location, Channel Scope. 1-2 sentences each.
+- **painPoints**: Exactly 5. Sort by complaint volume/frequency — most-reported issues first. Severity based on complaint volume/impact. 1-2 sentences per description. Source must be real.
 - **painSummary**: 1 sentence each field.
 - **journeyStages**: Exactly 5 stages. Exactly 2 items in whatTheyAreDoing. Exactly 2 items in contactTriggers.
 - **emotionType**: Must be exactly one of: excited, anxious, frustrated, relieved, satisfied
 - **csOpportunity**: One row per journey stage. intervention = 1 sentence BPO-executable action. innovation = 1 sentence future/digital pitch.
 - **agentProfile.profile**: Keep experience bar realistic. 6 months + field affinity is the default. Only raise the bar when genuinely justified. 1 sentence.
 - **agentProfile** (all fields): 1 sentence each.
-- **hiring**: Exactly 3 items per array. Each item: short phrase, not a sentence.
+- **hiring.mustHave**: Exactly 3 items. Short phrase, not a sentence.
+- **hiring.niceToHave**: 3–6 items. Go all out — include relevant personality traits, life experience, cultural affinity, personal background that genuinely helps (e.g. parenting experience for baby/maternity products, prior user of the product, hobbyist in the domain, multilingual background, field affinity). Short phrases.
+- **hiring.redFlags**: Exactly 3 items. Short phrase, not a sentence.
 - **competencies**: Exactly 4 rows. 1 sentence per cell.
-- **discoveryItems**: Exactly 4. 1 sentence per body.
+- **discoveryItems**: Exactly 4. 1-2 sentences per body — include the specific detail or context that makes the discovery item actionable.
 - **whyCnx**: Exactly 2. 1-2 sentences each.

@@ -267,7 +267,11 @@
             <input type="url" id="clientUrl" placeholder="https://acme.com" required>
           </div>
           <div class="form-group full">
-            <span class="check-group-label">LOB Scope <span class="req">*</span></span>
+            <label for="briefName">Brief Name <span style="color:#9ca3af;font-weight:500;">(optional)</span></label>
+            <input type="text" id="briefName" placeholder="e.g. CLRN Sellers Pitch, Willow v2, Q3 Refresh">
+          </div>
+          <div class="form-group full">
+            <span class="check-group-label">Scope / Support <span class="req">*</span></span>
             <div class="checklist" id="lobScopeGroup">
               <label class="check-pill"><input type="checkbox" value="CS"> CS</label>
               <label class="check-pill"><input type="checkbox" value="Tech"> Tech</label>
@@ -369,6 +373,11 @@
               <label class="check-pill"><input type="checkbox" value="Ticket"> Ticket</label>
               <label class="check-pill check-all"><input type="checkbox" value="all"> All of the above</label>
             </div>
+          </div>
+          <div class="form-group full">
+            <label for="remarks">Remarks / Specific Business <span style="color:#9ca3af;font-weight:500;">(optional)</span></label>
+            <textarea id="remarks" rows="2" maxlength="150" placeholder="e.g. We are pitching for TikTok Shop's CLRN (Collectibles, Luxury, Resellable, Nature Arts) sellers program." oninput="updateRemarksCount()"></textarea>
+            <div id="remarksCount" style="font-size:11px;color:#9ca3af;text-align:right;margin-top:3px;">0 / 150</div>
           </div>
         </div>
         <div class="form-actions">
@@ -503,7 +512,7 @@ const BASE_IN = 1500, OUT = 3000;
 const IN_P = 3 / 1e6, OUT_P = 15 / 1e6;
 
 function updateCounter() {
-  const chars = ['clientName','clientUrl']
+  const chars = ['clientName','clientUrl','briefName','remarks']
     .reduce((s, id) => s + document.getElementById(id).value.length, 0)
     + getChecklistValue('lobScopeGroup').length
     + getChecklistValue('channelScopeGroup').length
@@ -516,7 +525,14 @@ function updateCounter() {
   document.getElementById('inputEst').textContent = '~' + (inputTok/1000).toFixed(1) + 'K';
 }
 
-['clientName','clientUrl'].forEach(id => document.getElementById(id).addEventListener('input', updateCounter));
+function updateRemarksCount() {
+  const len = document.getElementById('remarks').value.length;
+  const el = document.getElementById('remarksCount');
+  el.textContent = len + ' / 150';
+  el.style.color = len >= 140 ? 'var(--cnx-orange)' : '#9ca3af';
+}
+
+['clientName','clientUrl','briefName','remarks'].forEach(id => document.getElementById(id).addEventListener('input', updateCounter));
 document.getElementById('deliveryLocation').addEventListener('change', updateCounter);
 
 // ── Sidebar ──────────────────────────────────────────
@@ -540,9 +556,11 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
 
   const clientName = document.getElementById('clientName').value.trim();
   const clientUrl = document.getElementById('clientUrl').value.trim();
+  const briefName = document.getElementById('briefName').value.trim();
   const lobScope = getChecklistValue('lobScopeGroup');
   const deliveryLocation = document.getElementById('deliveryLocation').value;
   const channelScope = getChecklistValue('channelScopeGroup');
+  const remarks = document.getElementById('remarks').value.trim();
 
   if (!clientName || !clientUrl) return showErr('Client name and website are required.');
   if (!lobScope) return showErr('Select at least one LOB scope.');
@@ -557,7 +575,7 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
     const res = await fetch('/api/submit-request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientName, clientUrl, lobScope, deliveryLocation, channelScope })
+      body: JSON.stringify({ clientName, clientUrl, briefName, lobScope, deliveryLocation, channelScope, remarks })
     });
     let data;
     try { data = await res.json(); } catch {
@@ -646,6 +664,8 @@ function resetForm() {
   document.getElementById('progressSection').style.display = 'none';
   document.getElementById('formGrid').style.display = 'grid';
   document.getElementById('briefForm').reset();
+  document.getElementById('briefName').value = '';
+  document.getElementById('remarks').value = '';
   document.getElementById('lobScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('channelScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('successBox').style.display = 'none';

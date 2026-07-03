@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = async function (context, req) {
   try {
-    const { clientName, clientUrl, lobScope, deliveryLocation, channelScope } = req.body || {};
+    const { clientName, clientUrl, lobScope, deliveryLocation, channelScope, briefName, remarks } = req.body || {};
 
     if (!clientName || !clientUrl || !lobScope || !deliveryLocation) {
       context.res = { status: 400, body: { success: false, error: 'Missing required fields.' } };
@@ -49,6 +49,8 @@ module.exports = async function (context, req) {
       lobScope,
       deliveryLocation,
       channelScope: channelScope || 'TBD',
+      briefName: (briefName || '').slice(0, 100),
+      remarks: (remarks || '').slice(0, 150),
       requestedBy,
       requestedByEmail,
       status: 'pending',
