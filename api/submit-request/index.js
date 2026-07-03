@@ -3,9 +3,9 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = async function (context, req) {
   try {
-    const { clientName, clientUrl, lobScope, deliveryLocation, channelScope, requestedBy, requestedByEmail } = req.body || {};
+    const { clientName, clientUrl, lobScope, deliveryLocation, channelScope } = req.body || {};
 
-    if (!clientName || !clientUrl || !lobScope || !deliveryLocation || !requestedBy || !requestedByEmail) {
+    if (!clientName || !clientUrl || !lobScope || !deliveryLocation) {
       context.res = { status: 400, body: { success: false, error: 'Missing required fields.' } };
       return;
     }
@@ -16,9 +16,22 @@ module.exports = async function (context, req) {
       return;
     }
 
-    if (!requestedByEmail.includes('@')) {
-      context.res = { status: 400, body: { success: false, error: 'Invalid email address.' } };
-      return;
+    // Extract user identity from SWA auth header
+    let requestedBy = 'Unknown User';
+    let requestedByEmail = '';
+    const principalHeader = req.headers['x-ms-client-principal'];
+    if (principalHeader) {
+      try {
+        const decoded = Buffer.from(principalHeader, 'base64').toString('utf8');
+        const principal = JSON.parse(decoded);
+        requestedBy = principal.userDetails || principal.userRoles?.[0] || 'Unknown';
+        const emailClaim = principal.claims?.find(c =>
+          c.typ === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress' ||
+          c.typ === 'email' ||
+          c.typ === 'preferred_username'
+        );
+        requestedByEmail = emailClaim?.val || principal.userDetails || '';
+      } catch { /* use defaults */ }
     }
 
     const projectId = uuidv4();
@@ -38,6 +51,7 @@ module.exports = async function (context, req) {
       requestedBy,
       requestedByEmail,
       status: 'pending',
+      statusMessage: 'Queued for generation...',
       createdAt: new Date().toISOString()
     });
 

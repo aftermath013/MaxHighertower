@@ -1,63 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CNX Brief Builder — Dashboard</title>
-<link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Briefs — CNX Brief Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cnx-blue: #003D5B;
+      --cnx-blue-dk: #002a40;
+      --cnx-teal: #25E2CC;
+      --cnx-jade: #007380;
+      --cnx-yellow: #FBCA18;
+      --cnx-orange: #FF8400;
+      --cnx-raspberry: #CC3262;
+      --cnx-charcoal: #2A2B2C;
+      --sidebar-w: 240px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', sans-serif; background: #f0f2f5; color: var(--cnx-charcoal); min-height: 100vh; }
+
+    /* ── Sidebar (same as index.html) ── */
+    .sidebar {
+      position: fixed; left: 0; top: 0;
+      width: var(--sidebar-w); height: 100vh;
+      background: var(--cnx-blue);
+      display: flex; flex-direction: column;
+      z-index: 200; transition: transform .28s ease;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 20px 18px; border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .brand-icon {
+      width: 36px; height: 36px; background: var(--cnx-teal); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--cnx-blue); flex-shrink: 0;
+    }
+    .brand-name { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.2; }
+    .brand-sub { color: rgba(255,255,255,.45); font-size: 10px; font-weight: 500; }
+    .sidebar-nav { flex: 1; padding: 14px 10px; display: flex; flex-direction: column; gap: 3px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px;
+      color: rgba(255,255,255,.6); text-decoration: none;
+      font-size: 13px; font-weight: 500; transition: all .18s;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .nav-item.active { background: rgba(37,226,204,.15); color: var(--cnx-teal); }
+    .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+    .sidebar-user {
+      padding: 14px 18px; border-top: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .user-avatar {
+      width: 34px; height: 34px; background: var(--cnx-raspberry); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .user-name { font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .logout-link { font-size: 10px; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 500; }
+    .logout-link:hover { color: var(--cnx-teal); }
+
+    .hamburger {
+      display: none; position: fixed; top: 14px; left: 14px; z-index: 300;
+      background: var(--cnx-blue); border: none; border-radius: 8px;
+      width: 40px; height: 40px; flex-direction: column; align-items: center;
+      justify-content: center; gap: 5px; cursor: pointer; padding: 0;
+    }
+    .hamburger span { display: block; width: 20px; height: 2px; background: #fff; border-radius: 2px; }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 150; }
+
+    /* ── Main ── */
+    .main { margin-left: var(--sidebar-w); min-height: 100vh; padding: 36px 36px 64px; }
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; gap: 16px; flex-wrap: wrap;
+    }
+    .page-header h1 { font-size: 24px; font-weight: 800; color: var(--cnx-blue); }
+    .page-header p { font-size: 13px; color: #6b7280; font-weight: 500; margin-top: 3px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 20px; border-radius: 8px; font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer; border: none; text-decoration: none;
+      transition: all .18s;
+    }
+    .btn-primary { background: var(--cnx-blue); color: #fff; }
+    .btn-primary:hover { background: var(--cnx-blue-dk); }
+
+    /* ── Stats row ── */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+    .stat-card {
+      background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      padding: 18px 20px;
+    }
+    .stat-label { font-size: 11px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 800; color: var(--cnx-blue); line-height: 1; }
+    .stat-value.teal { color: var(--cnx-jade); }
+    .stat-value.orange { color: var(--cnx-orange); }
+    .stat-value.red { color: var(--cnx-raspberry); }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      padding: 14px 20px; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .filter-bar label { font-size: 12px; font-weight: 600; color: #6b7280; }
+    .filter-bar select {
+      font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600;
+      padding: 6px 10px; border: 1.5px solid #e5e7eb; border-radius: 7px; outline: none;
+      color: var(--cnx-charcoal); background: #fff; cursor: pointer;
+    }
+    .filter-bar select:focus { border-color: var(--cnx-teal); }
+    .refresh-btn {
+      margin-left: auto; background: none; border: 1.5px solid #e5e7eb; border-radius: 7px;
+      padding: 6px 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600;
+      color: #6b7280; cursor: pointer; transition: all .18s;
+    }
+    .refresh-btn:hover { border-color: var(--cnx-teal); color: var(--cnx-jade); }
+
+    /* ── Table card ── */
+    .table-card {
+      background: #fff; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left; font-size: 11px; font-weight: 700; color: #9ca3af;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 13px 18px; border-bottom: 1.5px solid #f3f4f6;
+      white-space: nowrap;
+    }
+    td { padding: 14px 18px; font-size: 13px; font-weight: 500; border-bottom: 1px solid #f9fafb; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+
+    .client-name { font-weight: 700; color: var(--cnx-blue); }
+    .client-lob { font-size: 11px; color: #9ca3af; font-weight: 500; margin-top: 2px; }
+
+    /* Status badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 9px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; white-space: nowrap;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .badge-generated { background: #f0fdf4; color: #166534; }
+    .badge-generated .badge-dot { background: #22c55e; }
+    .badge-generating, .badge-researching, .badge-saving {
+      background: #eff6ff; color: #1d4ed8;
+      animation: badgePulse 1.5s ease-in-out infinite;
+    }
+    .badge-generating .badge-dot, .badge-researching .badge-dot, .badge-saving .badge-dot {
+      background: #3b82f6; animation: dotPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes badgePulse { 0%,100% { opacity: 1; } 50% { opacity: .75; } }
+    @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+    .badge-pending { background: #fefce8; color: #854d0e; }
+    .badge-pending .badge-dot { background: #eab308; }
+    .badge-failed { background: #fef2f2; color: #991b1b; }
+    .badge-failed .badge-dot { background: #ef4444; }
+
+    .action-link {
+      font-size: 12px; font-weight: 700; color: var(--cnx-jade); text-decoration: none;
+      padding: 5px 11px; border: 1.5px solid #d1fae5; border-radius: 6px;
+      transition: all .18s; white-space: nowrap;
+    }
+    .action-link:hover { background: #f0fdf4; }
+
+    .cost-pill {
+      font-size: 11px; font-weight: 600; color: #6b7280;
+      background: #f9fafb; padding: 2px 7px; border-radius: 4px;
+    }
+
+    /* Empty / loading states */
+    .empty-state {
+      text-align: center; padding: 60px 20px;
+      font-size: 14px; color: #9ca3af; font-weight: 500;
+    }
+    .empty-state p { margin-top: 8px; font-size: 12px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(calc(-1 * var(--sidebar-w))); }
+      .sidebar.open { transform: translateX(0); box-shadow: 8px 0 28px rgba(0,0,0,.25); }
+      .main { margin-left: 0; padding: 68px 14px 50px; }
+      .hamburger { display: flex; }
+      .overlay.visible { display: block; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    }
+  </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-logo">CNX<span> | Brief Builder</span></div>
-  <div class="nav-tag">Admin Dashboard</div>
-</nav>
-
-<!-- Password gate -->
-<div class="gate" id="gate">
-  <div class="gate-card">
-    <h2>Admin Access</h2>
-    <p>Enter the admin password to continue.</p>
-    <div class="form-group">
-      <input class="form-input" type="password" id="gate-password" placeholder="Password" style="text-align:center;">
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">CNX</div>
+    <div>
+      <div class="brand-name">Brief Builder</div>
+      <div class="brand-sub">Concentrix</div>
     </div>
-    <button class="btn-submit" onclick="unlock()" style="margin-top:0;">Enter</button>
-    <div class="status-box status-error" id="gate-error" style="margin-top:12px;"></div>
   </div>
-</div>
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+      </svg>
+      Create Brief
+    </a>
+    <a href="dashboard.html" class="nav-item active">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+      </svg>
+      View Briefs
+    </a>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar" id="userAvatar">?</div>
+    <div style="min-width:0">
+      <div class="user-name" id="userName">Loading...</div>
+      <a href="/.auth/logout" class="logout-link">Sign out</a>
+    </div>
+  </div>
+</aside>
 
-<!-- Dashboard content (hidden until unlocked) -->
-<div class="container" id="dashboard" style="display:none; padding-top:80px; max-width:1100px;">
-  <div class="dash-header">
-    <h1>Brief Requests</h1>
-    <p>Approve pending requests to trigger AI generation.</p>
+<button class="hamburger" id="hamburger" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+  <div class="page-header">
+    <div>
+      <h1>View Briefs</h1>
+      <p>All generated program briefs</p>
+    </div>
+    <a href="index.html" class="btn btn-primary">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+      </svg>
+      Create Brief
+    </a>
   </div>
 
-  <div id="loading" class="loading">
-    <div class="spinner"></div>
-    Loading projects...
+  <!-- Stats -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" id="statTotal">—</div></div>
+    <div class="stat-card"><div class="stat-label">Generated</div><div class="stat-value teal" id="statGenerated">—</div></div>
+    <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-value orange" id="statInProgress">—</div></div>
+    <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value" id="statCost" style="font-size:20px">—</div></div>
   </div>
 
-  <div class="table-wrap" id="table-wrap" style="display:none;">
-    <table class="projects">
-      <thead>
-        <tr>
-          <th>Client</th>
-          <th>LOB Scope</th>
-          <th>Location</th>
-          <th>Requested By</th>
-          <th>Submitted</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="projects-body"></tbody>
-    </table>
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <label for="statusFilter">Status:</label>
+    <select id="statusFilter" onchange="applyFilter()">
+      <option value="">All</option>
+      <option value="generated">Generated</option>
+      <option value="generating">In Progress</option>
+      <option value="failed">Failed</option>
+      <option value="pending">Pending</option>
+    </select>
+    <button class="refresh-btn" onclick="loadProjects()">↻ Refresh</button>
   </div>
 
-  <div id="empty-state" style="display:none;" class="loading">No requests yet.</div>
-</div>
+  <!-- Table -->
+  <div class="table-card">
+    <div class="table-scroll">
+      <table id="projectsTable">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Tokens Used</th>
+            <th>Cost</th>
+            <th>Requested By</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="8"><div class="empty-state">Loading...</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
 
-<script src="/js/dashboard.js"></script>
+<script>
+// ── Auth ─────────────────────────────────────────────
+async function loadUser() {
+  try {
+    const r = await fetch('/.auth/me');
+    if (!r.ok) return;
+    const d = await r.json();
+    const p = d.clientPrincipal;
+    if (!p) return;
+    const name = p.userDetails || 'User';
+    document.getElementById('userAvatar').textContent = name.substring(0,2).toUpperCase();
+    document.getElementById('userName').textContent = name;
+  } catch {}
+}
+
+// ── Sidebar ──────────────────────────────────────────
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+document.getElementById('hamburger').addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('visible');
+});
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('visible');
+});
+
+// ── Projects ──────────────────────────────────────────
+let allProjects = [];
+
+async function loadProjects() {
+  document.getElementById('tableBody').innerHTML =
+    '<tr><td colspan="8"><div class="empty-state">Loading...</div></td></tr>';
+  try {
+    const res = await fetch('/api/get-projects');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+    allProjects = data.data || [];
+    renderStats(allProjects);
+    applyFilter();
+  } catch (err) {
+    document.getElementById('tableBody').innerHTML =
+      `<tr><td colspan="8"><div class="empty-state">Failed to load: ${err.message}</div></td></tr>`;
+  }
+}
+
+function renderStats(projects) {
+  const generated = projects.filter(p => p.status === 'generated').length;
+  const inProgress = projects.filter(p => ['pending','researching','generating','saving'].includes(p.status)).length;
+  const totalCost = projects.reduce((s, p) => s + (parseFloat(p.costUsd) || 0), 0);
+
+  document.getElementById('statTotal').textContent = projects.length;
+  document.getElementById('statGenerated').textContent = generated;
+  document.getElementById('statInProgress').textContent = inProgress;
+  document.getElementById('statCost').textContent = totalCost > 0 ? `$${totalCost.toFixed(2)}` : '$0.00';
+}
+
+function applyFilter() {
+  const filter = document.getElementById('statusFilter').value;
+  const filtered = filter ? allProjects.filter(p => {
+    if (filter === 'generating') return ['researching','generating','saving','pending'].includes(p.status);
+    return p.status === filter;
+  }) : allProjects;
+  renderTable(filtered);
+}
+
+function renderTable(projects) {
+  if (!projects.length) {
+    document.getElementById('tableBody').innerHTML =
+      '<tr><td colspan="8"><div class="empty-state">No briefs found<p>Create your first brief from the sidebar.</p></div></td></tr>';
+    return;
+  }
+
+  document.getElementById('tableBody').innerHTML = projects.map(p => {
+    const date = p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : '—';
+    const tokens = p.inputTokens && p.outputTokens
+      ? `${((p.inputTokens + p.outputTokens)/1000).toFixed(1)}K` : '—';
+    const cost = p.costUsd ? `$${parseFloat(p.costUsd).toFixed(4)}` : '—';
+
+    const actionCell = p.status === 'generated' && p.blobUrl
+      ? `<a href="${p.blobUrl}" target="_blank" class="action-link">Open Brief →</a>`
+      : `<span style="font-size:11px;color:#9ca3af">${getStatusMsg(p.status)}</span>`;
+
+    return `<tr>
+      <td>
+        <div class="client-name">${esc(p.clientName)}</div>
+        <div class="client-lob">${esc(p.lobScope || '')}</div>
+      </td>
+      <td style="font-size:12px;color:#6b7280">${esc(p.deliveryLocation || '—')}</td>
+      <td>${badgeHtml(p.status)}</td>
+      <td style="font-size:12px;font-weight:600">${tokens}</td>
+      <td><span class="cost-pill">${cost}</span></td>
+      <td style="font-size:12px;color:#6b7280">${esc(p.requestedBy || '—')}</td>
+      <td style="font-size:12px;color:#9ca3af;white-space:nowrap">${date}</td>
+      <td>${actionCell}</td>
+    </tr>`;
+  }).join('');
+}
+
+function badgeHtml(status) {
+  const labels = {
+    generated: 'Generated',
+    generating: 'Generating',
+    researching: 'Researching',
+    saving: 'Saving',
+    pending: 'Pending',
+    failed: 'Failed'
+  };
+  const cls = `badge badge-${status}`;
+  return `<span class="${cls}"><span class="badge-dot"></span>${labels[status] || status}</span>`;
+}
+
+function getStatusMsg(status) {
+  const msgs = { pending:'Queued', researching:'Researching...', generating:'Generating...', saving:'Saving...' };
+  return msgs[status] || status;
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Auto-refresh in-progress rows every 5s
+setInterval(() => {
+  const hasActive = allProjects.some(p => ['pending','researching','generating','saving'].includes(p.status));
+  if (hasActive) loadProjects();
+}, 5000);
+
+// ── Init ─────────────────────────────────────────────
+loadUser();
+loadProjects();
+</script>
 </body>
 </html>

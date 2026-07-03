@@ -1,96 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CNX Brief Builder — Request a Brief</title>
-<link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Brief — CNX Brief Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cnx-blue: #003D5B;
+      --cnx-blue-dk: #002a40;
+      --cnx-teal: #25E2CC;
+      --cnx-jade: #007380;
+      --cnx-yellow: #FBCA18;
+      --cnx-orange: #FF8400;
+      --cnx-raspberry: #CC3262;
+      --cnx-charcoal: #2A2B2C;
+      --sidebar-w: 240px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', sans-serif; background: #f0f2f5; color: var(--cnx-charcoal); min-height: 100vh; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: fixed; left: 0; top: 0;
+      width: var(--sidebar-w); height: 100vh;
+      background: var(--cnx-blue);
+      display: flex; flex-direction: column;
+      z-index: 200; transition: transform .28s ease;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 20px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .brand-icon {
+      width: 36px; height: 36px; background: var(--cnx-teal); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--cnx-blue); flex-shrink: 0;
+    }
+    .brand-name { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.2; }
+    .brand-sub { color: rgba(255,255,255,.45); font-size: 10px; font-weight: 500; }
+    .sidebar-nav { flex: 1; padding: 14px 10px; display: flex; flex-direction: column; gap: 3px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px;
+      color: rgba(255,255,255,.6); text-decoration: none;
+      font-size: 13px; font-weight: 500; transition: all .18s;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .nav-item.active { background: rgba(37,226,204,.15); color: var(--cnx-teal); }
+    .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+    .sidebar-user {
+      padding: 14px 18px; border-top: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .user-avatar {
+      width: 34px; height: 34px; background: var(--cnx-raspberry); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .user-name { font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .logout-link { font-size: 10px; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 500; }
+    .logout-link:hover { color: var(--cnx-teal); }
+
+    /* ── Hamburger / overlay ── */
+    .hamburger {
+      display: none; position: fixed; top: 14px; left: 14px; z-index: 300;
+      background: var(--cnx-blue); border: none; border-radius: 8px;
+      width: 40px; height: 40px; flex-direction: column; align-items: center;
+      justify-content: center; gap: 5px; cursor: pointer; padding: 0;
+    }
+    .hamburger span { display: block; width: 20px; height: 2px; background: #fff; border-radius: 2px; }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 150; }
+
+    /* ── Main ── */
+    .main { margin-left: var(--sidebar-w); min-height: 100vh; padding: 36px 36px 64px; }
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { font-size: 24px; font-weight: 800; color: var(--cnx-blue); margin-bottom: 4px; }
+    .page-header p { font-size: 13px; color: #6b7280; font-weight: 500; }
+
+    /* ── Layout grid ── */
+    .content-grid { display: grid; grid-template-columns: 1fr 280px; gap: 22px; align-items: start; }
+
+    /* ── Cards ── */
+    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,.07); padding: 26px; }
+    .card-label {
+      font-size: 11px; font-weight: 700; color: #9ca3af;
+      text-transform: uppercase; letter-spacing: .07em; margin-bottom: 16px;
+    }
+
+    /* ── Form ── */
+    .form-section h2 { font-size: 17px; font-weight: 700; color: var(--cnx-blue); margin-bottom: 20px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 12px; font-weight: 600; color: var(--cnx-charcoal); }
+    .req { color: var(--cnx-raspberry); }
+    input, select, textarea {
+      font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 500;
+      padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 7px;
+      outline: none; width: 100%; color: var(--cnx-charcoal); background: #fff;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    input:focus, textarea:focus { border-color: var(--cnx-teal); box-shadow: 0 0 0 3px rgba(37,226,204,.14); }
+    .form-actions { margin-top: 22px; display: flex; align-items: center; gap: 14px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 22px; border-radius: 8px; font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer; border: none; text-decoration: none;
+      transition: all .18s;
+    }
+    .btn-primary { background: var(--cnx-blue); color: #fff; }
+    .btn-primary:hover { background: var(--cnx-blue-dk); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn-teal { background: var(--cnx-teal); color: var(--cnx-blue); }
+    .btn-teal:hover { opacity: .88; transform: translateY(-1px); }
+    .form-error { font-size: 12px; color: #dc2626; font-weight: 600; display: none; }
+
+    /* ── Token counter ── */
+    .token-big { font-size: 30px; font-weight: 800; color: var(--cnx-blue); line-height: 1; margin-bottom: 2px; }
+    .token-cost { font-size: 13px; font-weight: 600; color: var(--cnx-jade); margin-bottom: 16px; }
+    .breakdown { display: flex; flex-direction: column; gap: 8px; padding-top: 13px; border-top: 1px solid #f3f4f6; }
+    .brow { display: flex; justify-content: space-between; font-size: 11.5px; }
+    .brow span:first-child { color: #9ca3af; font-weight: 500; }
+    .brow span:last-child { font-weight: 600; }
+
+    /* ── Tips ── */
+    .tips-card { margin-top: 15px; }
+    .tips-card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .tips-card li { font-size: 12px; color: #6b7280; font-weight: 500; padding-left: 14px; position: relative; line-height: 1.45; }
+    .tips-card li::before { content: '→'; position: absolute; left: 0; color: var(--cnx-teal); font-weight: 700; }
+
+    /* ── Progress section ── */
+    .progress-section { margin-top: 22px; }
+    .progress-section h2 { font-size: 17px; font-weight: 700; color: var(--cnx-blue); margin-bottom: 26px; }
+
+    .stepper { display: flex; align-items: center; margin-bottom: 22px; }
+    .step { display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1; position: relative; }
+    .step-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #f3f4f6; border: 2px solid #e5e7eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; transition: all .3s; position: relative; z-index: 2;
+    }
+    .step.active .step-icon { background: rgba(37,226,204,.15); border-color: var(--cnx-teal); animation: pulseTeal 1.8s ease-in-out infinite; }
+    .step.done .step-icon { background: var(--cnx-teal); border-color: var(--cnx-teal); }
+    @keyframes pulseTeal {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37,226,204,.35); }
+      50% { box-shadow: 0 0 0 9px rgba(37,226,204,0); }
+    }
+    .step-lbl { font-size: 11px; font-weight: 600; color: #9ca3af; transition: color .3s; }
+    .step.active .step-lbl, .step.done .step-lbl { color: var(--cnx-jade); }
+    .step-line { flex: 1; height: 2px; background: #e5e7eb; margin-top: -24px; position: relative; z-index: 1; transition: background .4s; }
+    .step-line.done { background: var(--cnx-teal); }
+
+    .progress-bar { background: #f3f4f6; border-radius: 100px; height: 6px; overflow: hidden; margin-bottom: 11px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cnx-jade), var(--cnx-teal)); border-radius: 100px; transition: width .8s ease; }
+    .progress-msg { font-size: 13px; font-weight: 600; color: #6b7280; text-align: center; margin-bottom: 22px; }
+
+    /* ── Success / Error ── */
+    .success-box {
+      background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 9px;
+      padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .success-title { font-size: 14px; font-weight: 700; color: #166534; margin-bottom: 4px; }
+    .actual-usage { font-size: 11.5px; color: #6b7280; font-weight: 500; }
+    .error-box { background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 9px; padding: 18px 22px; }
+    .error-box p { font-size: 13px; font-weight: 700; color: #991b1b; margin-bottom: 8px; }
+    .error-detail { font-size: 11.5px; color: #6b7280; font-weight: 500; margin-bottom: 14px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .info-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .tips-card { margin-top: 0; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(calc(-1 * var(--sidebar-w))); }
+      .sidebar.open { transform: translateX(0); box-shadow: 8px 0 28px rgba(0,0,0,.25); }
+      .main { margin-left: 0; padding: 68px 18px 50px; }
+      .hamburger { display: flex; }
+      .overlay.visible { display: block; }
+      .form-grid { grid-template-columns: 1fr; }
+      .info-panel { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .step-icon { width: 38px; height: 38px; font-size: 16px; }
+      .step-lbl { font-size: 10px; }
+    }
+  </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-logo">CNX<span> | Brief Builder</span></div>
-  <div class="nav-tag">Concentrix · Internal Tool</div>
-</nav>
-
-<div class="container" style="padding-top: 80px;">
-  <div class="form-card">
-    <div class="form-title">Request a Client Brief</div>
-    <div class="form-subtitle">Submit a client and our team will review and generate a CNX program brief.</div>
-
-    <form id="brief-form">
-      <div class="form-group">
-        <label class="form-label" for="clientName">Client Name *</label>
-        <input class="form-input" type="text" id="clientName" placeholder="e.g. Gentle Monster" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="clientUrl">Client Website URL *</label>
-        <input class="form-input" type="url" id="clientUrl" placeholder="https://www.example.com" required>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="lobScope">LOB Scope *</label>
-          <select class="form-select" id="lobScope" required>
-            <option value="">Select scope...</option>
-            <option>Full-Stack CS</option>
-            <option>Full-Stack CS + Tech</option>
-            <option>Full-Stack CS + Tech + Insurance</option>
-            <option>Tech Support Only</option>
-            <option>Sales + CS</option>
-            <option>Back Office + CS</option>
-            <option>Custom</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="deliveryLocation">Delivery Location *</label>
-          <select class="form-select" id="deliveryLocation" required>
-            <option value="">Select location...</option>
-            <option>Philippines</option>
-            <option>India</option>
-            <option>Malaysia</option>
-            <option>Colombia</option>
-            <option>Egypt</option>
-            <option>Bulgaria</option>
-            <option>TBD</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="channelScope">Channel Scope</label>
-        <select class="form-select" id="channelScope">
-          <option value="TBD">TBD</option>
-          <option>Voice</option>
-          <option>Chat</option>
-          <option>Email</option>
-          <option>Voice + Chat</option>
-          <option>Voice + Chat + Email</option>
-          <option>Chat + Email</option>
-          <option>Omnichannel</option>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="requestedBy">Your Name *</label>
-          <input class="form-input" type="text" id="requestedBy" placeholder="Full name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="requestedByEmail">Your Email *</label>
-          <input class="form-input" type="email" id="requestedByEmail" placeholder="you@concentrix.com" required>
-        </div>
-      </div>
-
-      <button class="btn-submit" type="submit" id="submit-btn">Submit Brief Request</button>
-    </form>
-
-    <div class="status-box status-success" id="status-success"></div>
-    <div class="status-box status-error" id="status-error"></div>
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">CNX</div>
+    <div>
+      <div class="brand-name">Brief Builder</div>
+      <div class="brand-sub">Concentrix</div>
+    </div>
   </div>
-</div>
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item active">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+      </svg>
+      Create Brief
+    </a>
+    <a href="dashboard.html" class="nav-item">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+      </svg>
+      View Briefs
+    </a>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar" id="userAvatar">?</div>
+    <div style="min-width:0">
+      <div class="user-name" id="userName">Loading...</div>
+      <a href="/.auth/logout" class="logout-link">Sign out</a>
+    </div>
+  </div>
+</aside>
 
-<script src="/js/form.js"></script>
+<button class="hamburger" id="hamburger" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+  <div class="page-header">
+    <h1>Create a Brief</h1>
+    <p>Fill in the client details. AI researches the client and generates a 5-page program brief.</p>
+  </div>
+
+  <!-- Form + side panel -->
+  <div class="content-grid" id="formGrid">
+    <div class="card form-section">
+      <h2>Client Details</h2>
+      <form id="briefForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="clientName">Client Name <span class="req">*</span></label>
+            <input type="text" id="clientName" placeholder="e.g. Acme Corporation" required>
+          </div>
+          <div class="form-group">
+            <label for="clientUrl">Client Website <span class="req">*</span></label>
+            <input type="url" id="clientUrl" placeholder="https://acme.com" required>
+          </div>
+          <div class="form-group full">
+            <label for="lobScope">LOB Scope <span class="req">*</span></label>
+            <input type="text" id="lobScope" placeholder="e.g. Full-Stack CS + Tech + Insurance" required>
+          </div>
+          <div class="form-group">
+            <label for="deliveryLocation">Delivery Location <span class="req">*</span></label>
+            <input type="text" id="deliveryLocation" placeholder="e.g. Philippines" required>
+          </div>
+          <div class="form-group">
+            <label for="channelScope">Channel Scope</label>
+            <input type="text" id="channelScope" placeholder="e.g. Voice + Chat (optional)">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/>
+            </svg>
+            Generate Brief
+          </button>
+          <span class="form-error" id="formError"></span>
+        </div>
+      </form>
+    </div>
+
+    <aside class="info-panel">
+      <div class="card">
+        <div class="card-label">Estimated Usage</div>
+        <div class="token-big" id="tokenCount">~15.5K</div>
+        <div class="token-cost" id="tokenCost">~$0.19 per brief</div>
+        <div class="breakdown">
+          <div class="brow"><span>Input tokens</span><span id="inputEst">~3.5K</span></div>
+          <div class="brow"><span>Output tokens</span><span>~12K</span></div>
+          <div class="brow"><span>Model</span><span style="font-size:10px">claude-sonnet-4-5</span></div>
+          <div class="brow"><span>Rate</span><span style="font-size:10px">$3 / $15 per 1M</span></div>
+        </div>
+      </div>
+      <div class="card tips-card">
+        <div class="card-label">What the AI does</div>
+        <ul>
+          <li>Fetches and reads the client website</li>
+          <li>Writes 5 pages: Brief, Pain Points, Journey Map, Agent Match, Ops Framework</li>
+          <li>Takes 60–90 seconds</li>
+          <li>Output is a shareable HTML file</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Progress (shown after submit) -->
+  <div class="card progress-section" id="progressSection" style="display:none">
+    <h2 id="progressTitle">Generating your brief...</h2>
+
+    <div class="stepper">
+      <div class="step" id="s0"><div class="step-icon">🔍</div><div class="step-lbl">Research</div></div>
+      <div class="step-line" id="l0"></div>
+      <div class="step" id="s1"><div class="step-icon">⚡</div><div class="step-lbl">Generate</div></div>
+      <div class="step-line" id="l1"></div>
+      <div class="step" id="s2"><div class="step-icon">💾</div><div class="step-lbl">Save</div></div>
+      <div class="step-line" id="l2"></div>
+      <div class="step" id="s3"><div class="step-icon">✅</div><div class="step-lbl">Done</div></div>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
+    <p class="progress-msg" id="progressMsg">Queued for generation...</p>
+
+    <div class="success-box" id="successBox" style="display:none">
+      <div>
+        <div class="success-title">Brief ready — <span id="briefClientName"></span></div>
+        <div class="actual-usage" id="actualUsage"></div>
+      </div>
+      <a href="#" class="btn btn-teal" id="viewBtn" target="_blank">Open Brief →</a>
+    </div>
+
+    <div class="error-box" id="errorBox" style="display:none">
+      <p>❌ Generation failed</p>
+      <div class="error-detail" id="errorDetail"></div>
+      <button class="btn btn-primary" onclick="resetForm()">Try Again</button>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── Auth ─────────────────────────────────────────────
+async function loadUser() {
+  try {
+    const r = await fetch('/.auth/me');
+    if (!r.ok) return;
+    const d = await r.json();
+    const p = d.clientPrincipal;
+    if (!p) return;
+    const name = p.userDetails || 'User';
+    document.getElementById('userAvatar').textContent = name.substring(0,2).toUpperCase();
+    document.getElementById('userName').textContent = name;
+  } catch {}
+}
+
+// ── Token counter ────────────────────────────────────
+const BASE_IN = 3500, OUT = 12000;
+const IN_P = 3 / 1e6, OUT_P = 15 / 1e6;
+
+function updateCounter() {
+  const chars = ['clientName','clientUrl','lobScope','deliveryLocation','channelScope']
+    .reduce((s, id) => s + (document.getElementById(id).value.length), 0);
+  const inputTok = BASE_IN + Math.ceil(chars / 4);
+  const total = inputTok + OUT;
+  const cost = (inputTok * IN_P + OUT * OUT_P).toFixed(2);
+  document.getElementById('tokenCount').textContent = `~${(total/1000).toFixed(1)}K`;
+  document.getElementById('tokenCost').textContent = `~$${cost} per brief`;
+  document.getElementById('inputEst').textContent = `~${(inputTok/1000).toFixed(1)}K`;
+}
+
+['clientName','clientUrl','lobScope','deliveryLocation','channelScope']
+  .forEach(id => document.getElementById(id).addEventListener('input', updateCounter));
+
+// ── Sidebar ──────────────────────────────────────────
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+document.getElementById('hamburger').addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('visible');
+});
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('visible');
+});
+
+// ── Submit ───────────────────────────────────────────
+let pollId = null;
+
+document.getElementById('briefForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  clearErr();
+
+  const v = id => document.getElementById(id).value.trim();
+  const clientName = v('clientName'), clientUrl = v('clientUrl'),
+        lobScope = v('lobScope'), deliveryLocation = v('deliveryLocation'),
+        channelScope = v('channelScope');
+
+  if (!clientName || !clientUrl || !lobScope || !deliveryLocation) {
+    return showErr('Please fill in all required fields.');
+  }
+  try { new URL(clientUrl); } catch { return showErr('Enter a valid URL (include https://)'); }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  try {
+    const res = await fetch('/api/submit-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientName, clientUrl, lobScope, deliveryLocation, channelScope })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Submission failed.');
+
+    const { projectId } = data.data;
+    document.getElementById('briefClientName').textContent = clientName;
+
+    // Show progress, hide form
+    document.getElementById('formGrid').style.display = 'none';
+    document.getElementById('progressSection').style.display = 'block';
+
+    // Fire generation (don't await — poll for progress)
+    fetch('/api/generate-brief', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ projectId })
+    }).catch(() => {});
+
+    startPolling(projectId);
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Generate Brief';
+    showErr(err.message);
+  }
+});
+
+// ── Polling ──────────────────────────────────────────
+const STATUS_IDX = { pending: -1, researching: 0, generating: 1, saving: 2, generated: 3, failed: -1 };
+const STEP_IDS = ['s0','s1','s2','s3'];
+const LINE_IDS = ['l0','l1','l2'];
+
+function startPolling(projectId) {
+  pollId = setInterval(async () => {
+    try {
+      const res = await fetch('/api/get-brief-status?id=' + encodeURIComponent(projectId));
+      const d = await res.json();
+      if (d.success) onStatus(d.data);
+      if (d.data?.status === 'generated' || d.data?.status === 'failed') clearInterval(pollId);
+    } catch {}
+  }, 2000);
+}
+
+function onStatus(d) {
+  const { status, message, progress, blobUrl, inputTokens, outputTokens, costUsd } = d;
+
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('progressMsg').textContent = message;
+
+  const cur = STATUS_IDX[status] ?? -1;
+
+  STEP_IDS.forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    if (i < cur) el.classList.add('done');
+    else if (i === cur) el.classList.add('active');
+  });
+
+  LINE_IDS.forEach((id, i) => {
+    document.getElementById(id).classList.toggle('done', i < cur);
+  });
+
+  if (status === 'generated') {
+    document.getElementById('progressTitle').textContent = '✅ Brief generated!';
+    // Mark all steps done
+    STEP_IDS.forEach(id => { document.getElementById(id).classList.remove('active'); document.getElementById(id).classList.add('done'); });
+    LINE_IDS.forEach(id => document.getElementById(id).classList.add('done'));
+
+    document.getElementById('viewBtn').href = blobUrl;
+    document.getElementById('successBox').style.display = 'flex';
+    if (inputTokens && outputTokens) {
+      document.getElementById('actualUsage').textContent =
+        `Actual: ${inputTokens.toLocaleString()} in + ${outputTokens.toLocaleString()} out = ${(inputTokens+outputTokens).toLocaleString()} tokens | $${parseFloat(costUsd).toFixed(4)}`;
+    }
+  }
+
+  if (status === 'failed') {
+    document.getElementById('progressTitle').textContent = 'Generation failed';
+    document.getElementById('errorDetail').textContent = message || 'An error occurred.';
+    document.getElementById('errorBox').style.display = 'block';
+  }
+}
+
+function resetForm() {
+  if (pollId) clearInterval(pollId);
+  document.getElementById('progressSection').style.display = 'none';
+  document.getElementById('formGrid').style.display = 'grid';
+  document.getElementById('briefForm').reset();
+  document.getElementById('successBox').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('progressTitle').textContent = 'Generating your brief...';
+  document.getElementById('progressFill').style.width = '5%';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = false;
+  btn.textContent = 'Generate Brief';
+  updateCounter();
+}
+
+function showErr(msg) {
+  const el = document.getElementById('formError');
+  el.textContent = msg;
+  el.style.display = 'inline';
+}
+function clearErr() { document.getElementById('formError').style.display = 'none'; }
+
+// ── Init ─────────────────────────────────────────────
+loadUser();
+updateCounter();
+</script>
 </body>
 </html>

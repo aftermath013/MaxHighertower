@@ -1,21 +1,32 @@
 {
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/599e51d6-2f8c-4347-8e59-1f795a51a98c/v2.0",
+          "clientIdSettingName": "AAD_CLIENT_ID",
+          "clientSecretSettingName": "AAD_CLIENT_SECRET"
+        }
+      }
+    }
+  },
   "routes": [
     {
-      "route": "/api/approve-request",
-      "methods": ["POST"],
-      "allowedRoles": ["anonymous"]
+      "route": "/api/*",
+      "allowedRoles": ["authenticated"]
     },
     {
-      "route": "/api/get-projects",
-      "methods": ["GET"],
-      "allowedRoles": ["anonymous"]
-    },
-    {
-      "route": "/api/generate-brief",
-      "methods": ["POST"],
-      "allowedRoles": ["anonymous"]
+      "route": "/*",
+      "allowedRoles": ["authenticated"]
     }
   ],
+  "responseOverrides": {
+    "401": {
+      "redirect": "/.auth/login/aad",
+      "statusCode": 302
+    }
+  },
   "globalHeaders": {
     "Cache-Control": "no-store"
   },
