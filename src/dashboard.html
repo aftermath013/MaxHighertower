@@ -482,7 +482,7 @@ async function deleteProject(projectId) {
 setInterval(() => {
   const hasActive = allProjects.some(p => ['pending','researching','generating','saving'].includes(p.status));
   if (hasActive) loadProjects();
-}, 5000);
+}, 10000);
 
 // ── Init ─────────────────────────────────────────────
 loadUser();
