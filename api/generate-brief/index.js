@@ -21,7 +21,7 @@ module.exports = async function (context, req) {
     }
 
     const entity = await tableClient.getEntity('projects', projectId);
-    if (entity.status !== 'pending') {
+    if (!['pending', 'failed'].includes(entity.status)) {
       context.res = { status: 400, body: { success: false, error: `Cannot generate: status is ${entity.status}.` } };
       return;
     }

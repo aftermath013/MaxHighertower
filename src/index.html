@@ -117,6 +117,21 @@
     .btn-teal:hover { opacity: .88; transform: translateY(-1px); }
     .form-error { font-size: 12px; color: #dc2626; font-weight: 600; display: none; }
 
+    /* ── Checklist pills ── */
+    .check-group-label { font-size: 12px; font-weight: 600; color: var(--cnx-charcoal); margin-bottom: 8px; display: block; }
+    .checklist { display: flex; flex-wrap: wrap; gap: 8px; }
+    .check-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 20px;
+      border: 1.5px solid #e5e7eb; cursor: pointer;
+      font-size: 12px; font-weight: 600; color: #6b7280;
+      transition: all .18s; user-select: none; line-height: 1;
+    }
+    .check-pill:hover { border-color: var(--cnx-teal); color: var(--cnx-jade); }
+    .check-pill input[type="checkbox"] { display: none; }
+    .check-pill.checked { background: rgba(37,226,204,.12); border-color: var(--cnx-teal); color: var(--cnx-jade); font-weight: 700; }
+    .check-pill.check-all.checked { background: rgba(0,61,91,.08); border-color: var(--cnx-blue); color: var(--cnx-blue); }
+
     /* ── Token counter ── */
     .token-big { font-size: 30px; font-weight: 800; color: var(--cnx-blue); line-height: 1; margin-bottom: 2px; }
     .token-cost { font-size: 13px; font-weight: 600; color: var(--cnx-jade); margin-bottom: 16px; }
@@ -251,16 +266,108 @@
             <input type="url" id="clientUrl" placeholder="https://acme.com" required>
           </div>
           <div class="form-group full">
-            <label for="lobScope">LOB Scope <span class="req">*</span></label>
-            <input type="text" id="lobScope" placeholder="e.g. Full-Stack CS + Tech + Insurance" required>
+            <span class="check-group-label">LOB Scope <span class="req">*</span></span>
+            <div class="checklist" id="lobScopeGroup">
+              <label class="check-pill"><input type="checkbox" value="CS"> CS</label>
+              <label class="check-pill"><input type="checkbox" value="Tech"> Tech</label>
+              <label class="check-pill"><input type="checkbox" value="Insurance"> Insurance</label>
+              <label class="check-pill"><input type="checkbox" value="Sales"> Sales</label>
+              <label class="check-pill check-all"><input type="checkbox" value="all"> All of the above</label>
+            </div>
           </div>
           <div class="form-group">
             <label for="deliveryLocation">Delivery Location <span class="req">*</span></label>
-            <input type="text" id="deliveryLocation" placeholder="e.g. Philippines" required>
+            <select id="deliveryLocation" required>
+              <option value="">Select a country…</option>
+              <optgroup label="Top Delivery Locations">
+                <option>Philippines</option>
+                <option>India</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>Colombia</option>
+                <option>Mexico</option>
+                <option>South Africa</option>
+                <option>Malaysia</option>
+                <option>Indonesia</option>
+              </optgroup>
+              <optgroup label="All Countries">
+                <option>Albania</option>
+                <option>Argentina</option>
+                <option>Armenia</option>
+                <option>Australia</option>
+                <option>Bangladesh</option>
+                <option>Belize</option>
+                <option>Bolivia</option>
+                <option>Bosnia and Herzegovina</option>
+                <option>Brazil</option>
+                <option>Bulgaria</option>
+                <option>Canada</option>
+                <option>Chile</option>
+                <option>China</option>
+                <option>Colombia</option>
+                <option>Costa Rica</option>
+                <option>Czech Republic</option>
+                <option>Dominican Republic</option>
+                <option>Ecuador</option>
+                <option>Egypt</option>
+                <option>El Salvador</option>
+                <option>Georgia</option>
+                <option>Ghana</option>
+                <option>Guatemala</option>
+                <option>Honduras</option>
+                <option>Hungary</option>
+                <option>India</option>
+                <option>Indonesia</option>
+                <option>Jamaica</option>
+                <option>Japan</option>
+                <option>Kenya</option>
+                <option>Malaysia</option>
+                <option>Mexico</option>
+                <option>Moldova</option>
+                <option>Morocco</option>
+                <option>New Zealand</option>
+                <option>Nicaragua</option>
+                <option>Nigeria</option>
+                <option>North Macedonia</option>
+                <option>Pakistan</option>
+                <option>Panama</option>
+                <option>Paraguay</option>
+                <option>Peru</option>
+                <option>Philippines</option>
+                <option>Poland</option>
+                <option>Romania</option>
+                <option>Serbia</option>
+                <option>Singapore</option>
+                <option>Slovakia</option>
+                <option>South Africa</option>
+                <option>South Korea</option>
+                <option>Spain</option>
+                <option>Sri Lanka</option>
+                <option>Taiwan</option>
+                <option>Tanzania</option>
+                <option>Thailand</option>
+                <option>Trinidad and Tobago</option>
+                <option>Turkey</option>
+                <option>Uganda</option>
+                <option>Ukraine</option>
+                <option>United Kingdom</option>
+                <option>United States</option>
+                <option>Uruguay</option>
+                <option>Venezuela</option>
+                <option>Vietnam</option>
+              </optgroup>
+            </select>
           </div>
           <div class="form-group">
-            <label for="channelScope">Channel Scope</label>
-            <input type="text" id="channelScope" placeholder="e.g. Voice + Chat (optional)">
+            <span class="check-group-label">Channel Scope</span>
+            <div class="checklist" id="channelScopeGroup">
+              <label class="check-pill"><input type="checkbox" value="Inbound"> Inbound</label>
+              <label class="check-pill"><input type="checkbox" value="Outbound"> Outbound</label>
+              <label class="check-pill"><input type="checkbox" value="Email"> Email</label>
+              <label class="check-pill"><input type="checkbox" value="Chat"> Chat</label>
+              <label class="check-pill"><input type="checkbox" value="Ticket"> Ticket</label>
+              <label class="check-pill check-all"><input type="checkbox" value="all"> All of the above</label>
+            </div>
           </div>
         </div>
         <div class="form-actions">
@@ -292,7 +399,7 @@
         <ul>
           <li>Fetches and reads the client website</li>
           <li>Writes 5 pages: Brief, Pain Points, Journey Map, Agent Match, Ops Framework</li>
-          <li>Takes 60–90 seconds</li>
+          <li>Takes 20–30 seconds</li>
           <li>Output is a shareable HTML file</li>
         </ul>
       </div>
@@ -354,23 +461,62 @@ async function loadUser() {
   }
 }
 
+// ── Checklist pills ──────────────────────────────────
+function setupChecklist(groupId) {
+  const group = document.getElementById(groupId);
+  const allPill = group.querySelector('.check-all');
+  const allCb = allPill.querySelector('input');
+  const regularPills = Array.from(group.querySelectorAll('.check-pill:not(.check-all)'));
+  const regularCbs = regularPills.map(p => p.querySelector('input'));
+
+  function syncAllPill() {
+    const allChecked = regularCbs.every(cb => cb.checked);
+    allCb.checked = allChecked;
+    allPill.classList.toggle('checked', allChecked);
+  }
+
+  allCb.addEventListener('change', () => {
+    regularCbs.forEach(cb => { cb.checked = allCb.checked; });
+    regularPills.forEach(p => p.classList.toggle('checked', allCb.checked));
+    allPill.classList.toggle('checked', allCb.checked);
+    updateCounter();
+  });
+
+  regularCbs.forEach((cb, i) => {
+    cb.addEventListener('change', () => {
+      regularPills[i].classList.toggle('checked', cb.checked);
+      syncAllPill();
+      updateCounter();
+    });
+  });
+}
+
+function getChecklistValue(groupId) {
+  const group = document.getElementById(groupId);
+  return Array.from(group.querySelectorAll('.check-pill:not(.check-all) input:checked'))
+    .map(cb => cb.value).join(' + ');
+}
+
 // ── Token counter ────────────────────────────────────
-const BASE_IN = 3500, OUT = 12000;
+const BASE_IN = 1500, OUT = 3000;
 const IN_P = 3 / 1e6, OUT_P = 15 / 1e6;
 
 function updateCounter() {
-  const chars = ['clientName','clientUrl','lobScope','deliveryLocation','channelScope']
-    .reduce((s, id) => s + (document.getElementById(id).value.length), 0);
+  const chars = ['clientName','clientUrl']
+    .reduce((s, id) => s + document.getElementById(id).value.length, 0)
+    + getChecklistValue('lobScopeGroup').length
+    + getChecklistValue('channelScopeGroup').length
+    + (document.getElementById('deliveryLocation').value || '').length;
   const inputTok = BASE_IN + Math.ceil(chars / 4);
   const total = inputTok + OUT;
-  const cost = (inputTok * IN_P + OUT * OUT_P).toFixed(2);
-  document.getElementById('tokenCount').textContent = `~${(total/1000).toFixed(1)}K`;
-  document.getElementById('tokenCost').textContent = `~$${cost} per brief`;
-  document.getElementById('inputEst').textContent = `~${(inputTok/1000).toFixed(1)}K`;
+  const cost = (inputTok * IN_P + OUT * OUT_P).toFixed(3);
+  document.getElementById('tokenCount').textContent = '~' + (total/1000).toFixed(1) + 'K';
+  document.getElementById('tokenCost').textContent = '~$' + cost + ' per brief';
+  document.getElementById('inputEst').textContent = '~' + (inputTok/1000).toFixed(1) + 'K';
 }
 
-['clientName','clientUrl','lobScope','deliveryLocation','channelScope']
-  .forEach(id => document.getElementById(id).addEventListener('input', updateCounter));
+['clientName','clientUrl'].forEach(id => document.getElementById(id).addEventListener('input', updateCounter));
+document.getElementById('deliveryLocation').addEventListener('change', updateCounter);
 
 // ── Sidebar ──────────────────────────────────────────
 const sidebar = document.getElementById('sidebar');
@@ -391,14 +537,15 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
   e.preventDefault();
   clearErr();
 
-  const v = id => document.getElementById(id).value.trim();
-  const clientName = v('clientName'), clientUrl = v('clientUrl'),
-        lobScope = v('lobScope'), deliveryLocation = v('deliveryLocation'),
-        channelScope = v('channelScope');
+  const clientName = document.getElementById('clientName').value.trim();
+  const clientUrl = document.getElementById('clientUrl').value.trim();
+  const lobScope = getChecklistValue('lobScopeGroup');
+  const deliveryLocation = document.getElementById('deliveryLocation').value;
+  const channelScope = getChecklistValue('channelScopeGroup');
 
-  if (!clientName || !clientUrl || !lobScope || !deliveryLocation) {
-    return showErr('Please fill in all required fields.');
-  }
+  if (!clientName || !clientUrl) return showErr('Client name and website are required.');
+  if (!lobScope) return showErr('Select at least one LOB scope.');
+  if (!deliveryLocation) return showErr('Select a delivery location.');
   try { new URL(clientUrl); } catch { return showErr('Enter a valid URL (include https://)'); }
 
   const btn = document.getElementById('submitBtn');
@@ -413,18 +560,16 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
     });
     let data;
     try { data = await res.json(); } catch {
-      throw new Error(`API error (HTTP ${res.status}) — check Azure environment variables are configured.`);
+      throw new Error('API error (HTTP ' + res.status + ') — check Azure environment variables are configured.');
     }
     if (!data.success) throw new Error(data.error || 'Submission failed.');
 
     const { projectId } = data.data;
     document.getElementById('briefClientName').textContent = clientName;
 
-    // Show progress, hide form
     document.getElementById('formGrid').style.display = 'none';
     document.getElementById('progressSection').style.display = 'block';
 
-    // Fire and forget — generate-brief runs independently on Azure even after proxy closes connection
     fetch('/api/generate-brief', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -449,19 +594,19 @@ function startPolling(projectId) {
     try {
       const res = await fetch('/api/get-brief-status?id=' + encodeURIComponent(projectId));
       const d = await res.json();
-      if (d.success) onStatus(d.data);
-      if (d.data?.status === 'generated' || d.data?.status === 'failed') clearInterval(pollId);
+      if (d.success) onStatus(d.data, projectId);
+      if (d.data && (d.data.status === 'generated' || d.data.status === 'failed')) clearInterval(pollId);
     } catch {}
   }, 2000);
 }
 
-function onStatus(d) {
-  const { status, message, progress, blobUrl, inputTokens, outputTokens, costUsd } = d;
+function onStatus(d, projectId) {
+  const { status, message, progress, inputTokens, outputTokens, costUsd } = d;
 
   document.getElementById('progressFill').style.width = progress + '%';
   document.getElementById('progressMsg').textContent = message;
 
-  const cur = STATUS_IDX[status] ?? -1;
+  const cur = STATUS_IDX[status] != null ? STATUS_IDX[status] : -1;
 
   STEP_IDS.forEach((id, i) => {
     const el = document.getElementById(id);
@@ -476,15 +621,15 @@ function onStatus(d) {
 
   if (status === 'generated') {
     document.getElementById('progressTitle').textContent = '✅ Brief generated!';
-    // Mark all steps done
     STEP_IDS.forEach(id => { document.getElementById(id).classList.remove('active'); document.getElementById(id).classList.add('done'); });
     LINE_IDS.forEach(id => document.getElementById(id).classList.add('done'));
 
-    document.getElementById('viewBtn').href = blobUrl;
+    document.getElementById('viewBtn').href = '/api/get-brief?id=' + projectId;
     document.getElementById('successBox').style.display = 'flex';
     if (inputTokens && outputTokens) {
       document.getElementById('actualUsage').textContent =
-        `Actual: ${inputTokens.toLocaleString()} in + ${outputTokens.toLocaleString()} out = ${(inputTokens+outputTokens).toLocaleString()} tokens | $${parseFloat(costUsd).toFixed(4)}`;
+        'Actual: ' + inputTokens.toLocaleString() + ' in + ' + outputTokens.toLocaleString() + ' out = ' +
+        (inputTokens+outputTokens).toLocaleString() + ' tokens | $' + parseFloat(costUsd).toFixed(4);
     }
   }
 
@@ -500,6 +645,8 @@ function resetForm() {
   document.getElementById('progressSection').style.display = 'none';
   document.getElementById('formGrid').style.display = 'grid';
   document.getElementById('briefForm').reset();
+  document.getElementById('lobScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
+  document.getElementById('channelScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('successBox').style.display = 'none';
   document.getElementById('errorBox').style.display = 'none';
   document.getElementById('progressTitle').textContent = 'Generating your brief...';
@@ -519,6 +666,8 @@ function clearErr() { document.getElementById('formError').style.display = 'none
 
 // ── Init ─────────────────────────────────────────────
 loadUser();
+setupChecklist('lobScopeGroup');
+setupChecklist('channelScopeGroup');
 updateCounter();
 </script>
 </body>

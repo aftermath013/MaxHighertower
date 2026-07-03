@@ -167,9 +167,16 @@
     .action-link {
       font-size: 12px; font-weight: 700; color: var(--cnx-jade); text-decoration: none;
       padding: 5px 11px; border: 1.5px solid #d1fae5; border-radius: 6px;
-      transition: all .18s; white-space: nowrap;
+      transition: all .18s; white-space: nowrap; background: none; cursor: pointer; font-family: inherit;
     }
     .action-link:hover { background: #f0fdf4; }
+    .retry-btn {
+      font-size: 12px; font-weight: 700; color: var(--cnx-raspberry); background: none;
+      padding: 5px 11px; border: 1.5px solid #fecaca; border-radius: 6px;
+      transition: all .18s; white-space: nowrap; cursor: pointer; font-family: inherit;
+    }
+    .retry-btn:hover { background: #fef2f2; }
+    .retry-btn:disabled { opacity: .5; cursor: not-allowed; }
 
     .cost-pill {
       font-size: 11px; font-weight: 600; color: #6b7280;
@@ -387,6 +394,8 @@ function renderTable(projects) {
 
     const actionCell = p.status === 'generated' && p.blobUrl
       ? `<a href="/api/get-brief?id=${p.projectId}" target="_blank" class="action-link">Open Brief →</a>`
+      : p.status === 'failed'
+      ? `<button class="retry-btn" id="retry-${p.projectId}" onclick="retry('${p.projectId}')">↺ Retry</button>`
       : `<span style="font-size:11px;color:#9ca3af">${getStatusMsg(p.status)}</span>`;
 
     return `<tr>
@@ -425,6 +434,17 @@ function getStatusMsg(status) {
 
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function retry(projectId) {
+  const btn = document.getElementById('retry-' + projectId);
+  if (btn) { btn.disabled = true; btn.textContent = 'Retrying…'; }
+  fetch('/api/generate-brief', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ projectId })
+  }).catch(() => {});
+  setTimeout(loadProjects, 1500);
 }
 
 // Auto-refresh in-progress rows every 5s
