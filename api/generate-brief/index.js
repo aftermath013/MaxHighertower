@@ -35,7 +35,15 @@ module.exports = async function (context, req) {
     const systemPrompt = fs.readFileSync(path.join(__dirname, 'prompt.md'), 'utf8');
     const userMessage = buildUserMessage(entity, clientInfo);
 
-    const aiResult = await callAI(systemPrompt, userMessage, context);
+    let aiResult;
+    try {
+      aiResult = await callAI(systemPrompt, userMessage, context);
+    } catch (e) {
+      if (e.message.includes('timed out')) {
+        context.log('First attempt timed out, retrying...');
+        aiResult = await callAI(systemPrompt, userMessage, context);
+      } else throw e;
+    }
     const { html, inputTokens, outputTokens } = aiResult;
 
     if (!html || (!html.trim().toLowerCase().startsWith('<!doctype') && !html.trim().toLowerCase().startsWith('<html'))) {
@@ -107,7 +115,7 @@ Follow the system prompt exactly. Return raw HTML only.`;
 
 async function callAI(systemPrompt, userMessage, context) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 120000);
+  const timeout = setTimeout(() => controller.abort(), 200000);
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
