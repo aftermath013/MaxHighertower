@@ -386,7 +386,7 @@ function renderTable(projects) {
     const cost = p.costUsd ? `$${parseFloat(p.costUsd).toFixed(4)}` : '—';
 
     const actionCell = p.status === 'generated' && p.blobUrl
-      ? `<a href="${p.blobUrl}" target="_blank" class="action-link">Open Brief →</a>`
+      ? `<a href="/api/get-brief?id=${p.projectId}" target="_blank" class="action-link">Open Brief →</a>`
       : `<span style="font-size:11px;color:#9ca3af">${getStatusMsg(p.status)}</span>`;
 
     return `<tr>

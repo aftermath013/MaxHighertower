@@ -4,23 +4,8 @@ const projectId = params.get('id');
 if (!projectId) {
   showError('No project ID in URL. Use /brief.html?id=YOUR_PROJECT_ID');
 } else {
-  loadBrief(projectId);
-}
-
-async function loadBrief(id) {
-  try {
-    const res = await fetch(`/api/get-brief?id=${encodeURIComponent(id)}`);
-    const data = await res.json();
-
-    if (!data.success) {
-      showError(data.error || 'Brief not found.');
-      return;
-    }
-
-    window.location.href = data.data.blobUrl;
-  } catch (err) {
-    showError('Failed to load brief: ' + err.message);
-  }
+  // Redirect to the authenticated API endpoint — blob URL stays server-side
+  window.location.href = `/api/get-brief?id=${encodeURIComponent(projectId)}`;
 }
 
 function showError(msg) {
