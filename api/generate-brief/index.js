@@ -160,7 +160,7 @@ CLIENT NAME: ${entity.clientName}
 CLIENT URL: ${entity.clientUrl}
 SCOPE/SUPPORT: ${entity.lobScope}
 DELIVERY LOCATION: ${entity.deliveryLocation}
-CHANNEL SCOPE: ${entity.channelScope || 'TBD'}
+CHANNEL SCOPE: ${entity.lobScope === 'Back Office' ? 'N/A — Back Office (non-customer-facing)' : (entity.channelScope || 'TBD')}
 REQUESTED BY: ${entity.requestedBy}${remarksLine}
 ${extra}
 Return the JSON object only. No explanation.`;
@@ -424,7 +424,7 @@ function buildPage1(data, clientName, requestedBy, briefName) {
   <div class="hero">
     <div class="hero-eyebrow">Concentrix Program Brief${briefName ? ' &nbsp;·&nbsp; ' + esc(briefName) : ''}</div>
     <h1>${esc(clientName)}</h1>
-    <div class="hero-sub">${esc(safe(data.clientTagline))}</div>
+    <div class="hero-sub">${renderText(safe(data.clientTagline))}</div>
     <div class="stat-row">${stats}</div>
   </div>
   <div class="section">
@@ -604,15 +604,15 @@ function buildPage4(data, clientName, requestedBy) {
     <div class="three-col">
       <div class="card">
         <h4>Must-Have Skills</h4>
-        <ul style="padding-left:16px;font-size:12px;line-height:1.8;">${safeArr(hiring.mustHave).map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+        <ul style="padding-left:16px;font-size:12px;line-height:1.8;">${safeArr(hiring.mustHave).map(s => `<li>${renderText(s)}</li>`).join('')}</ul>
       </div>
       <div class="card">
         <h4>Nice-to-Have</h4>
-        <ul style="padding-left:16px;font-size:12px;line-height:1.8;">${safeArr(hiring.niceToHave).map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+        <ul style="padding-left:16px;font-size:12px;line-height:1.8;">${safeArr(hiring.niceToHave).map(s => `<li>${renderText(s)}</li>`).join('')}</ul>
       </div>
       <div class="card" style="border-top-color:var(--cnx-raspberry);">
         <h4 style="color:var(--cnx-raspberry);">Red Flags</h4>
-        <ul style="padding-left:16px;font-size:12px;line-height:1.8;">${safeArr(hiring.redFlags).map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+        <ul style="padding-left:16px;font-size:12px;line-height:1.8;">${safeArr(hiring.redFlags).map(s => `<li>${renderText(s)}</li>`).join('')}</ul>
       </div>
     </div>
   </div>

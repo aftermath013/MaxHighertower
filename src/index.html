@@ -134,6 +134,9 @@
     .check-pill.check-all.checked { background: rgba(0,61,91,.08); border-color: var(--cnx-blue); color: var(--cnx-blue); }
     .check-pill-bo:hover { border-color: var(--cnx-orange); color: #7a3f00; }
     .check-pill-bo.checked { background: rgba(255,132,0,.1); border-color: var(--cnx-orange); color: #7a3f00; font-weight: 700; }
+    .checklist-disabled { opacity: .35; pointer-events: none; }
+    .checklist-disabled-label { font-size: 11px; color: #9ca3af; font-weight: 500; margin-top: 4px; display: none; }
+    .checklist-disabled-label.visible { display: block; }
     .scope-selector { display: flex; flex-direction: column; gap: 10px; }
     .scope-or { font-size: 11px; font-weight: 700; color: #c4c9d0; text-transform: uppercase; letter-spacing: .08em; display: flex; align-items: center; gap: 10px; }
     .scope-or::before, .scope-or::after { content: ''; flex: 0 0 28px; height: 1px; background: #e5e7eb; }
@@ -255,7 +258,7 @@
 <main class="main">
   <div class="page-header">
     <h1>Create a Brief</h1>
-    <p>Fill in the client details. AI researches the client and generates a 5-page program brief.</p>
+    <p>For Sales, Delivery &amp; Support teams to build deeper understanding of a potential client — and pivot their presentation and approach to match client preferences and pain points.</p>
   </div>
 
   <!-- Form + side panel -->
@@ -380,7 +383,7 @@
           </div>
           <div class="form-group">
             <span class="check-group-label">Channel Scope</span>
-            <div class="checklist" id="channelScopeGroup">
+            <div class="checklist" id="channelScopeGroup" style="transition:opacity .2s;">
               <label class="check-pill"><input type="checkbox" value="Inbound"> Inbound</label>
               <label class="check-pill"><input type="checkbox" value="Outbound"> Outbound</label>
               <label class="check-pill"><input type="checkbox" value="Email"> Email</label>
@@ -388,6 +391,7 @@
               <label class="check-pill"><input type="checkbox" value="Ticket"> Ticket</label>
               <label class="check-pill check-all"><input type="checkbox" value="all"> All of the above</label>
             </div>
+            <div class="checklist-disabled-label" id="channelDisabledNote">Not applicable for Back Office scope</div>
           </div>
           <div class="form-group full">
             <label for="remarks">Remarks / Specific Business <span style="color:#9ca3af;font-weight:500;">(optional)</span></label>
@@ -410,11 +414,11 @@
     <aside class="info-panel">
       <div class="card">
         <div class="card-label">Estimated Usage</div>
-        <div class="token-big" id="tokenCount">~15.5K</div>
-        <div class="token-cost" id="tokenCost">~$0.19 per brief</div>
+        <div class="token-big" id="tokenCount">~11.5K</div>
+        <div class="token-cost" id="tokenCost">~$0.13 per brief</div>
         <div class="breakdown">
           <div class="brow"><span>Input tokens</span><span id="inputEst">~3.5K</span></div>
-          <div class="brow"><span>Output tokens</span><span>~12K</span></div>
+          <div class="brow"><span>Output tokens</span><span>~8K</span></div>
           <div class="brow"><span>Model</span><span style="font-size:10px">claude-sonnet-4-5</span></div>
           <div class="brow"><span>Rate</span><span style="font-size:10px">$3 / $15 per 1M</span></div>
         </div>
@@ -423,8 +427,8 @@
         <div class="card-label">What the AI does</div>
         <ul>
           <li>Fetches and reads the client website</li>
-          <li>Writes 5 pages: Brief, Pain Points, Journey Map, Agent Match, Ops Framework</li>
-          <li>Takes 20–30 seconds</li>
+          <li>Writes 5 pages: Brief, Pain Points, Journey Map, Agent Match, Program Close</li>
+          <li>Takes 1–2 minutes</li>
           <li>Output is a shareable HTML file</li>
         </ul>
       </div>
@@ -532,7 +536,7 @@ function getScopeValue() {
 }
 
 // ── Token counter ────────────────────────────────────
-const BASE_IN = 1500, OUT = 3000;
+const BASE_IN = 1500, OUT = 8000;
 const IN_P = 3 / 1e6, OUT_P = 15 / 1e6;
 
 function updateCounter() {
@@ -709,7 +713,7 @@ function resetForm() {
   document.getElementById('briefName').value = '';
   document.getElementById('remarks').value = '';
   document.getElementById('boInput').checked = false;
-  document.getElementById('boPill').classList.remove('checked');
+  setBackOfficeMode(false);
   document.getElementById('lobScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('channelScopeGroup').querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
   document.getElementById('successBox').style.display = 'none';
@@ -733,20 +737,35 @@ function clearErr() { document.getElementById('formError').style.display = 'none
 const boInput = document.getElementById('boInput');
 const boPill = document.getElementById('boPill');
 
-boInput.addEventListener('change', function() {
-  if (boInput.checked) {
+function setBackOfficeMode(on) {
+  const channelGroup = document.getElementById('channelScopeGroup');
+  const channelNote = document.getElementById('channelDisabledNote');
+  if (on) {
     document.querySelectorAll('#lobScopeGroup input[type="checkbox"]').forEach(cb => {
       cb.checked = false;
       cb.closest('.check-pill').classList.remove('checked');
     });
+    document.querySelectorAll('#channelScopeGroup input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      cb.closest('.check-pill').classList.remove('checked');
+    });
+    channelGroup.classList.add('checklist-disabled');
+    channelNote.classList.add('visible');
+  } else {
+    channelGroup.classList.remove('checklist-disabled');
+    channelNote.classList.remove('visible');
   }
-  boPill.classList.toggle('checked', boInput.checked);
+  boPill.classList.toggle('checked', on);
   updateCounter();
+}
+
+boInput.addEventListener('change', function() {
+  setBackOfficeMode(boInput.checked);
 });
 
 document.getElementById('lobScopeGroup').addEventListener('change', function() {
   boInput.checked = false;
-  boPill.classList.remove('checked');
+  setBackOfficeMode(false);
 });
 
 // ── Init ─────────────────────────────────────────────
