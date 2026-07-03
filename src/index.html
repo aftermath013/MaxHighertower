@@ -424,7 +424,13 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
     document.getElementById('formGrid').style.display = 'none';
     document.getElementById('progressSection').style.display = 'block';
 
-    // Generation is triggered via queue — just start polling
+    // Fire and forget — generate-brief runs independently on Azure even after proxy closes connection
+    fetch('/api/generate-brief', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ projectId })
+    }).catch(() => {});
+
     startPolling(projectId);
   } catch (err) {
     btn.disabled = false;

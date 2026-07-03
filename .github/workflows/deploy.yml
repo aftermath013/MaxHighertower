@@ -20,15 +20,3 @@ jobs:
           app_location: src
           api_location: api
           output_location: ""
-
-  deploy-processor:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy background processor
-        uses: Azure/functions-action@v1
-        with:
-          app-name: cnxphhighguardenfunction
-          package: processor
-          publish-profile: ${{ secrets.AZURE_FUNCTIONS_PUBLISH_PROFILE }}
