@@ -133,8 +133,11 @@ async function callAI(systemPrompt, userMessage, context) {
     }
 
     const data = await res.json();
+    let html = data.content?.[0]?.text || '';
+    // Strip markdown code fences if model wrapped the HTML
+    html = html.replace(/^```(?:html)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
     return {
-      html: data.content?.[0]?.text || '',
+      html,
       inputTokens: data.usage?.input_tokens || 0,
       outputTokens: data.usage?.output_tokens || 0
     };
