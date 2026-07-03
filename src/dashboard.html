@@ -177,6 +177,13 @@
     }
     .retry-btn:hover { background: #fef2f2; }
     .retry-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .del-btn {
+      background: none; border: none; cursor: pointer; padding: 4px 6px;
+      color: #d1d5db; border-radius: 5px; line-height: 1; transition: all .18s;
+      font-size: 14px; vertical-align: middle;
+    }
+    .del-btn:hover { color: var(--cnx-raspberry); background: #fef2f2; }
+    .del-btn:disabled { opacity: .4; cursor: not-allowed; }
 
     .cost-pill {
       font-size: 11px; font-weight: 600; color: #6b7280;
@@ -296,10 +303,11 @@
             <th>Requested By</th>
             <th>Date</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="8"><div class="empty-state">Loading...</div></td></tr>
+          <tr><td colspan="9"><div class="empty-state">Loading...</div></td></tr>
         </tbody>
       </table>
     </div>
@@ -355,7 +363,7 @@ async function loadProjects() {
     applyFilter();
   } catch (err) {
     document.getElementById('tableBody').innerHTML =
-      `<tr><td colspan="8"><div class="empty-state">Failed to load: ${err.message}</div></td></tr>`;
+      `<tr><td colspan="9"><div class="empty-state">Failed to load: ${err.message}</div></td></tr>`;
   }
 }
 
@@ -382,7 +390,7 @@ function applyFilter() {
 function renderTable(projects) {
   if (!projects.length) {
     document.getElementById('tableBody').innerHTML =
-      '<tr><td colspan="8"><div class="empty-state">No briefs found<p>Create your first brief from the sidebar.</p></div></td></tr>';
+      '<tr><td colspan="9"><div class="empty-state">No briefs found<p>Create your first brief from the sidebar.</p></div></td></tr>';
     return;
   }
 
@@ -398,7 +406,7 @@ function renderTable(projects) {
       ? `<button class="retry-btn" id="retry-${p.projectId}" onclick="retry('${p.projectId}')">↺ Retry</button>`
       : `<span style="font-size:11px;color:#9ca3af">${getStatusMsg(p.status)}</span>`;
 
-    return `<tr>
+    return `<tr id="row-${p.projectId}">
       <td>
         <div class="client-name">${esc(p.clientName)}</div>
         <div class="client-lob">${esc(p.lobScope || '')}</div>
@@ -410,6 +418,7 @@ function renderTable(projects) {
       <td style="font-size:12px;color:#6b7280">${esc(p.requestedBy || '—')}</td>
       <td style="font-size:12px;color:#9ca3af;white-space:nowrap">${date}</td>
       <td>${actionCell}</td>
+      <td><button class="del-btn" id="del-${p.projectId}" onclick="deleteProject('${p.projectId}')" title="Delete">🗑</button></td>
     </tr>`;
   }).join('');
 }
@@ -445,6 +454,28 @@ async function retry(projectId) {
     body: JSON.stringify({ projectId })
   }).catch(() => {});
   setTimeout(loadProjects, 1500);
+}
+
+async function deleteProject(projectId) {
+  if (!confirm('Delete this brief? This cannot be undone.')) return;
+  const btn = document.getElementById('del-' + projectId);
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch('/api/delete-project', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ projectId })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+    // Remove from local array and re-render without a full reload
+    allProjects = allProjects.filter(p => p.projectId !== projectId);
+    renderStats(allProjects);
+    applyFilter();
+  } catch (err) {
+    if (btn) btn.disabled = false;
+    alert('Delete failed: ' + err.message);
+  }
 }
 
 // Auto-refresh in-progress rows every 5s

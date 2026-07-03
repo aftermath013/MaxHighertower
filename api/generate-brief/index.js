@@ -77,7 +77,7 @@ module.exports = async function (context, req) {
 
 async function callAI(systemPrompt, userMessage, context) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 80000);
+  const timeout = setTimeout(() => controller.abort(), 120000);
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -121,7 +121,7 @@ async function callAI(systemPrompt, userMessage, context) {
     };
   } catch (err) {
     clearTimeout(timeout);
-    if (err.name === 'AbortError') throw new Error('AI call timed out after 80s');
+    if (err.name === 'AbortError') throw new Error('AI call timed out after 120s');
     throw err;
   }
 }
