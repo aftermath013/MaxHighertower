@@ -618,27 +618,6 @@ function buildPage4(data, clientName, requestedBy) {
 }
 
 function buildPage5(data, clientName, requestedBy) {
-  const badgeStyle = { teal: 'background:var(--cnx-teal);color:var(--cnx-blue)', yellow: 'background:var(--cnx-yellow);color:var(--cnx-blue)', raspberry: 'background:var(--cnx-raspberry);color:#fff' };
-
-  const tiers = safeArr(data.tiers).map(t =>
-    `<div class="framework-tier">
-      <div class="tier-header">
-        <span class="tier-badge" style="${badgeStyle[t.badgeColor] || badgeStyle.teal}">${esc(t.badge)}</span>
-        <span class="tier-title">${esc(t.title)}</span>
-        <span class="tier-volume">${esc(t.volume)} of volume</span>
-      </div>
-      <div class="tier-body">
-        <div class="tier-col"><div class="tier-col-label">Contact Types</div><ul>${safeArr(t.contactTypes).map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>
-        <div class="tier-col"><div class="tier-col-label">Agent Profile</div><p style="font-size:12px;color:#444;">${renderText(t.agentProfile)}</p></div>
-        <div class="tier-col"><div class="tier-col-label">Escalation Triggers</div><ul>${safeArr(t.escalationTriggers).map(e => `<li>${esc(e)}</li>`).join('')}</ul></div>
-      </div>
-    </div>`
-  ).join('');
-
-  const kpis = safeArr(data.kpis).map(k =>
-    `<div class="kpi-card"><div class="kpi-val">${esc(k.val)}</div><div class="kpi-lbl">${esc(k.lbl)}</div></div>`
-  ).join('');
-
   const discovery = safeArr(data.discoveryItems).map(d =>
     `<div class="discovery-card"><div class="disc-icon">${esc(d.icon)}</div><h5>${esc(d.title)}</h5><p>${renderText(d.body)}</p></div>`
   ).join('');
@@ -650,18 +629,8 @@ function buildPage5(data, clientName, requestedBy) {
   return `<div class="page">
   <div class="hero">
     <div class="hero-eyebrow">Page 05</div>
-    <h1>Operations <span>Framework</span></h1>
-    <div class="hero-sub">Tiered routing model, KPI targets, and open discovery items for program design.</div>
-  </div>
-  <div class="section">
-    <div class="section-eyebrow">Tiered Routing</div>
-    <h2>Contact Handling Model</h2>
-    ${tiers}
-  </div>
-  <div class="section section-dark">
-    <div class="section-eyebrow">KPI Framework</div>
-    <h2>Target Metrics</h2>
-    <div class="kpi-grid">${kpis}</div>
+    <h1>Program <span>Close</span></h1>
+    <div class="hero-sub">Open discovery items CNX still needs — and the closing argument for why CNX wins this program.</div>
   </div>
   <div class="section section-gray">
     <div class="section-eyebrow">Open Discovery</div>

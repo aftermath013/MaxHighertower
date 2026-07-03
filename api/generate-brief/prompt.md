@@ -45,7 +45,7 @@ Return exactly this JSON structure, all fields populated:
   ],
 
   "archetypes": [
-    {"icon": "emoji", "name": "string", "description": "string — 2 sentences: who they are and what they need from CS. Use **bold** for key traits."}
+    {"icon": "emoji", "name": "string", "description": "string — 1 sentence: who they are and what they need from CS. Use **bold** for key traits."}
   ],
 
   "cnxRole": [
@@ -55,12 +55,12 @@ Return exactly this JSON structure, all fields populated:
   ],
 
   "painPoints": [
-    {"title": "string", "severity": "HIGH|MED|LOW", "description": "string — 2-3 sentences from real complaints. Use **bold** for the core issue and ==highlight== for the most critical stat.", "source": "string — e.g. BBB 2024, Trustpilot, Reddit r/clientname"}
+    {"title": "string", "severity": "HIGH|MED|LOW", "description": "string — 1-2 sentences from real complaints. Use **bold** for the core issue.", "source": "string — e.g. BBB 2024, Trustpilot, Reddit r/clientname"}
   ],
 
   "painSummary": {
-    "whatCustomersSay": "string — 2-3 sentences. Use **bold** for the dominant pattern.",
-    "csImplication": "string — 2-3 sentences on what this means for CNX agent design."
+    "whatCustomersSay": "string — 1 sentence. Use **bold** for the dominant pattern.",
+    "csImplication": "string — 1 sentence on what this means for CNX agent design."
   },
 
   "journeyStages": [
@@ -106,71 +106,31 @@ Return exactly this JSON structure, all fields populated:
     "redFlags": ["string", "string", "string"]
   },
 
-  "tiers": [
-    {
-      "badge": "T1",
-      "badgeColor": "teal",
-      "title": "string",
-      "volume": "string — e.g. ~60%",
-      "contactTypes": ["string", "string", "string"],
-      "agentProfile": "string",
-      "escalationTriggers": ["string", "string"]
-    },
-    {
-      "badge": "T2",
-      "badgeColor": "yellow",
-      "title": "string",
-      "volume": "string",
-      "contactTypes": ["string", "string", "string"],
-      "agentProfile": "string",
-      "escalationTriggers": ["string", "string"]
-    },
-    {
-      "badge": "T3",
-      "badgeColor": "raspberry",
-      "title": "string",
-      "volume": "string",
-      "contactTypes": ["string", "string"],
-      "agentProfile": "string",
-      "escalationTriggers": ["string"]
-    }
-  ],
-
-  "kpis": [
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"},
-    {"val": "string", "lbl": "string"}
-  ],
-
   "discoveryItems": [
     {"icon": "emoji", "title": "string", "body": "string — 2 sentences on what CNX needs from the client"}
   ],
 
   "whyCnx": [
-    {"title": "string", "body": "string — 2-3 sentences. Use **bold** for the strongest argument."},
-    {"title": "string", "body": "string — 2-3 sentences."}
+    {"title": "string", "body": "string — 1-2 sentences. Use **bold** for the strongest argument."},
+    {"title": "string", "body": "string — 1-2 sentences."}
   ]
 }
 ```
 
-## CONTENT REQUIREMENTS
+## CONTENT REQUIREMENTS — KEEP CONCISE (token budget is limited)
 
-- **stats**: Revenue, employee count, founding year, HQ location (research from client URL)
-- **catalog**: 4–8 rows covering the client's main product/service lines with real pricing
-- **archetypes**: Exactly 6 customer personas relevant to this client's CS volume
-- **cnxRole**: Title each box by the input: LOB Scope, Delivery Location, Channel Scope
-- **painPoints**: Minimum 6. Severity based on complaint volume/impact. Source must be real.
-- **journeyStages**: 5–7 stages. Each stage must have 3+ items in both whatTheyAreDoing and contactTriggers.
+- **stats**: Exactly 4. Revenue, employee count, founding year, HQ location.
+- **catalog**: 4–6 rows. One sentence per description. Real pricing.
+- **archetypes**: Exactly 5. One sentence per description.
+- **cnxRole**: Title each box by the input: LOB Scope, Delivery Location, Channel Scope. 1-2 sentences each.
+- **painPoints**: Exactly 5. Severity based on complaint volume/impact. 1-2 sentences per description. Source must be real.
+- **painSummary**: 1 sentence each field.
+- **journeyStages**: Exactly 5 stages. Exactly 2 items in whatTheyAreDoing. Exactly 2 items in contactTriggers.
 - **emotionType**: Must be exactly one of: excited, anxious, frustrated, relieved, satisfied
-- **csOpportunity**: One row per journey stage. intervention = BPO-executable now. innovation = future/digital pitch.
-- **agentProfile.profile**: Keep experience bar realistic. 6 months + field affinity is the default. Only raise the bar when genuinely justified.
-- **hiring.mustHave**: Attainable by a strong candidate pool in DELIVERY LOCATION. Avoid requirements that shrink the pool unnecessarily.
-- **competencies**: 4–6 rows based on what this client's customers actually need
-- **tiers**: Exactly 3. Volume should sum to ~100%. Base on realistic contact type breakdown.
-- **kpis**: Exactly 8. Use industry benchmarks for this client's sector.
-- **discoveryItems**: 4–6 items covering what CNX still needs to finalize program design
+- **csOpportunity**: One row per journey stage. intervention = 1 sentence BPO-executable action. innovation = 1 sentence future/digital pitch.
+- **agentProfile.profile**: Keep experience bar realistic. 6 months + field affinity is the default. Only raise the bar when genuinely justified. 1 sentence.
+- **agentProfile** (all fields): 1 sentence each.
+- **hiring**: Exactly 3 items per array. Each item: short phrase, not a sentence.
+- **competencies**: Exactly 4 rows. 1 sentence per cell.
+- **discoveryItems**: Exactly 4. 1 sentence per body.
+- **whyCnx**: Exactly 2. 1-2 sentences each.
