@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "type": "queueTrigger",
+      "direction": "in",
+      "name": "queueItem",
+      "queueName": "briefs-queue",
+      "connection": "STORAGE_CONNECTION_STRING"
+    }
+  ]
+}

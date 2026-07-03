@@ -424,13 +424,7 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
     document.getElementById('formGrid').style.display = 'none';
     document.getElementById('progressSection').style.display = 'block';
 
-    // Fire generation (don't await — poll for progress)
-    fetch('/api/generate-brief', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ projectId })
-    }).catch(() => {});
-
+    // Generation is triggered via queue — just start polling
     startPolling(projectId);
   } catch (err) {
     btn.disabled = false;

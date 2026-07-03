@@ -1,4 +1,5 @@
 const { TableClient } = require('@azure/data-tables');
+const { QueueServiceClient } = require('@azure/storage-queue');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = async function (context, req) {
@@ -54,6 +55,13 @@ module.exports = async function (context, req) {
       statusMessage: 'Queued for generation...',
       createdAt: new Date().toISOString()
     });
+
+    // Enqueue for background processing (avoids HTTP proxy timeout)
+    const queueClient = QueueServiceClient
+      .fromConnectionString(process.env.STORAGE_CONNECTION_STRING)
+      .getQueueClient('briefs-queue');
+    await queueClient.createIfNotExists();
+    await queueClient.sendMessage(Buffer.from(JSON.stringify({ projectId })).toString('base64'));
 
     context.res = { status: 200, body: { success: true, data: { projectId } } };
   } catch (err) {

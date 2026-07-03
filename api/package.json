@@ -4,6 +4,7 @@
   "dependencies": {
     "@azure/data-tables": "^13.2.0",
     "@azure/storage-blob": "^12.23.0",
+    "@azure/storage-queue": "^12.19.0",
     "uuid": "^9.0.0"
   }
 }
