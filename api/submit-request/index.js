@@ -39,6 +39,8 @@ module.exports = async function (context, req) {
       process.env.TABLE_NAME
     );
 
+    await client.createTable().catch(() => {});
+
     await client.createEntity({
       partitionKey: 'projects',
       rowKey: projectId,
