@@ -6,6 +6,13 @@ const path = require('path');
 const INPUT_PRICE_PER_TOKEN = 3.0 / 1_000_000;
 const OUTPUT_PRICE_PER_TOKEN = 15.0 / 1_000_000;
 
+const FAVICON_DATA_URI = (() => {
+  try {
+    const buf = fs.readFileSync(path.join(__dirname, 'cnx-favicon.png'));
+    return `data:image/png;base64,${buf.toString('base64')}`;
+  } catch { return ''; }
+})();
+
 module.exports = async function (context, req) {
   const tableClient = TableClient.fromConnectionString(
     process.env.STORAGE_CONNECTION_STRING,
@@ -185,6 +192,14 @@ function esc(str) {
 function safe(v, fallback = '') { return v || fallback; }
 function safeArr(v) { return Array.isArray(v) ? v : []; }
 
+// Escape HTML then convert **bold** and ==highlight== markers
+function renderText(str) {
+  if (!str) return '';
+  return esc(str)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/==(.+?)==/g, '<span class="hl">$1</span>');
+}
+
 function buildHTML(data, entity) {
   const clientName = safe(data.clientName, entity.clientName);
   const requestedBy = safe(entity.requestedBy);
@@ -197,6 +212,7 @@ function buildHTML(data, entity) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(clientName)} — Concentrix Program Brief</title>
+${FAVICON_DATA_URI ? `<link rel="icon" type="image/png" href="${FAVICON_DATA_URI}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -258,12 +274,24 @@ body.web-view .page.active{display:block}
 .callout-dark{background:rgba(255,255,255,.05);border-left:3px solid var(--cnx-teal);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:12px}
 .callout-dark h4{font-size:12px;font-weight:700;color:var(--cnx-teal);margin-bottom:6px}
 .callout-dark p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.65}
-.journey-container{display:flex;gap:16px;overflow-x:auto;padding-bottom:16px}
-.journey-stage{min-width:180px;flex:1;background:var(--cnx-white);border:1px solid #e8e8e8;border-top:3px solid var(--cnx-teal);border-radius:6px;padding:16px}
-.journey-stage h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--cnx-blue);margin-bottom:8px}
-.emotion{font-size:18px;margin-bottom:4px}
-.emotion-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:12px}
-.journey-stage ul{font-size:11px;line-height:1.6;padding-left:14px;color:#555}
+.journey-container{display:flex;gap:0;overflow-x:auto;padding-bottom:8px}
+.journey-stage{flex:1;min-width:190px;position:relative}
+.journey-stage:not(:last-child)::after{content:'›';position:absolute;top:26px;right:-2px;font-size:22px;color:var(--cnx-teal);font-weight:700;z-index:2}
+.stage-header{background:var(--cnx-blue);color:var(--cnx-white);padding:14px 16px;margin-right:16px;border-radius:6px 6px 0 0}
+.stage-num{font-size:9px;font-weight:700;color:var(--cnx-teal);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:3px}
+.stage-header h3{font-size:13px;font-weight:800;color:var(--cnx-white)}
+.stage-body{background:var(--cnx-white);border:1px solid #e8e8e8;border-top:none;padding:16px;margin-right:16px;border-radius:0 0 6px 6px;min-height:200px}
+.stage-section-label{font-size:9px;font-weight:700;color:var(--cnx-jade);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;margin-top:14px}
+.stage-section-label:first-child{margin-top:0}
+.stage-item{font-size:11.5px;color:var(--cnx-charcoal);line-height:1.5;margin-bottom:5px;padding-left:12px;position:relative}
+.stage-item::before{content:'·';position:absolute;left:0;color:var(--cnx-teal);font-weight:700}
+.emotion-bar{margin-top:12px;padding:12px 16px;margin-right:16px;border-radius:6px;font-size:11.5px;font-weight:600}
+.emotion-excited{background:var(--cnx-teal-10);color:var(--cnx-jade);border:1px solid var(--cnx-teal-60)}
+.emotion-anxious{background:var(--cnx-yellow-20);color:#8a6d00;border:1px solid #FDDF74}
+.emotion-frustrated{background:#fde8e8;color:#a00;border:1px solid #f5c6c6}
+.emotion-relieved{background:var(--cnx-teal-20);color:var(--cnx-jade);border:1px solid var(--cnx-teal)}
+.emotion-satisfied{background:rgba(0,61,91,.08);color:var(--cnx-blue);border:1px solid rgba(0,61,91,.2)}
+.hl{background:rgba(37,226,204,.2);padding:1px 4px;border-radius:3px;font-weight:600;color:var(--cnx-jade)}
 .pain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .pain-item{background:var(--cnx-white);border:1px solid #e8e8e8;border-radius:6px;padding:20px}
 .pain-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -323,7 +351,7 @@ body.web-view .page.active{display:block}
   </div>
 </nav>
 
-<div id="mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,61,91,.98);border-top:2px solid var(--cnx-teal);display:flex;justify-content:space-around;padding:6px 0;z-index:1999;">
+<div id="mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,61,91,.98);border-top:2px solid var(--cnx-teal);padding:6px 0;z-index:1999;justify-content:space-around;">
   <button class="mob-tab active" onclick="showPage(0)"><div>01</div><div>Brief</div></button>
   <button class="mob-tab" onclick="showPage(1)"><div>02</div><div>Pain</div></button>
   <button class="mob-tab" onclick="showPage(2)"><div>03</div><div>Journey</div></button>
@@ -348,7 +376,7 @@ var STORAGE_KEY='cnx_${slug}_brief_edits_v1';
 var EXPORT_FILENAME='${hyphenSlug}-brief-final.html';
 var EDITABLE_SELECTORS='h1,h2,h3,h4,h5,p,li,.stat-val,.stat-lbl,.kpi-val,.kpi-lbl,td,.hero-sub,.tier-title,.tier-volume,.pain-source,.pain-title,.pain-desc,.emotion-lbl';
 var currentView='pdf',editMode=false,saveTimer=null;
-function switchToWebView(){currentView='web';document.body.classList.remove('pdf-view');document.body.classList.add('web-view');document.getElementById('pdfControls').style.display='none';document.getElementById('webControls').style.display='flex';if(window.innerWidth<=900)document.getElementById('mobile-nav').style.display='flex';showPage(0);}
+function switchToWebView(){currentView='web';document.body.classList.remove('pdf-view');document.body.classList.add('web-view');document.getElementById('pdfControls').style.display='none';document.getElementById('webControls').style.display='flex';document.getElementById('mobile-nav').style.display='flex';showPage(0);}
 function switchToPdfView(){if(editMode)toggleEditMode();currentView='pdf';document.body.classList.remove('web-view');document.body.classList.add('pdf-view');document.getElementById('pdfControls').style.display='flex';document.getElementById('webControls').style.display='none';document.getElementById('mobile-nav').style.display='none';window.scrollTo(0,0);}
 function triggerPrint(){if(currentView!=='pdf')switchToPdfView();setTimeout(function(){window.print();},150);}
 function showPage(idx){if(currentView!=='web')return;document.querySelectorAll('.page').forEach(function(p,i){p.classList.toggle('active',i===idx);});document.querySelectorAll('#navPills .nav-pill').forEach(function(p,i){p.classList.toggle('active',i===idx);});document.querySelectorAll('.mob-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});window.scrollTo(0,0);}
@@ -382,11 +410,11 @@ function buildPage1(data, clientName, requestedBy) {
   ).join('');
 
   const archetypes = safeArr(data.archetypes).slice(0, 6).map(a =>
-    `<div class="card"><div style="font-size:28px;margin-bottom:8px;">${esc(a.icon)}</div><h4>${esc(a.name)}</h4><p>${esc(a.description)}</p></div>`
+    `<div class="card"><div style="font-size:28px;margin-bottom:8px;">${esc(a.icon)}</div><h4>${esc(a.name)}</h4><p>${renderText(a.description)}</p></div>`
   ).join('');
 
   const cnxRole = safeArr(data.cnxRole).map(r =>
-    `<div class="card-dark"><h4>${esc(r.title)}</h4><p>${esc(r.body)}</p></div>`
+    `<div class="card-dark"><h4>${esc(r.title)}</h4><p>${renderText(r.body)}</p></div>`
   ).join('');
 
   return `<div class="page">
@@ -427,7 +455,7 @@ function buildPage2(data, clientName, requestedBy) {
         <span class="pain-title">${esc(p.title)}</span>
         <span class="pain-severity ${sevClass[p.severity] || 'sev-med'}">${esc(p.severity)}</span>
       </div>
-      <div class="pain-desc">${esc(p.description)}</div>
+      <div class="pain-desc">${renderText(p.description)}</div>
       <div class="pain-source">Source: ${esc(p.source)}</div>
     </div>`
   ).join('');
@@ -448,26 +476,42 @@ function buildPage2(data, clientName, requestedBy) {
   <div class="section section-dark">
     <div class="section-eyebrow">Pattern Summary</div>
     <h2>Implications for CNX</h2>
-    <div class="callout-dark"><h4>What customers keep saying</h4><p>${esc(safe(summary.whatCustomersSay))}</p></div>
-    <div class="callout-dark"><h4>CS implication for CNX</h4><p>${esc(safe(summary.csImplication))}</p></div>
+    <div class="callout-dark"><h4>What customers keep saying</h4><p>${renderText(safe(summary.whatCustomersSay))}</p></div>
+    <div class="callout-dark"><h4>CS implication for CNX</h4><p>${renderText(safe(summary.csImplication))}</p></div>
   </div>
   ${buildFooter(clientName, requestedBy)}
 </div>`;
 }
 
 function buildPage3(data, clientName, requestedBy) {
-  const stages = safeArr(data.journeyStages).map(s =>
-    `<div class="journey-stage">
-      <h4>${esc(s.name)}</h4>
-      <div class="emotion">${esc(s.emotion)}</div>
-      <div class="emotion-lbl">${esc(s.emotionLabel)}</div>
-      <ul>${safeArr(s.triggers).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-      <div style="margin-top:10px;font-size:10px;color:#888;">${esc(s.channel)}</div>
-    </div>`
-  ).join('');
+  const emotionClass = { excited: 'emotion-excited', anxious: 'emotion-anxious', frustrated: 'emotion-frustrated', relieved: 'emotion-relieved', satisfied: 'emotion-satisfied' };
+
+  const stages = safeArr(data.journeyStages).map((s, i) => {
+    const cls = emotionClass[s.emotionType] || 'emotion-satisfied';
+    const num = String(i + 1).padStart(2, '0');
+    const whatItems = safeArr(s.whatTheyAreDoing).map(t => `<div class="stage-item">${renderText(t)}</div>`).join('');
+    const triggerItems = safeArr(s.contactTriggers).map(t => `<div class="stage-item">${renderText(t)}</div>`).join('');
+    return `<div class="journey-stage">
+      <div class="stage-header">
+        <div class="stage-num">Stage ${num}</div>
+        <h3>${esc(s.name)}</h3>
+      </div>
+      <div class="stage-body">
+        <div class="stage-section-label">What They're Doing</div>
+        ${whatItems}
+        <div class="stage-section-label">Contact Triggers</div>
+        ${triggerItems}
+      </div>
+      <div class="emotion-bar ${cls}">${esc(s.emotion)} ${esc(s.emotionLabel)}</div>
+    </div>`;
+  }).join('');
 
   const opportunityRows = safeArr(data.csOpportunity).map(o =>
-    `<tr><td><strong>${esc(o.stage)}</strong></td><td>${esc(o.intervention)}</td></tr>`
+    `<tr>
+      <td><strong>${esc(o.stage)}</strong></td>
+      <td>${renderText(safe(o.intervention))}</td>
+      <td style="color:var(--cnx-jade)">${renderText(safe(o.innovation))}</td>
+    </tr>`
   ).join('');
 
   return `<div class="page">
@@ -482,10 +526,10 @@ function buildPage3(data, clientName, requestedBy) {
     <div class="journey-container">${stages}</div>
   </div>
   <div class="section section-gray">
-    <div class="section-eyebrow">CS Opportunity</div>
-    <h2>Where CNX Intervenes</h2>
+    <div class="section-eyebrow">CS Opportunity &amp; Innovation</div>
+    <h2>Where CNX Plays — Today &amp; Tomorrow</h2>
     <table class="data-table">
-      <thead><tr><th>Stage</th><th>CNX Intervention Opportunity</th></tr></thead>
+      <thead><tr><th>Stage</th><th>CNX Does Now</th><th>💡 Innovation Opportunity</th></tr></thead>
       <tbody>${opportunityRows}</tbody>
     </table>
   </div>
@@ -501,8 +545,8 @@ function buildPage4(data, clientName, requestedBy) {
     const fitColor = { High: 'chip-teal', Med: 'chip-yellow', Low: 'chip-orange' }[c.fitScore] || 'chip-teal';
     return `<tr>
       <td><strong>${esc(c.competency)}</strong></td>
-      <td>${esc(c.customerNeed)}</td>
-      <td>${esc(c.cnxDelivery)}</td>
+      <td>${renderText(c.customerNeed)}</td>
+      <td>${renderText(c.cnxDelivery)}</td>
       <td><span class="chip ${fitColor}">${esc(c.fitScore)}</span></td>
     </tr>`;
   }).join('');
@@ -523,10 +567,10 @@ function buildPage4(data, clientName, requestedBy) {
         <h4>Customer Profile</h4>
         <table class="data-table" style="margin-top:12px;">
           <tbody>
-            <tr><td><strong>Demographics</strong></td><td>${esc(cp.demographics)}</td></tr>
-            <tr><td><strong>Communication Style</strong></td><td>${esc(cp.commStyle)}</td></tr>
-            <tr><td><strong>Expectations</strong></td><td>${esc(cp.expectations)}</td></tr>
-            <tr><td><strong>Tech Savviness</strong></td><td>${esc(cp.techSavvy)}</td></tr>
+            <tr><td><strong>Demographics</strong></td><td>${renderText(cp.demographics)}</td></tr>
+            <tr><td><strong>Communication Style</strong></td><td>${renderText(cp.commStyle)}</td></tr>
+            <tr><td><strong>Expectations</strong></td><td>${renderText(cp.expectations)}</td></tr>
+            <tr><td><strong>Tech Savviness</strong></td><td>${renderText(cp.techSavvy)}</td></tr>
           </tbody>
         </table>
       </div>
@@ -534,10 +578,10 @@ function buildPage4(data, clientName, requestedBy) {
         <h4>CNX Agent Profile</h4>
         <table class="data-table" style="margin-top:12px;">
           <tbody>
-            <tr><td><strong>Recommended Profile</strong></td><td>${esc(ap.profile)}</td></tr>
-            <tr><td><strong>Language Skills</strong></td><td>${esc(ap.languages)}</td></tr>
-            <tr><td><strong>Empathy Level</strong></td><td>${esc(ap.empathy)}</td></tr>
-            <tr><td><strong>Domain Knowledge</strong></td><td>${esc(ap.domainKnowledge)}</td></tr>
+            <tr><td><strong>Recommended Profile</strong></td><td>${renderText(ap.profile)}</td></tr>
+            <tr><td><strong>Language Skills</strong></td><td>${renderText(ap.languages)}</td></tr>
+            <tr><td><strong>Empathy Level</strong></td><td>${renderText(ap.empathy)}</td></tr>
+            <tr><td><strong>Domain Knowledge</strong></td><td>${renderText(ap.domainKnowledge)}</td></tr>
           </tbody>
         </table>
       </div>
@@ -585,7 +629,7 @@ function buildPage5(data, clientName, requestedBy) {
       </div>
       <div class="tier-body">
         <div class="tier-col"><div class="tier-col-label">Contact Types</div><ul>${safeArr(t.contactTypes).map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>
-        <div class="tier-col"><div class="tier-col-label">Agent Profile</div><p style="font-size:12px;color:#444;">${esc(t.agentProfile)}</p></div>
+        <div class="tier-col"><div class="tier-col-label">Agent Profile</div><p style="font-size:12px;color:#444;">${renderText(t.agentProfile)}</p></div>
         <div class="tier-col"><div class="tier-col-label">Escalation Triggers</div><ul>${safeArr(t.escalationTriggers).map(e => `<li>${esc(e)}</li>`).join('')}</ul></div>
       </div>
     </div>`
@@ -596,11 +640,11 @@ function buildPage5(data, clientName, requestedBy) {
   ).join('');
 
   const discovery = safeArr(data.discoveryItems).map(d =>
-    `<div class="discovery-card"><div class="disc-icon">${esc(d.icon)}</div><h5>${esc(d.title)}</h5><p>${esc(d.body)}</p></div>`
+    `<div class="discovery-card"><div class="disc-icon">${esc(d.icon)}</div><h5>${esc(d.title)}</h5><p>${renderText(d.body)}</p></div>`
   ).join('');
 
   const whyCnx = safeArr(data.whyCnx).map(w =>
-    `<div class="callout-dark"><h4>${esc(w.title)}</h4><p>${esc(w.body)}</p></div>`
+    `<div class="callout-dark"><h4>${esc(w.title)}</h4><p>${renderText(w.body)}</p></div>`
   ).join('');
 
   return `<div class="page">
