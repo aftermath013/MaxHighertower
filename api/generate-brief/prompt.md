@@ -14,7 +14,7 @@ You are generating structured content for a CNX-branded client program brief.
 Use these markers inside string values to add emphasis. Keep it selective — only the most important terms per section:
 - `**text**` — bold a key metric, product name, or critical term (e.g. `**suction failure**`, `**$499**`, `**94% CSAT**`)
 - `==text==` — teal highlight for a standout insight or critical callout (e.g. `==highest complaint volume==`, `==priority hire==`)
-- Emojis — use inline freely in descriptions and labels to add flavor (e.g. "💸 Pricing complaints dominate...")
+- Emojis — use them generously and naturally throughout. Lead pain point titles with an emoji (e.g. "🔧 App connectivity failures"). Use emojis in archetype names, discovery item titles, journey stage labels, cnxRole titles, hiring criteria, and whyCnx headings. Don't over-explain — just make the content feel alive. Examples: "💸 Hidden accessory costs", "🏥 Insurance navigation nightmare", "👩‍🍼 New mother, overwhelmed", "🎯 Hire for empathy first"
 
 ## INPUTS
 You will receive: CLIENT NAME, CLIENT URL, SCOPE/SUPPORT, DELIVERY LOCATION, CHANNEL SCOPE, REQUESTED BY, and optionally BRIEF NAME and REMARKS/SPECIFIC BUSINESS.

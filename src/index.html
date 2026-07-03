@@ -418,9 +418,12 @@
 
   <!-- Progress (shown after submit) -->
   <div class="card progress-section" id="progressSection" style="display:none">
-    <h2 id="progressTitle">Generating your brief...</h2>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0;">
+      <h2 id="progressTitle">Generating your brief...</h2>
+      <span id="elapsedTimer" style="font-size:13px;font-weight:700;color:var(--cnx-jade);font-variant-numeric:tabular-nums;">0:00</span>
+    </div>
 
-    <div class="stepper">
+    <div class="stepper" style="margin-top:26px;">
       <div class="step" id="s0"><div class="step-icon">🔍</div><div class="step-lbl">Research</div></div>
       <div class="step-line" id="l0"></div>
       <div class="step" id="s1"><div class="step-icon">⚡</div><div class="step-lbl">Generate</div></div>
@@ -548,7 +551,20 @@ overlay.addEventListener('click', () => {
 });
 
 // ── Submit ───────────────────────────────────────────
-let pollId = null;
+let pollId = null, timerId = null, timerStart = null;
+
+function startTimer() {
+  timerStart = Date.now();
+  timerId = setInterval(function() {
+    const s = Math.floor((Date.now() - timerStart) / 1000);
+    const m = Math.floor(s / 60), sec = s % 60;
+    document.getElementById('elapsedTimer').textContent = m + ':' + String(sec).padStart(2, '0');
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerId);
+}
 
 document.getElementById('briefForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -588,6 +604,7 @@ document.getElementById('briefForm').addEventListener('submit', async e => {
 
     document.getElementById('formGrid').style.display = 'none';
     document.getElementById('progressSection').style.display = 'block';
+    startTimer();
 
     fetch('/api/generate-brief', {
       method: 'POST',
@@ -639,6 +656,7 @@ function onStatus(d, projectId) {
   });
 
   if (status === 'generated') {
+    stopTimer();
     document.getElementById('progressTitle').textContent = '✅ Brief generated!';
     STEP_IDS.forEach(id => { document.getElementById(id).classList.remove('active'); document.getElementById(id).classList.add('done'); });
     LINE_IDS.forEach(id => document.getElementById(id).classList.add('done'));
@@ -653,6 +671,7 @@ function onStatus(d, projectId) {
   }
 
   if (status === 'failed') {
+    stopTimer();
     document.getElementById('progressTitle').textContent = 'Generation failed';
     document.getElementById('errorDetail').textContent = message || 'An error occurred.';
     document.getElementById('errorBox').style.display = 'block';
@@ -661,6 +680,8 @@ function onStatus(d, projectId) {
 
 function resetForm() {
   if (pollId) clearInterval(pollId);
+  stopTimer();
+  document.getElementById('elapsedTimer').textContent = '0:00';
   document.getElementById('progressSection').style.display = 'none';
   document.getElementById('formGrid').style.display = 'grid';
   document.getElementById('briefForm').reset();

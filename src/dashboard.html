@@ -301,6 +301,7 @@
             <th>Status</th>
             <th>Tokens Used</th>
             <th>Cost</th>
+            <th>Duration</th>
             <th>Requested By</th>
             <th>Date</th>
             <th></th>
@@ -417,6 +418,7 @@ function renderTable(projects) {
       <td>${badgeHtml(p.status)}</td>
       <td style="font-size:12px;font-weight:600">${tokens}</td>
       <td><span class="cost-pill">${cost}</span></td>
+      <td style="font-size:12px;font-weight:600;color:var(--cnx-jade)">${duration(p)}</td>
       <td style="font-size:12px;color:#6b7280">${esc(p.requestedBy || '—')}</td>
       <td style="font-size:12px;color:#9ca3af;white-space:nowrap">${date}</td>
       <td>${actionCell}</td>
@@ -445,6 +447,12 @@ function getStatusMsg(status) {
 
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function duration(p) {
+  if (!p.createdAt || !p.generatedAt) return '—';
+  const mins = (new Date(p.generatedAt) - new Date(p.createdAt)) / 60000;
+  return mins.toFixed(1) + ' min';
 }
 
 async function retry(projectId) {

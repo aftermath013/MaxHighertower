@@ -294,6 +294,7 @@ body.web-view .page.active{display:block}
 .emotion-relieved{background:var(--cnx-teal-20);color:var(--cnx-jade);border:1px solid var(--cnx-teal)}
 .emotion-satisfied{background:rgba(0,61,91,.08);color:var(--cnx-blue);border:1px solid rgba(0,61,91,.2)}
 .hl{background:rgba(37,226,204,.2);padding:1px 4px;border-radius:3px;font-weight:600;color:var(--cnx-jade)}
+.section-dark .hl{background:rgba(37,226,204,.25);color:var(--cnx-teal)}
 .pain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .pain-item{background:var(--cnx-white);border:1px solid #e8e8e8;border-radius:6px;padding:20px}
 .pain-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -412,11 +413,11 @@ function buildPage1(data, clientName, requestedBy, briefName) {
   ).join('');
 
   const archetypes = safeArr(data.archetypes).slice(0, 6).map(a =>
-    `<div class="card"><div style="font-size:28px;margin-bottom:8px;">${esc(a.icon)}</div><h4>${esc(a.name)}</h4><p>${renderText(a.description)}</p></div>`
+    `<div class="card"><div style="font-size:28px;margin-bottom:8px;">${esc(a.icon)}</div><h4>${renderText(a.name)}</h4><p>${renderText(a.description)}</p></div>`
   ).join('');
 
   const cnxRole = safeArr(data.cnxRole).map(r =>
-    `<div class="card-dark"><h4>${esc(r.title)}</h4><p>${renderText(r.body)}</p></div>`
+    `<div class="card-dark"><h4>${renderText(r.title)}</h4><p>${renderText(r.body)}</p></div>`
   ).join('');
 
   return `<div class="page">
@@ -454,7 +455,7 @@ function buildPage2(data, clientName, requestedBy) {
   const painItems = safeArr(data.painPoints).map(p =>
     `<div class="pain-item">
       <div class="pain-header">
-        <span class="pain-title">${esc(p.title)}</span>
+        <span class="pain-title">${renderText(p.title)}</span>
         <span class="pain-severity ${sevClass[p.severity] || 'sev-med'}">${esc(p.severity)}</span>
       </div>
       <div class="pain-desc">${renderText(p.description)}</div>
@@ -510,7 +511,7 @@ function buildPage3(data, clientName, requestedBy) {
 
   const opportunityRows = safeArr(data.csOpportunity).map(o =>
     `<tr>
-      <td><strong>${esc(o.stage)}</strong></td>
+      <td><strong>${renderText(o.stage)}</strong></td>
       <td>${renderText(safe(o.intervention))}</td>
       <td style="color:var(--cnx-charcoal);font-weight:600;">${renderText(safe(o.innovation))}</td>
     </tr>`
@@ -546,7 +547,7 @@ function buildPage4(data, clientName, requestedBy) {
   const competencyRows = safeArr(data.competencies).map(c => {
     const fitColor = { High: 'chip-teal', Med: 'chip-yellow', Low: 'chip-orange' }[c.fitScore] || 'chip-teal';
     return `<tr>
-      <td><strong>${esc(c.competency)}</strong></td>
+      <td><strong>${renderText(c.competency)}</strong></td>
       <td>${renderText(c.customerNeed)}</td>
       <td>${renderText(c.cnxDelivery)}</td>
       <td><span class="chip ${fitColor}">${esc(c.fitScore)}</span></td>
@@ -621,11 +622,11 @@ function buildPage4(data, clientName, requestedBy) {
 
 function buildPage5(data, clientName, requestedBy) {
   const discovery = safeArr(data.discoveryItems).map(d =>
-    `<div class="discovery-card"><div class="disc-icon">${esc(d.icon)}</div><h5>${esc(d.title)}</h5><p>${renderText(d.body)}</p></div>`
+    `<div class="discovery-card"><div class="disc-icon">${esc(d.icon)}</div><h5>${renderText(d.title)}</h5><p>${renderText(d.body)}</p></div>`
   ).join('');
 
   const whyCnx = safeArr(data.whyCnx).map(w =>
-    `<div class="callout-dark"><h4>${esc(w.title)}</h4><p>${renderText(w.body)}</p></div>`
+    `<div class="callout-dark"><h4>${renderText(w.title)}</h4><p>${renderText(w.body)}</p></div>`
   ).join('');
 
   return `<div class="page">
