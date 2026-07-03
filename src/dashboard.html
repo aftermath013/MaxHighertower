@@ -307,11 +307,18 @@ async function loadUser() {
     if (!r.ok) return;
     const d = await r.json();
     const p = d.clientPrincipal;
-    if (!p) return;
-    const name = p.userDetails || 'User';
-    document.getElementById('userAvatar').textContent = name.substring(0,2).toUpperCase();
+    if (!p) {
+      document.getElementById('userName').textContent = 'Signed in';
+      document.getElementById('userAvatar').textContent = '✓';
+      return;
+    }
+    const name = p.userDetails || p.userId || 'User';
+    const display = name.includes('@') ? name.split('@')[0] : name;
+    document.getElementById('userAvatar').textContent = display.substring(0,2).toUpperCase();
     document.getElementById('userName').textContent = name;
-  } catch {}
+  } catch {
+    document.getElementById('userName').textContent = 'Signed in';
+  }
 }
 
 // ── Sidebar ──────────────────────────────────────────
