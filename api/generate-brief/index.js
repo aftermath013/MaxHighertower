@@ -35,16 +35,7 @@ module.exports = async function (context, req) {
     const systemPrompt = fs.readFileSync(path.join(__dirname, 'prompt.md'), 'utf8');
     const userMessage = buildUserMessage(entity, clientInfo);
 
-    let aiResult;
-    try {
-      aiResult = await callAI(systemPrompt, userMessage, context);
-    } catch (e) {
-      if (e.message.includes('timed out')) {
-        context.log('First attempt timed out, retrying...');
-        aiResult = await callAI(systemPrompt, userMessage, context);
-      } else throw e;
-    }
-    const { html, inputTokens, outputTokens } = aiResult;
+    const { html, inputTokens, outputTokens } = await callAI(systemPrompt, userMessage, context);
 
     if (!html || (!html.trim().toLowerCase().startsWith('<!doctype') && !html.trim().toLowerCase().startsWith('<html'))) {
       await updateStatus(tableClient, projectId, 'failed', 'AI returned invalid HTML.');
@@ -127,7 +118,7 @@ async function callAI(systemPrompt, userMessage, context) {
       },
       body: JSON.stringify({
         model: process.env.AI_MODEL || 'claude-sonnet-4-5',
-        max_tokens: 7000,
+        max_tokens: 5000,
         system: systemPrompt,
         messages: [{ role: 'user', content: userMessage }]
       }),
